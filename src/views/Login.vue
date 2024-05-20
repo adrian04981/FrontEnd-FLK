@@ -16,9 +16,7 @@
       </div>
     </div>
   </template>
-  <script>
-  import axios from 'axios';
-  
+  <script>  
   export default {
     data() {
       return {
@@ -31,33 +29,22 @@
       async login() {
         try {
           // Realizar la solicitud POST al endpoint de login
-          const response = await axios.post('https://localhost:7006/api/Usuarios/Login', {
-            nombreUsuario: this.username,
-            contraseña: this.password
-          });
+          const response = await this.$axios.post('Usuarios/Login', {
+          nombreUsuario: this.username,
+          contraseña: this.password
+        });
   
           // Verificar si se recibió un usuario válido en la respuesta
           if (response.data) {
             // Obtener el ID del rol del usuario autenticado
             const roleId = response.data.fkRol;
             // Realizar una solicitud GET para obtener el nombre del rol
-            const roleResponse = await axios.get(`https://localhost:7006/api/Rols/${roleId}`);
+            const roleResponse = await this.$axios.get(`Rols/${roleId}`);
             const roleName = roleResponse.data.nombre;
   
-            // Aplicar la lógica de asignación de roles
-            let role = '';
+            // Aplicar la lógica de asignación de roles Cuando Inicias Sesion :) 
+            let role = roleName;
 
-            if (roleName === 'Administrador') {
-              role = 'admin';
-            } else if (roleName === 'Asistente de Operaciones') {
-              role = 'asistente';
-            } else if (roleName === 'Recepcionista') {
-              role = 'recepcionista';
-            } else {
-              this.errorMessage = 'Rol desconocido';
-              return;
-            }
-  
             // Almacenar el estado de inicio de sesión y el rol en el almacenamiento local
             localStorage.setItem('loggedIn', 'true');
             localStorage.setItem('role', role);
@@ -80,10 +67,6 @@
   
  
 <style>
-html {
-  background-image: url('../assets/Fondo_1.jpg');
-}
-
 body {
   font-family: "Poppins", sans-serif;
   height: 100vh;

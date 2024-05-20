@@ -68,11 +68,23 @@
       </div>
     </div>
   </template>
-  
-  <script>
-  import axios from 'axios';
-  
+  <script> 
   export default {
+    name: 'Dashboard',
+    computed: {
+      isAdmin() {
+        const role = localStorage.getItem('role');
+        return role === 'Administrador';
+      },
+      isRep() {
+        const role = localStorage.getItem('role');
+        return role === 'Recepcionista';
+      },
+      isAsist() {
+        const role = localStorage.getItem('role');
+        return role === 'Asistente de Operaciones';
+      }
+    },
     data() {
       return {
         usuarios: [],
@@ -80,7 +92,7 @@
       };
     },
     mounted() {
-      axios.get('https://localhost:7006/api/Usuarios')
+      this.$axios.get('Usuarios')
         .then(response => {
           this.usuarios = response.data;
         })
@@ -88,7 +100,7 @@
           console.error('Error al cargar datos de usuarios:', error);
         });
          // Obtiene la lista de roles al cargar el componente
-      axios.get('https://localhost:7006/api/Rols')
+      this.$axios.get('Rols')
         .then(response => {
           this.roles = response.data;
         })

@@ -1,30 +1,21 @@
 <!-- src/views/Dashboard.vue -->
 <template>
     <div class="dashboard">
-      <h1>Dashboard</h1>
-      <nav>
-        <router-link to="/dashboard/pokemon" v-if="isAuthorized">Pokédex</router-link>
-        <router-link to="/dashboard/users" v-if="isAdmin">Lista de Usuarios</router-link>
-        <!-- Otras opciones de menú según el rol -->
-        <button @click="logout">Logout</button>
-      </nav>
+      <sidebar-menu></sidebar-menu>
+      <h1>Menu Principal</h1>
       <router-view />
     </div>
   </template>
   
   <script>
+  import SidebarMenu from './SidebarMenu.vue';
+import roleMixin from '../mixins/roleMixin.js'
   export default {
+      components: {
+    SidebarMenu
+  },
+    mixins: [roleMixin],
     name: 'Dashboard',
-    computed: {
-      isAuthorized() {
-        const role = localStorage.getItem('role');
-        return role === 'admin' || role === 'recepcionista';
-      },
-      isAdmin() {
-        const role = localStorage.getItem('role');
-        return role === 'admin';
-      }
-    },
     methods: {
       logout() {
         localStorage.removeItem('loggedIn');
@@ -33,9 +24,16 @@
       }
     }
   }
-  </script>
   
-  <style>
+  </script>
 
-  </style>
+<style>
+.dashboard {
+  display: flex;
+}
+.content {
+  flex: 1;
+  padding: 20px;
+}
+</style>
   

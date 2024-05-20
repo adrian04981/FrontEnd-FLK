@@ -1,5 +1,5 @@
 <template>
-  <div class="pokemon" v-if="isAuthorized">
+  <div class="pokemon" v-if="isAdmin || isRep">
     <h1>Pokédex</h1>
     <div v-if="pokemon">
       <h2>{{ pokemon.name }}</h2>
@@ -16,19 +16,15 @@
 
 <script>
 import axios from 'axios';
+import roleMixin from '../mixins/roleMixin';
 
 export default {
+  mixins: [roleMixin],
   name: 'Pokemon',
   data() {
     return {
       pokemon: null,
     };
-  },
-  computed: {
-    isAuthorized() {
-      const role = localStorage.getItem('role');
-      return role === 'admin' || role === 'recepcionista';
-    }
   },
   methods: {
     async fetchPokemon() {
