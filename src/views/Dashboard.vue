@@ -1,7 +1,7 @@
 <!-- src/views/Dashboard.vue -->
 <template>
+  <sidebar-menu></sidebar-menu>
     <div class="dashboard">
-      <sidebar-menu></sidebar-menu>
       <h1>Menu Principal</h1>
       <router-view />
     </div>
