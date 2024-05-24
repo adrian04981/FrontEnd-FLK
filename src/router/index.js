@@ -5,7 +5,7 @@ import Pokemon from '../views/Pokemon.vue'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import UserList from '../views/GestionarCredenciales/UserList.vue'
-
+import ListarTiposCertificado from '../views/TipoInspeccion/ListarTiposCertificado.vue'
 const routes = [
   {
     path: '/',
@@ -16,6 +16,11 @@ const routes = [
     path: '/Login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/ListarTipoCertificado',
+    name: 'Tipo Certificado',
+    component: ListarTiposCertificado
   },
   {
     path: '/dashboard',
