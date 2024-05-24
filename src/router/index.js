@@ -5,6 +5,9 @@ import Pokemon from '../views/Pokemon.vue'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import UserList from '../views/GestionarCredenciales/UserList.vue'
+import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue'
+
+
 
 const routes = [
   {
@@ -16,6 +19,11 @@ const routes = [
     path: '/Login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/ListarPersonal',
+    name: 'ListarPersonal',
+    component: ListarPersonal
   },
   {
     path: '/dashboard',
