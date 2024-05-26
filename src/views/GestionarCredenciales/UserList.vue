@@ -10,9 +10,10 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col" class="text-white">#</th>
+                  <th scope="col" class="text-white">ID</th>
                   <th scope="col" class="text-white">Nombre</th>
-                  <th scope="col" class="text-white">Acciones</th>
+                  <th scope="col" class="text-white">Descripción</th>
+                  
                 </tr>
               </thead>
               <tbody>
