@@ -1,4 +1,4 @@
-<template>HOLI
+<template>HolaaA
 <Sidebar></Sidebar>
 </template>
 <script>
