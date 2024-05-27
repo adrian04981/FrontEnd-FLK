@@ -5,11 +5,9 @@ import Pokemon from '../views/Pokemon.vue'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import UserList from '../views/GestionarCredenciales/UserList.vue'
-import ListarTiposCertificado from '../views/TipoInspeccion/ListarTiposCertificado.vue'
-import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue'
-
-
-
+import ListarTiposInspeccion from '../views/TipoInspeccion/ListarTiposInspeccion.vue'
+import EditarTipoDeInspeccion from '../views/TipoInspeccion/EditarInspeccion.vue'
+import ConsultarTipoInspeccion from '../views/TipoInspeccion/ConsultarTipoInspeccion.vue'
 
 const routes = [
   {
@@ -23,14 +21,25 @@ const routes = [
     component: Login
   },
   {
-    path: '/ListarTipoCertificado',
-    name: 'Tipo Certificado',
-    component: ListarTiposCertificado
+    path: '/ListarTiposInspeccion',
+    name: 'Tipo De Inspeccion',
+    component: ListarTiposInspeccion
   },
+  {
+    path: '/EditarTipoDeInspeccion/:id',
+    name: 'Editar Inspeccion',
+    component: EditarTipoDeInspeccion
+  },
+  {
+    path: '/ConsultarTipoInspeccion/:id',
+    name: 'ConsultarTipoDeInspeccion',
+    component: ConsultarTipoInspeccion,
+  },
+
   {
     path: '/ListarPersonal',
     name: 'ListarPersonal',
-    component: ListarPersonal
+    component: ListarTiposInspeccion
 
   },
   {
