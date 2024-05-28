@@ -1,9 +1,15 @@
-// <!-- src/mixins/roleMixin.js -->
+// src/mixins/roleMixin.js
 export const useUserMixin = {
+  methods: {
+    getUserRole() {
+      // Verifica si el rol del usuario está definido en el almacenamiento local
+      const role = localStorage.getItem('role');
+      return role ? role : 'Invitado'; // Si no está definido, devuelve 'Invitado' como valor predeterminado
+    }
+  },
   computed: {
     userRole() {
-      const role = localStorage.getItem('role');
-      return role ? role : 'Invitado';
+      return localStorage.getItem('role');
     },
     isAdmin() {
       return this.userRole === 'Administrador';
@@ -13,11 +19,6 @@ export const useUserMixin = {
     },
     isAsist() {
       return this.userRole === 'Asistente de Operaciones';
-    }
-  },
-  methods: {
-    getUserRole() {
-      return localStorage.getItem('role') || 'Invitado';
     }
   }
 };
