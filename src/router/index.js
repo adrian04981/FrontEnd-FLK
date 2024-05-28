@@ -9,8 +9,6 @@ import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue'
 import EditarPersonal from '../views/GestionarPersonal/EditarPersonal.vue'
 import ConsultarPersonal from '../views/GestionarPersonal/ConsultarPersonal.vue'
 
-
-
 const routes = [
   {
     path: '/',
@@ -33,9 +31,26 @@ const routes = [
     component: Login
   },
   {
+    path: '/ListarTiposInspeccion',
+    name: 'Tipo De Inspeccion',
+    component: ListarTiposInspeccion
+  },
+  {
+    path: '/EditarTipoDeInspeccion/:id',
+    name: 'Editar Inspeccion',
+    component: EditarTipoDeInspeccion
+  },
+  {
+    path: '/ConsultarTipoInspeccion/:id',
+    name: 'ConsultarTipoDeInspeccion',
+    component: ConsultarTipoInspeccion,
+  },
+
+  {
     path: '/ListarPersonal',
     name: 'ListarPersonal',
-    component: ListarPersonal
+    component: ListarTiposInspeccion
+
   },
   {
     path: '/dashboard',
