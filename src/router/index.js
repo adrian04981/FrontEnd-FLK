@@ -97,35 +97,6 @@ const routes = [
     children: adminChildren
   },
   {
-    path: '/dashboard-operations',
-    name: 'DashboardOperations',
-    component: DashboardOperations,
-    children: operationsChildren
-  },
-  {
-    path: '/dashboard-receptionist',
-    name: 'DashboardReceptionist',
-    component: DashboardReceptionist,
-    children: receptionistChildren
-  },
-  // Otras rutas
-  {
-    path: '/listartiposinspeccion',
-    name: 'Tipo De Inspeccion',
-    component: ListarTiposInspeccion
-  },
-  {
-    path: '/editarinspeccion/:id',
-    name: 'Editar Inspeccion',
-    component: EditarInspeccion
-  },
-  {
-    path: '/consultartipoinspeccion/:id',
-    name: 'ConsultarTipoDeInspeccion',
-    component: ConsultarTipoInspeccion,
-  }
-];
-
 const router = createRouter({
   history: createWebHistory(),
   routes
