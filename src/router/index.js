@@ -5,12 +5,26 @@ import Pokemon from '../views/Pokemon.vue'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import UserList from '../views/GestionarCredenciales/UserList.vue'
+import LID from '../views/GestionarInspectoresDisponibles/ListarInspectoresDisponibles.vue'
+import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue'
+
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/ListarPersonal',
+    name: 'ListarPersonal',
+    component: ListarPersonal
+
+  },
+  {
+    path: '/LID',
+    name: 'ListarInpectoresDisponibles',
+    component: LID
   },
   {
     path: '/Login',

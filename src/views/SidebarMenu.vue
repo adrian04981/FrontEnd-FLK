@@ -19,6 +19,7 @@
 
 					<li><router-link to="/dashboard/pokemon" v-if="isAdmin || isRep"><i class="fa fa-dashboard"></i> Pokedex</router-link></li>
 					<li><router-link to="/dashboard/users" v-if="isAdmin || isRep"><i class="fa fa-dashboard"></i> Gestionar Credenciales</router-link></li>
+          <li><router-link to="/LID" v-if="isAdmin || isRep"><i class="fa fa-dashboard"></i> Listar Inspectores Disponibles</router-link></li>
 					<li><a href="#"><i class="fa fa-heart"></i> Extras</a></li>
 					<li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
                     <button @click="logout">Logout</button>
