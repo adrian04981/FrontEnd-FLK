@@ -10,9 +10,9 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col" class="text-white">#</th>
+                  <th scope="col" class="text-white">ID</th>
                   <th scope="col" class="text-white">Nombre</th>
-                  <th scope="col" class="text-white">Acciones</th>
+                  <th scope="col" class="text-white">Descripción</th>
                 </tr>
               </thead>
               <tbody>
@@ -36,7 +36,7 @@
         <div class="col-10">
           <h2 class="text-center mb-4">Lista Usuarios</h2>
           <div class="text-center mb-4">
-            <router-link to="/createuser" class="btn btn-primary">Crear Usuario</router-link>
+            <router-link to="/dashboard/UserCreate" class="btn btn-primary">Crear Usuario</router-link>
           </div>
           <div class="fallout-data-table">
             <table class="table">

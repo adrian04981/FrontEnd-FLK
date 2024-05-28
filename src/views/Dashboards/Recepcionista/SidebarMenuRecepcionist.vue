@@ -24,9 +24,7 @@
   </template>
   
   <script>
-  import roleMixin from '../mixins/roleMixin.js'
   export default {
-    mixins: [roleMixin],
     methods: {
       logout() {
         localStorage.removeItem('loggedIn');

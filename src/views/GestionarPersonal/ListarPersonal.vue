@@ -1,43 +1,34 @@
 <template>
-    <div class="container">
-          <div class="row justify-content-center mt-5">
-            <div class="col-10">
-              <h2 class="text-center mb-4">Lista roles</h2>
-              <div class="text-center mb-4">
-                <router-link to="/createuser" class="btn btn-primary">Crear Rol</router-link>
-              </div>
-              <div class="fallout-data-table">             
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="container">
           <div class="row justify-content-center mt-5">
             <div class="col-10">
-              <h2 class="text-center mb-4">Lista Usuarios</h2>
+              <h2 class="text-center mb-4">Lista PERSONAL</h2>
               <div class="text-center mb-4">
-                <router-link to="/createuser" class="btn btn-primary">Crear Usuario</router-link>
+                <router-link to="/createuser" class="btn btn-primary">Crear Personal</router-link>
               </div>
               <div class="fallout-data-table">
                 <table class="table">
                   <thead>
                     <tr>
                       <th scope="col" class="text-white">#</th>
-                      <th scope="col" class="text-white">Personal</th>
-                      <th scope="col" class="text-white">Contraseña</th>
-                      <th scope="col" class="text-white">Rol</th>
-                      <th scope="col" class="text-white">Acciones</th>
+                      <th scope="col" class="text-white">Nombre</th>
+                      <th scope="col" class="text-white">DNI</th>
+                      <th scope="col" class="text-white">Email</th>
+                      <th scope="col" class="text-white">Dirección</th>
+                      <th scope="col" class="text-white">Telefono</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="personal in personal" :key="personal.pkPersonal">
                       <td>{{ personal.pkPersonal }}</td>
                       <td>{{ personal.nombre }}</td>
-                      <td>{{ personal.DNI }}</td>
+                      <td>{{ personal.dni }}</td>
                       <td>{{ personal.email }}</td>
+                      <td>{{ personal.direccion }}</td>
+                      <td>{{ personal.telefono }}</td>
                       <td>
-                        <router-link :to="'/ViewUsuario/' + personal.pkPersonal" class="btn btn-info mr-2">Consultar</router-link>
-                        <router-link :to="'/Editusers/' + personal.pkPersonal" class="btn btn-warning mr-2">Editar</router-link>
+                        <router-link :to="'/ConsultarPersonal/' + personal.pkPersonal" class="btn btn-info mr-2">Consultar</router-link>
+                        <router-link :to="'/EditarPersonal/' + personal.pkPersonal" class="btn btn-warning mr-2">Editar</router-link>
                         <router-link :to="'/DeleteUsuario/' + personal.pkPersonal" class="btn btn-danger">Eliminar</router-link>
                       </td>
                     </tr>

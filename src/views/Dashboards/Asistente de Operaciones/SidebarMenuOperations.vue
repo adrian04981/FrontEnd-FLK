@@ -14,6 +14,7 @@
 			<!-- Main Menu -->
 			<div class="side-menu-container">
 				<ul class="nav navbar-nav">
+
 					<li><a href="#"><i class="fa fa-heart"></i> Extras</a></li>
 					<li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
                     <button @click="logout">Logout</button>
@@ -24,9 +25,7 @@
   </template>
   
   <script>
-  import roleMixin from '../mixins/roleMixin.js'
   export default {
-    mixins: [roleMixin],
     methods: {
       logout() {
         localStorage.removeItem('loggedIn');

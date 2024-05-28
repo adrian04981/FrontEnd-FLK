@@ -1,5 +1,5 @@
 <template>
-  <div class="pokemon" v-if="isAdmin || isRep">
+  <div class="pokemon">
     <h1>Pokédex</h1>
     <div v-if="pokemon">
       <h2>{{ pokemon.name }}</h2>
@@ -9,17 +9,12 @@
     </div>
     <button @click="fetchPokemon">Fetch Random Pokemon</button>
   </div>
-  <div v-else>
-    <p>No tienes permiso para acceder a la Pokédex.</p>
-  </div>
 </template>
 
 <script>
 import axios from 'axios';
-import roleMixin from '../mixins/roleMixin';
 
 export default {
-  mixins: [roleMixin],
   name: 'Pokemon',
   data() {
     return {
