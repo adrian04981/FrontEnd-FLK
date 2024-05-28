@@ -1,15 +1,18 @@
 <!-- src/views/Dashboard.vue -->
 <template>
-  <sidebar-menu></sidebar-menu>
+  <div class="dashboard-wrapper">
+    <sidebar-menu></sidebar-menu>
     <div class="dashboard">
       <h1>Menu Principal</h1>
       <router-view />
     </div>
-  </template>
+  </div>
+</template>
+
   
   <script>
   import SidebarMenu from './SidebarMenu.vue';
-import roleMixin from '../mixins/roleMixin.js'
+  import roleMixin from '../mixins/roleMixin.js'
   export default {
       components: {
     SidebarMenu
