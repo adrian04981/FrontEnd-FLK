@@ -15,6 +15,7 @@
 			<div class="side-menu-container">
 				<ul class="nav navbar-nav">
           <li><a href="#"><i class="fa fa-heart"></i> Extras</a></li>
+          <li><router-link to="/dashboard-admin/GestionarServicio"><i class="fa fa-dashboard"></i> Gestionar Servicios</router-link></li>
 					<li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
                     <button @click="logout">Logout</button>
 				</ul>

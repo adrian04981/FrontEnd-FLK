@@ -22,6 +22,9 @@ import ListarTiposInspeccion from '../views/TipoInspeccion/ListarTiposInspeccion
 import EditarInspeccion from '../views/TipoInspeccion/EditarInspeccion.vue';
 import ConsultarTipoInspeccion from '../views/TipoInspeccion/ConsultarTipoInspeccion.vue';
 
+//Gestionar Servicio
+import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue';
+
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
   return routes.map(route => {
@@ -60,7 +63,14 @@ const adminChildren = addRequiresRole([
     path: 'consultarpersonal/:id',
     name: 'ConsultarPersonal',
     component: ConsultarPersonal
+  },
+  {
+    path: 'GestionarServicio',
+    name: 'Servicio',
+    component: GestionarServicio, // Ruta para la lista de usuarios
   }
+    
+  
 ], 'Administrador');
 
 const operationsChildren = addRequiresRole([
