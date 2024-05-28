@@ -6,7 +6,6 @@ import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import UserList from '../views/GestionarCredenciales/UserList.vue'
 import LID from '../views/GestionarInspectoresDisponibles/ListarInspectoresDisponibles.vue'
-import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue'
 
 
 const routes = [
