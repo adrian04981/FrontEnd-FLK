@@ -6,6 +6,8 @@ import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import UserList from '../views/GestionarCredenciales/UserList.vue'
 import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue'
+import EditarPersonal from '../views/GestionarPersonal/EditarPersonal.vue'
+import ConsultarPersonal from '../views/GestionarPersonal/ConsultarPersonal.vue'
 
 
 
@@ -14,6 +16,16 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/ConsultarPersonal/:id',
+    name: 'ConsultarPersonal',
+    component: ConsultarPersonal
+  },
+  {
+    path: '/EditarPersonal/:id',
+    name: 'EditarPersonal',
+    component: EditarPersonal
   },
   {
     path: '/Login',
