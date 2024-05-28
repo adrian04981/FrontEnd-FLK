@@ -6,8 +6,11 @@ import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import UserList from '../views/GestionarCredenciales/UserList.vue'
 import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue'
-
-
+import EditarPersonal from '../views/GestionarPersonal/EditarPersonal.vue'
+import ConsultarPersonal from '../views/GestionarPersonal/ConsultarPersonal.vue'
+import ListarTiposInspeccion from '../views/TipoInspeccion/ListarTiposInspeccion.vue'
+import EditarInspeccion from '../views/TipoInspeccion/EditarInspeccion.vue'
+import ConsultarTipoInspeccion from '../views/TipoInspeccion/ConsultarTipoInspeccion.vue'
 
 const routes = [
   {
@@ -16,14 +19,41 @@ const routes = [
     component: Home
   },
   {
+    path: '/ConsultarPersonal/:id',
+    name: 'ConsultarPersonal',
+    component: ConsultarPersonal
+  },
+  {
+    path: '/EditarPersonal/:id',
+    name: 'EditarPersonal',
+    component: EditarPersonal
+  },
+  {
     path: '/Login',
     name: 'Login',
     component: Login
   },
   {
+    path: '/ListarTiposInspeccion',
+    name: 'Tipo De Inspeccion',
+    component: ListarTiposInspeccion
+  },
+  {
+    path: '/EditarInspeccion/:id',
+    name: 'Editar Inspeccion',
+    component: EditarInspeccion
+  },
+  {
+    path: '/ConsultarTipoInspeccion/:id',
+    name: 'ConsultarTipoDeInspeccion',
+    component: ConsultarTipoInspeccion,
+  },
+
+  {
     path: '/ListarPersonal',
     name: 'ListarPersonal',
     component: ListarPersonal
+
   },
   {
     path: '/dashboard',
