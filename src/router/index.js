@@ -6,6 +6,7 @@ import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import UserList from '../views/GestionarCredenciales/UserList.vue'
 import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue'
+import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue'
 
 
 
@@ -39,6 +40,14 @@ const routes = [
         path: 'users',
         name: 'UserList',
         component: UserList, // Ruta para la lista de usuarios
+        meta: {
+          requiresAdmin: true // Agregar metadatos para verificar el acceso de administrador
+        }
+      },
+      {
+        path: 'GestionarServicio',
+        name: 'Servicio',
+        component: GestionarServicio, // Ruta para la lista de usuarios
         meta: {
           requiresAdmin: true // Agregar metadatos para verificar el acceso de administrador
         }
