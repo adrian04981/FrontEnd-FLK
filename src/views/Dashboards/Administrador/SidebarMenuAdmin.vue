@@ -14,11 +14,7 @@
 			<!-- Main Menu -->
 			<div class="side-menu-container">
 				<ul class="nav navbar-nav">
-
-					<li><router-link to="/dashboard/pokemon" v-if="isAdmin || isRep || isAsist"><i class="fa fa-dashboard"></i> Pokedex</router-link></li>
-					<li><router-link to="/dashboard/UsersList" v-if="isAdmin"><i class="fa fa-dashboard"></i> Gestionar Credenciales</router-link></li>
-          <li><router-link to="/dashboard/UsersList" v-if="isAdmin"><i class="fa fa-dashboard"></i> Gestionar de Tipo Inspeccion</router-link></li>
-					<li><a href="#"><i class="fa fa-heart"></i> Extras</a></li>
+          <li><a href="#"><i class="fa fa-heart"></i> Extras</a></li>
 					<li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
                     <button @click="logout">Logout</button>
 				</ul>
@@ -28,9 +24,7 @@
   </template>
   
   <script>
-  import roleMixin from '../mixins/roleMixin.js'
   export default {
-    mixins: [roleMixin],
     methods: {
       logout() {
         localStorage.removeItem('loggedIn');

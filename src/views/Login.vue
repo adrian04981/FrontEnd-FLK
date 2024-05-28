@@ -1,68 +1,84 @@
-  <template>
-    <div class="wrapper fadeInDown">
-      <div id="formContent">
-        <div class="fadeIn first">
-          <img src="../assets/FLK_Logo.png" id="icon" alt="User Icon" />
-        </div>
-        <form @submit.prevent="login" class="fallout-form">
-          <input type="text" id="username" class="fadeIn second" name="login" placeholder="Usuario" v-model="username">
-          <input type="text" id="password" class="fadeIn third" name="login" placeholder="Contraseña" v-model="password">
-          <input type="submit" class="fadeIn fourth" value="Ingresar">
-        </form>
-        <div id="formFooter">
-          <a class="underlineHover" href="#">Olvidaste Tu contraseña?</a>
-        </div>
-        <div v-if="errorMessage" style="color: red;">{{ errorMessage }}</div>
+<template>
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <div class="fadeIn first">
+        <img src="../assets/FLK_Logo.png" id="icon" alt="User Icon" />
       </div>
+      <form @submit.prevent="login" class="fallout-form">
+        <input type="text" id="username" class="fadeIn second" name="login" placeholder="Usuario" v-model="username">
+        <input type="password" id="password" class="fadeIn third" name="login" placeholder="Contraseña" v-model="password">
+        <input type="submit" class="fadeIn fourth" value="Ingresar">
+      </form>
+      <div id="formFooter">
+        <a class="underlineHover" href="#">Olvidaste Tu contraseña?</a>
+      </div>
+      <div v-if="errorMessage" style="color: red;">{{ errorMessage }}</div>
     </div>
-  </template>
-  <script>  
-  export default {
-    data() {
-      return {
-        username: '',
-        password: '',
-        errorMessage: ''
-      };
-    },
-    methods: {
-      async login() {
-        try {
-          // Realizar la solicitud POST al endpoint de login
-          const response = await this.$axios.post('Usuarios/Login', {
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      username: '',
+      password: '',
+      errorMessage: ''
+    };
+  },
+  methods: {
+    async login() {
+      try {
+        // Realizar la solicitud POST al endpoint de login
+        const response = await axios.post('Usuarios/Login', {
           nombreUsuario: this.username,
           contraseña: this.password
         });
-  
-          // Verificar si se recibió un usuario válido en la respuesta
-          if (response.data) {
-            // Obtener el ID del rol del usuario autenticado
-            const roleId = response.data.fkRol;
-            // Realizar una solicitud GET para obtener el nombre del rol
-            const roleResponse = await this.$axios.get(`Rols/${roleId}`);
-            const roleName = roleResponse.data.nombre;
-  
-            // Aplicar la lógica de asignación de roles Cuando Inicias Sesion :) 
-            let role = roleName;
 
-            // Almacenar el estado de inicio de sesión y el rol en el almacenamiento local
-            localStorage.setItem('loggedIn', 'true');
-            localStorage.setItem('role', role);
-            // Redirigir al usuario a la página de dashboard
-            this.$router.push('/dashboard');
-          } else {
-            // Credenciales inválidas
-            this.errorMessage = 'Nombre de usuario o contraseña incorrectos';
+        // Verificar si se recibió un usuario válido en la respuesta
+        if (response.data) {
+          // Obtener el ID del rol del usuario autenticado
+          const roleId = response.data.fkRol;
+          // Realizar una solicitud GET para obtener el nombre del rol
+          const roleResponse = await axios.get(`Rols/${roleId}`);
+          const roleName = roleResponse.data.nombre;
+
+          // Almacenar el estado de inicio de sesión y el rol en el almacenamiento local
+          localStorage.setItem('loggedIn', 'true');
+          localStorage.setItem('role', roleName);
+
+          // Redirigir al usuario al dashboard específico según su rol
+          switch (roleName) {
+            case 'Administrador':
+              this.$router.push('/dashboard-admin');
+              break;
+            case 'Asistente de Operaciones':
+              this.$router.push('/dashboard-operations');
+              break;
+            case 'Recepcionista':
+              this.$router.push('/dashboard-receptionist');
+              break;
+            default:
+              this.errorMessage = 'Rol de usuario no reconocido';
+              localStorage.removeItem('loggedIn');
+              localStorage.removeItem('role');
+              break;
           }
-        } catch (error) {
-          // Error al realizar la solicitud
-          console.error('Error al iniciar sesión:', error);
-          this.errorMessage = 'Error al iniciar sesión, inténtalo de nuevo más tarde';
+        } else {
+          // Credenciales inválidas
+          this.errorMessage = 'Nombre de usuario o contraseña incorrectos';
         }
+      } catch (error) {
+        // Error al realizar la solicitud
+        console.error('Error al iniciar sesión:', error);
+        this.errorMessage = 'Error al iniciar sesión, inténtalo de nuevo más tarde';
       }
     }
   }
-  </script>
+};
+</script>
   
   
  
