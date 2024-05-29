@@ -51,7 +51,7 @@ const adminChildren = addRequiresRole([
   },
   {
     path: 'listarpersonal',
-    name: 'ListarPersonal',
+    name: 'listarPersonal',
     component: ListarPersonal
   },
   {
