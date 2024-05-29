@@ -4,7 +4,7 @@
         <div class="col-10">
           <h2 class="text-center mb-4">Lista roles</h2>
           <div class="text-center mb-4">
-            <router-link to="/createuser" class="btn btn-primary">Crear Rol</router-link>
+            <router-link to="/dashboard-admin/RolCreate" class="btn btn-primary">Crear Rol</router-link>
           </div>
           <div class="fallout-data-table">
             <table class="table">
@@ -16,13 +16,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="rol in roles" :key="rol.pkRol">
+                <tr v-for="rol in rolList" :key="rol.pkRol">
                   <td>{{ rol.pkRol }}</td>
                   <td>{{ rol.nombre }}</td>
                   <td>
-                    <router-link :to="'/ViewUsuario/' + rol.pkRol" class="btn btn-info mr-2">Consultar</router-link>
-                    <router-link :to="'/Editusers/' + rol.pkRol" class="btn btn-warning mr-2">Editar</router-link>
-                    <router-link :to="'/DeleteUsuario/' + rol.pkRol" class="btn btn-danger">Eliminar</router-link>
+                    <router-link :to="'/dashboard-admin/ViewUsuario/' + rol.pkRol" class="btn btn-info mr-2">Consultar</router-link>
+                    <router-link :to="'/dashboard-admin/useredit/' + rol.pkRol" class="btn btn-warning mr-2">Editar</router-link>
+                    <router-link :to="'/dashboard-admin/DeleteUsuario/' + rol.pkRol" class="btn btn-danger">Eliminar</router-link>
                   </td>
                 </tr>
               </tbody>
@@ -36,7 +36,7 @@
         <div class="col-10">
           <h2 class="text-center mb-4">Lista Usuarios</h2>
           <div class="text-center mb-4">
-            <router-link to="/dashboard/UserCreate" class="btn btn-primary">Crear Usuario</router-link>
+            <router-link to="/dashboard-admin/UserCreate" class="btn btn-primary">Crear Usuario</router-link>
           </div>
           <div class="fallout-data-table">
             <table class="table">
@@ -50,15 +50,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="usuario in usuarios" :key="usuario.pkUsuario">
+                <tr v-for="usuario in usuarioList" :key="usuario.pkUsuario">
                   <td>{{ usuario.pkUsuario }}</td>
                   <td>{{ usuario.nombreUsuario }}</td>
                   <td>{{ usuario.contraseña }}</td>
                   <td>{{ usuario.fkRol }}</td>
                   <td>
-                    <router-link :to="'/ViewUsuario/' + usuario.pkUsuario" class="btn btn-info mr-2">Consultar</router-link>
-                    <router-link :to="'/Editusers/' + usuario.pkUsuario" class="btn btn-warning mr-2">Editar</router-link>
-                    <router-link :to="'/DeleteUsuario/' + usuario.pkUsuario" class="btn btn-danger">Eliminar</router-link>
+                    <button class="btn btn-info mr-2" @click="showUsuario(usuario)" variant="info">Consultar</button>
+                    <router-link :to="'/dashboard-admin/UserEdit/' + usuario.pkUsuario" class="btn btn-warning mr-2">Editar</router-link>
+                    <router-link :to="'/dashboard-admin/UserDelete/' + usuario.pkUsuario" class="btn btn-danger">Eliminar</router-link>
                   </td>
                 </tr>
               </tbody>
@@ -66,49 +66,62 @@
           </div>
         </div>
       </div>
+      <!-- Modal para Consultar Personal -->
+    <b-modal v-if="selectedUsuario" v-model="showModal" title="Consultar Usuario" @hide="clearSelectedPersonal">
+      <div>
+        <p><strong>#:</strong> {{ selectedUsuario.pkUsuario }}</p>
+        <p><strong>Usuario:</strong> {{ selectedUsuario.nombreUsuario }}</p>
+        <p><strong>Contraseña:</strong> {{ selectedUsuario.contraseña }}</p>
+        <p><strong>Rol:</strong> {{ selectedUsuario.fkRol }}</p>
+      </div>
+    </b-modal>
+
+    
+    
     </div>
   </template>
   <script> 
   export default {
     name: 'Dashboard',
-    computed: {
-      isAdmin() {
-        const role = localStorage.getItem('role');
-        return role === 'Administrador';
-      },
-      isRep() {
-        const role = localStorage.getItem('role');
-        return role === 'Recepcionista';
-      },
-      isAsist() {
-        const role = localStorage.getItem('role');
-        return role === 'Asistente de Operaciones';
-      }
-    },
     data() {
       return {
-        usuarios: [],
-        roles:[]
+        usuarioList: [],
+        rolList:[],
+        showModal: false,
+        selectedUsuario: null
       };
     },
     mounted() {
+    this.fetchServices();
+  },
+  methods: {
+    fetchServices() {
       this.$axios.get('Usuarios')
         .then(response => {
-          this.usuarios = response.data;
+          console.log('Datos de servicios:', response.data); // Log para verificar datos
+          this.usuarioList = response.data;
         })
         .catch(error => {
-          console.error('Error al cargar datos de usuarios:', error);
+          console.error('Error al cargar datos de servicios:', error);
         });
-         // Obtiene la lista de roles al cargar el componente
-      this.$axios.get('Rols')
+        this.$axios.get('Rols')
         .then(response => {
-          this.roles = response.data;
+          console.log('Datos de servicios:', response.data); // Log para verificar datos
+          this.rolList = response.data;
         })
         .catch(error => {
-          console.error('Error al cargar roles:', error);
+          console.error('Error al cargar datos de servicios:', error);
         });
     },
+    showUsuario(usuario) {
+      this.selectedUsuario = usuario;
+      this.showModal = true;
+    },
+    clearSelectedUsuario() {
+      this.selectedUsuario = null;
     }
+  }    
+}
   </script>
   
   <style scoped>

@@ -67,10 +67,23 @@ const adminChildren = addRequiresRole([
   {
     path: 'GestionarServicio',
     name: 'Servicio',
-    component: GestionarServicio, // Ruta para la lista de usuarios
+    component: GestionarServicio,
+  },
+  {
+    path: 'listartiposinspeccion',
+    name: 'TipoDeInspeccion',
+    component: ListarTiposInspeccion
+  },
+  {
+    path: 'editarinspeccion/:id',
+    name: 'EditarInspeccion',
+    component: EditarInspeccion
+  },
+  {
+    path: 'consultartipoinspeccion/:id',
+    name: 'ConsultarTipoInspeccion',
+    component: ConsultarTipoInspeccion,
   }
-    
-  
 ], 'Administrador');
 
 const operationsChildren = addRequiresRole([
@@ -118,21 +131,6 @@ const routes = [
     component: DashboardReceptionist,
     children: receptionistChildren
   },
-  {
-    path: '/listartiposinspeccion',
-    name: 'TipoDeInspeccion',
-    component: ListarTiposInspeccion
-  },
-  {
-    path: '/editarinspeccion/:id',
-    name: 'EditarInspeccion',
-    component: EditarInspeccion
-  },
-  {
-    path: '/consultartipoinspeccion/:id',
-    name: 'ConsultarTipoInspeccion',
-    component: ConsultarTipoInspeccion,
-  }
 ];
 
 const router = createRouter({
