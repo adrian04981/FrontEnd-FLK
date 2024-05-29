@@ -1,31 +1,50 @@
 <!-- src/App.vue -->
 <template>
-  <div id="app">    
+  <div class="app">   
     <router-view />
   </div>
 </template>
 
-<script>
-export default {
-  name: 'App'
-}
+<script setup>
+import Sidebar from "./views/Sidebar.vue";
 </script>
 
-<style>
-nav {
-  display: flex;
-  gap: 20px;
-  padding: 10px;
-  background-color: #333;
-  color: white;
+<style lang="scss">
+:root{
+  --primary:#4ade80;
+  --grey: #64748b;
+  --dark: #1e293b;
+  --dark-alt: #334155;
+  --light: #f1f5f9;
+  --sidebar-width:300px;
+}
+*{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Fira sans',sans-serif;
+}
+body{
+  background: var(--light);
+}
+button{
+  cursor: pointer;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+}
+.app {
+	display: flex;
+
+	main {
+		flex: 1 1 0;
+		padding: 2rem;
+
+		@media (max-width: 1024px) {
+			padding-left: 6rem;
+		}
+	}
 }
 
-nav a {
-  color: white;
-  text-decoration: none;
-}
-
-nav a.router-link-exact-active {
-  font-weight: bold;
-}
 </style>
