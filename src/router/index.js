@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useUserMixin } from '../mixins/roleMixin.js'; // Ajusta la ruta según la ubicación de tu mixin
-
 // HOME
 import Home from '../views/Home.vue';
 import Pokemon from '../views/Pokemon.vue';
@@ -8,11 +7,8 @@ import Login from '../views/Login.vue';
 import DashboardAdmin from '../views/Dashboards/Administrador/DashboardAdmin.vue';
 import DashboardOperations from '../views/Dashboards/Asistente de Operaciones/DashboardOperations.vue';
 import DashboardReceptionist from '../views/Dashboards/Recepcionista/DashboardReceptionist.vue';
-
 // Gestiona usuario + rol
 import Credentials from '../views/GestionarCredenciales/Credentials.vue';
-import UserCreate from '../views/GestionarCredenciales/UserCreate.vue';
-import UserEdit from '../views/GestionarCredenciales/UserEdit.vue';
 // Gestiona personal
 import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue';
 import EditarPersonal from '../views/GestionarPersonal/EditarPersonal.vue';
@@ -38,16 +34,6 @@ const adminChildren = addRequiresRole([
     path: 'credentials',
     name: 'Credentials',
     component: Credentials
-  },
-  {
-    path: 'usercreate',
-    name: 'UserCreate',
-    component: UserCreate
-  },
-  {
-    path: 'useredit/:id',
-    name: 'UserEdit',
-    component: UserEdit
   },
   {
     path: 'listarpersonal',
