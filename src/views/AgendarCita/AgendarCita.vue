@@ -56,7 +56,7 @@ export default {
         // Simular autenticación de recepcionista con credenciales
         if (this.usuario === 'usuario' && this.contrasena === 'contrasena') {
           // Simular verificación del cliente en la base de datos
-          const response = await axios.get(`URL_API/usuario/${this.documentoIdentidad}`);
+          const response = await axios.get(`https://localhost:5173/api/Alumnoes/${this.documentoIdentidad}`);
           if (response.data) {
             this.clienteEncontrado = true;
           } else {

@@ -21,6 +21,8 @@ import ConsultarPersonal from '../views/GestionarPersonal/ConsultarPersonal.vue'
 import ListarTiposInspeccion from '../views/TipoInspeccion/ListarTiposInspeccion.vue';
 import EditarInspeccion from '../views/TipoInspeccion/EditarInspeccion.vue';
 import ConsultarTipoInspeccion from '../views/TipoInspeccion/ConsultarTipoInspeccion.vue';
+// Agendar Cita 
+import AgendarCita from '../views/AgendarCita/UserEdit.vue'; // Correct case
 
 //Gestionar Servicio
 import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue';
