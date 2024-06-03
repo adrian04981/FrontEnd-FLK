@@ -1,6 +1,7 @@
 <!-- src/App.vue
   components: { DashboardAdmin }, -->
 <template>
+<router-link to="/dashboard-admin"><i class="fa fa-dashboard"></i> Home</router-link>
   <div class="app">
      <router-view />
      

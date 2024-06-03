@@ -12,7 +12,7 @@
 
 		<h3>Menu</h3>
 		<div class="menu">
-			<router-link to="/" class="button">
+			<router-link to="/dashboard-admin" class="button">
 				<span class="material-icons">home</span>
 				<span class="text">Home</span>
 			</router-link>
