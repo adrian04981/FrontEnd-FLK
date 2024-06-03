@@ -8,7 +8,7 @@ import DashboardAdmin from '../views/Dashboards/Administrador/DashboardAdmin.vue
 import DashboardOperations from '../views/Dashboards/Asistente de Operaciones/DashboardOperations.vue';
 import DashboardReceptionist from '../views/Dashboards/Recepcionista/DashboardReceptionist.vue';
 // Gestiona usuario + rol
-import Credentials from '../views/GestionarCredenciales/Credentials.vue';
+import Credenciales from '../views/GestionarCredenciales/Credenciales.vue';
 // Gestiona personal
 import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue';
 import EditarPersonal from '../views/GestionarPersonal/EditarPersonal.vue';
@@ -31,9 +31,9 @@ const addRequiresRole = (routes, role) => {
 
 const adminChildren = addRequiresRole([
   {
-    path: 'credentials',
-    name: 'Credentials',
-    component: Credentials
+    path: 'Credenciales',
+    name: 'Credenciales',
+    component: Credenciales
   },
   {
     path: 'listarpersonal',

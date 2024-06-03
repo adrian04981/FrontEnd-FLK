@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <!-- Roles Section -->
     <div class="row justify-content-center mt-5">
-      <div class="col-10">
+      <!-- Roles Section -->
+      <div class="col-5 roles-section">
         <h2 class="text-center mb-4">Lista roles</h2>
         <div class="text-center mb-4">
           <b-button variant="primary" @click="showModal('createRol')">Crear Rol</b-button>
@@ -32,11 +32,9 @@
           </table>
         </div>
       </div>
-    </div>
 
-    <!-- Usuarios Section -->
-    <div class="row justify-content-center mt-5">
-      <div class="col-10">
+      <!-- Usuarios Section -->
+      <div class="col-5 usuarios-section">
         <h2 class="text-center mb-4">Lista Usuarios</h2>
         <div class="text-center mb-4">
           <b-button variant="primary" @click="showModal('createUser')">Crear Usuario</b-button>
@@ -120,7 +118,6 @@
 </template>
 
 <script>
-// Función para generar un ID aleatorio de 8 dígitos
 function generateRandomId() {
   return Math.floor(10000000 + Math.random() * 90000000);
 }
@@ -170,7 +167,7 @@ export default {
         const url = this.modalType === 'createUser' ? 'Usuarios' : `Usuarios/${this.selectedItem.pkUsuario}`;
         const method = this.modalType === 'createUser' ? 'post' : 'put';
         const data = {
-          pkUsuario: this.selectedItem.pkUsuario || generateRandomId(), // Generar ID si no está definido
+          pkUsuario: this.selectedItem.pkUsuario || generateRandomId(),
           nombreUsuario: this.selectedItem.nombreUsuario,
           contraseña: this.selectedItem.contraseña,
           fkRol: this.selectedItem.fkRol
@@ -187,7 +184,7 @@ export default {
         const url = this.modalType === 'createRol' ? 'Rols' : `Rols/${this.selectedItem.pkRol}`;
         const method = this.modalType === 'createRol' ? 'post' : 'put';
         const data = {
-          pkRol: this.selectedItem.pkRol || generateRandomId(), // Generar ID si no está definido
+          pkRol: this.selectedItem.pkRol || generateRandomId(),
           nombre: this.selectedItem.nombre
         };
         this.$axios[method](url, data)
@@ -246,6 +243,14 @@ export default {
 </script>
 
 <style scoped>
+.roles-section {
+  margin-right: 5%;
+}
+
+.usuarios-section {
+  margin-left: 5%;
+}
+
 .fallout-data-table {
   font-family: 'Roboto', sans-serif;
   color: #FFF;

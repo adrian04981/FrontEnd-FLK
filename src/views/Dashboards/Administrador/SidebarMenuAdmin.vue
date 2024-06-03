@@ -14,19 +14,19 @@
 		<div class="menu">
 			<router-link to="/dashboard-admin" class="button">
 				<span class="material-icons">home</span>
-				<span class="text">Home</span>
+				<span class="text">Menu Principal</span>
 			</router-link>
-			<router-link to="/about" class="button">
-				<span class="material-icons">description</span>
-				<span class="text">About</span>
+			<router-link to="/dashboard-admin/Credenciales" class="button">
+				<span class="material-icons">key</span>
+				<span class="text">Gestionar Credenciales</span>
 			</router-link>
-			<router-link to="/team" class="button">
+			<router-link to="/dashboard-admin/listarpersonal" class="button">
 				<span class="material-icons">group</span>
-				<span class="text">Team</span>
+				<span class="text">Gestionar Personal</span>
 			</router-link>
-			<router-link to="/contact" class="button">
-				<span class="material-icons">email</span>
-				<span class="text">Contact</span>
+			<router-link to="/dashboard-admin/GestionarServicio" class="button">
+				<span class="material-icons">add_box</span>
+				<span class="text">Gestionar Servicios</span>
 			</router-link>
 		</div>
 
@@ -43,7 +43,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import logoURL from '/src/assets/FLK_Logo.png'
+import logoURL from '/src/assets/SELLO_FLK.png'
 
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
 
@@ -76,7 +76,7 @@ aside {
 		margin-bottom: 1rem;
 
 		img {
-			width: 2rem;
+			width: 6rem;
 		}
 	}
 
