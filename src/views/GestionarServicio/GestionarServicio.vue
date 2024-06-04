@@ -118,8 +118,10 @@ export default {
         });
     },
     deleteTipo() {
+      console.log(`Intentando eliminar tipo de servicio con ID: ${this.selectedTipo.pkTiposServicio}`);
       this.$axios.delete(`TiposServicios/${this.selectedTipo.pkTiposServicio}`)
         .then(() => {
+          console.log('Tipo de servicio eliminado con éxito');
           this.fetchTiposServicios();
           this.showDeleteModal = false;
           this.selectedTipo = null;
