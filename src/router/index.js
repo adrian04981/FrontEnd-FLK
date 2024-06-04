@@ -21,6 +21,8 @@ import ConsultarPersonal from '../views/GestionarPersonal/ConsultarPersonal.vue'
 import ListarTiposInspeccion from '../views/TipoInspeccion/ListarTiposInspeccion.vue';
 import EditarInspeccion from '../views/TipoInspeccion/EditarInspeccion.vue';
 import ConsultarTipoInspeccion from '../views/TipoInspeccion/ConsultarTipoInspeccion.vue';
+import AgregarTipoInspeccion from '../views/TipoInspeccion/AgregarTipoInspeccion.vue';
+
 
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
@@ -122,7 +124,12 @@ const routes = [
     path: '/consultartipoinspeccion/:id',
     name: 'ConsultarTipoInspeccion',
     component: ConsultarTipoInspeccion,
-  }
+  },
+  {
+    path: '/agregartipoinspeccion',
+    name: 'AgregarTipoInspeccion',
+    component: AgregarTipoInspeccion,
+  },
 ];
 
 const router = createRouter({
