@@ -15,7 +15,10 @@
 			<div class="side-menu-container">
 				<ul class="nav navbar-nav">
           <li><a href="#"><i class="fa fa-heart"></i> Extras</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
+          <li><router-link to="/dashboard-admin/GestionarServicio"><i class="fa fa-dashboard"></i> Gestionar Servicios</router-link></li>
+          <li><router-link to="/dashboard-admin/listarpersonal" class="btn btn-primary">Listar Personal</router-link></li>
+					<li><router-link to="/dashboard-admin/AgendarCita"><i class="fa fa-dashboard"></i> AgendarCita</router-link></li>
+          <li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
                     <button @click="logout">Logout</button>
 				</ul>
 			</div>
@@ -123,7 +126,7 @@ ul.ns {
       padding: 10px 25px;
       display: block;
       vertical-align: middle;
-      
+    
       .ic {
         font-size: 16px;
         margin-right: 5px;
