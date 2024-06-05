@@ -22,7 +22,7 @@ import ListarTiposInspeccion from '../views/TipoInspeccion/ListarTiposInspeccion
 import EditarInspeccion from '../views/TipoInspeccion/EditarInspeccion.vue';
 import ConsultarTipoInspeccion from '../views/TipoInspeccion/ConsultarTipoInspeccion.vue';
 // Agendar Cita 
-import AgendarCita from '../views/AgendarCita/UserEdit.vue'; // Correct case
+import AgendarCita from '../views/AgendarCita/AgendarCitaServicio.vue';
 
 //Gestionar Servicio
 import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue';
