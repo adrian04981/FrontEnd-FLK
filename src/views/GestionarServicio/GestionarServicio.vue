@@ -5,7 +5,7 @@
       <div class="col-10">
         <h2 class="text-center mb-4">Lista de Tipos de Servicios</h2>
         <div class="text-center mb-4">
-          <router-link to="/createTypeService" class="btn btn-primary">Crear Tipo de Servicio</router-link>
+          <b-button @click="showCreateModal" variant="primary">Crear Tipo de Servicio</b-button>
         </div>
         <div class="fallout-data-table">
           <table class="table">
@@ -31,6 +31,20 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal para Crear Tipo de Servicio -->
+    <b-modal v-model="showCreateModalVisible" title="Crear Tipo de Servicio" @hide="clearSelectedTipo">
+      <div>
+        <form @submit.prevent="createTipo">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" v-model="newTipo.nombre" class="form-control" required>
+          </div>
+          <b-button type="submit" variant="primary">Crear Tipo de Servicio</b-button>
+          <b-button type="button" @click="showCreateModalVisible = false" variant="secondary">Cancelar</b-button>
+        </form>
+      </div>
+    </b-modal>
 
     <!-- Modal para Consultar Tipo de Servicio -->
     <b-modal v-if="selectedTipo" v-model="showModal" title="Consultar Tipo de Servicio" @hide="clearSelectedTipo">
@@ -66,6 +80,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Dashboard',
   data() {
@@ -74,7 +90,9 @@ export default {
       showModal: false,
       showEditModal: false,
       showDeleteModal: false,
-      selectedTipo: null
+      showCreateModalVisible: false,
+      selectedTipo: null,
+      newTipo: { nombre: '' }
     };
   },
   mounted() {
@@ -82,13 +100,13 @@ export default {
   },
   methods: {
     fetchTiposServicios() {
-      this.$axios.get('TiposServicios')
+      axios.get('https://localhost:7006/api/TiposServicios')
         .then(response => {
           console.log('Datos de tipos de servicios:', response.data); // Log para verificar datos
           this.tiposServicios = response.data;
         })
         .catch(error => {
-          console.error('Error al cargar datos de tipos de servicios:', error);
+          console.error('Error al cargar datos de tipos de servicios:', error.response || error.message || error);
         });
     },
     showTipo(tipo) {
@@ -103,23 +121,27 @@ export default {
       this.selectedTipo = tipo;
       this.showDeleteModal = true;
     },
+    showCreateModal() {
+      this.newTipo = { nombre: '' };
+      this.showCreateModalVisible = true;
+    },
     clearSelectedTipo() {
       this.selectedTipo = null;
     },
     updateTipo() {
-      this.$axios.put(`TiposServicios/${this.selectedTipo.pkTiposServicio}`, this.selectedTipo)
+      axios.put(`https://localhost:7006/api/TiposServicios/${this.selectedTipo.pkTiposServicio}`, this.selectedTipo)
         .then(() => {
           this.fetchTiposServicios();
           this.showEditModal = false;
           this.selectedTipo = null;
         })
         .catch(error => {
-          console.error('Error al actualizar tipo de servicio:', error);
+          console.error('Error al actualizar tipo de servicio:', error.response || error.message || error);
         });
     },
     deleteTipo() {
       console.log(`Intentando eliminar tipo de servicio con ID: ${this.selectedTipo.pkTiposServicio}`);
-      this.$axios.delete(`TiposServicios/${this.selectedTipo.pkTiposServicio}`)
+      axios.delete(`https://localhost:7006/api/TiposServicios/${this.selectedTipo.pkTiposServicio}`)
         .then(() => {
           console.log('Tipo de servicio eliminado con éxito');
           this.fetchTiposServicios();
@@ -127,7 +149,18 @@ export default {
           this.selectedTipo = null;
         })
         .catch(error => {
-          console.error('Error al eliminar tipo de servicio:', error);
+          console.error('Error al eliminar tipo de servicio:', error.response || error.message || error);
+        });
+    },
+    createTipo() {
+      axios.post('https://localhost:7006/api/TiposServicios', this.newTipo)
+        .then(() => {
+          this.fetchTiposServicios();
+          this.showCreateModalVisible = false;
+          this.newTipo = { nombre: '' };
+        })
+        .catch(error => {
+          console.error('Error al crear tipo de servicio:', error.response || error.message || error);
         });
     }
   }
