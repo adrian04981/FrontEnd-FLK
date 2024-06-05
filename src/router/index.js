@@ -30,6 +30,9 @@ import AgendarCita from '../views/AgendarCita/AgendarCitaServicio.vue';
 import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue';
 import DeleteService from '../views/GestionarServicio/DeleteService.vue'; 
 
+//Listar Inspectores Disponibles
+import ListarInspectoresDisponibles from '../views/InspectoresDisponibles/ListarInspectoresDisponibles.vue';
+
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
   return routes.map(route => {
@@ -80,8 +83,12 @@ const adminChildren = addRequiresRole([
         component: DeleteService
       }
     ]
+  },
+  {
+    path: 'ListarInspectoresDisponibles',
+    name: 'ListarInspectoresDisponibles',
+    component: ListarInspectoresDisponibles
   }
-  
 ], 'Administrador');
 
 const operationsChildren = addRequiresRole([
@@ -145,10 +152,16 @@ const routes = [
     component: ConsultarTipoInspeccion,
   },
   {
+    path: '/ListarInspectoresDisponibles',
+    name: 'ListarInspectoresDisponibles',
+    component: ListarInspectoresDisponibles
+  },
+  {
     path: '/agregartipoinspeccion',
     name: 'AgregarTipoInspeccion',
     component: AgregarTipoInspeccion,
-  },
+  }
+
 ];
 
 const router = createRouter({
