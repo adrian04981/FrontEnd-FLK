@@ -1,29 +1,28 @@
 <template>
   <div class="container">
-    <!-- Lista de Tipos de Servicios -->
+    <!-- Lista de Servicios -->
     <div class="row justify-content-center mt-5">
       <div class="col-10">
-        <h2 class="text-center mb-4">Lista de Tipos de Servicios</h2>
+        <h2 class="text-center mb-4">Lista Tipos Servicios</h2>
         <div class="text-center mb-4">
-          <b-button @click="showCreateModal" variant="primary">Crear Tipo de Servicio</b-button>
+          <router-link to="/createtypeservice" class="btn btn-primary">Crear TypeServicio</router-link>
         </div>
         <div class="fallout-data-table">
           <table class="table">
             <thead>
               <tr>
-                <th scope="col" class="text-white">PK_TipoServicio</th>
-                <th scope="col" class="text-white">Nombre</th>
-                <th scope="col" class="text-white">Acciones</th>
+                <th scope="col" class="text-white">pkTiposServicio</th>
+                <th scope="col" class="text-white">nombre</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="tipo in tiposServicios" :key="tipo.pkTiposServicio">
-                <td>{{ tipo.pkTiposServicio }}</td>
-                <td>{{ tipo.nombre }}</td>
+              <tr v-for="service in services" :key="service.pkTiposServicio">
+                <td>{{ service.pkTiposServicio }}</td>
+                <td>{{ service.nombre }}</td>
                 <td>
-                  <b-button @click="showTipo(tipo)" variant="info">Consultar</b-button>
-                  <b-button @click="editTipo(tipo)" variant="warning" class="mr-2">Editar</b-button>
-                  <b-button @click="confirmDeleteTipo(tipo)" variant="danger">Eliminar</b-button>
+                  <button @click="showService(service)" class="btn btn-primary mr-2">Consultar</button>
+                  <button @click="editService(service)" class="btn btn-success mr-2">Editar</button>
+                  <button @click="deleteService(service.pkTiposServicio)" class="btn btn-danger">Eliminar</button>
                 </td>
               </tr>
             </tbody>
@@ -32,140 +31,97 @@
       </div>
     </div>
 
-    <!-- Modal para Crear Tipo de Servicio -->
-    <b-modal v-model="showCreateModalVisible" title="Crear Tipo de Servicio" @hide="clearSelectedTipo">
+    <!-- Modal para Consultar Servicio -->
+    <b-modal v-if="selectedService" v-model="showModal" title="Consultar Servicio" @hide="clearSelectedService">
       <div>
-        <form @submit.prevent="createTipo">
+        <p><strong>pkTiposServicio:</strong> {{ selectedService.pkTiposServicio }}</p>
+        <p><strong>nombre:</strong> {{ selectedService.nombre  }}</p>
+      </div>
+    </b-modal>
+
+    <!-- Modal para Editar Servicio -->
+    <b-modal v-if="selectedService" v-model="showEditModal" title="Editar Servicio" @hide="clearSelectedService">
+      <div>
+        <form @submit.prevent="updateService">
           <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" v-model="newTipo.nombre" class="form-control" required>
+            <label for="pkTiposServicio">pkTiposServicio</label>
+            <input type="text" class="form-control" id="pkTiposServicio" v-model="selectedService.pkTiposServicio">
           </div>
-          <b-button type="submit" variant="primary">Crear Tipo de Servicio</b-button>
-          <b-button type="button" @click="showCreateModalVisible = false" variant="secondary">Cancelar</b-button>
-        </form>
-      </div>
-    </b-modal>
-
-    <!-- Modal para Consultar Tipo de Servicio -->
-    <b-modal v-if="selectedTipo" v-model="showModal" title="Consultar Tipo de Servicio" @hide="clearSelectedTipo">
-      <div>
-        <p><strong>PK_TipoServicio:</strong> {{ selectedTipo.pkTiposServicio }}</p>
-        <p><strong>Nombre:</strong> {{ selectedTipo.nombre }}</p>
-      </div>
-    </b-modal>
-
-    <!-- Modal para Editar Tipo de Servicio -->
-    <b-modal v-if="selectedTipo" v-model="showEditModal" title="Editar Tipo de Servicio" @hide="clearSelectedTipo">
-      <div>
-        <form @submit.prevent="updateTipo">
           <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" v-model="selectedTipo.nombre" class="form-control" required>
+            <label for="nombre">nombre</label>
+            <input type="text" class="form-control" id="nombre" v-model="selectedService.nombre">
           </div>
-          <b-button type="submit" variant="primary">Guardar Cambios</b-button>
-          <b-button type="button" @click="showEditModal = false" variant="secondary">Cancelar</b-button>
+          <button type="submit" class="btn btn-success">Guardar Cambios</button>
         </form>
-      </div>
-    </b-modal>
-
-    <!-- Modal para Confirmar Eliminación -->
-    <b-modal v-if="selectedTipo" v-model="showDeleteModal" title="Eliminar Tipo de Servicio" @hide="clearSelectedTipo">
-      <div>
-        <p>¿Está seguro que desea eliminar el tipo de servicio <strong>{{ selectedTipo.nombre }}</strong>?</p>
-        <b-button @click="deleteTipo" variant="danger">Eliminar</b-button>
-        <b-button @click="showDeleteModal = false" variant="secondary">Cancelar</b-button>
       </div>
     </b-modal>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-  name: 'Dashboard',
+  name: 'GestionarServicio',
   data() {
     return {
-      tiposServicios: [],
+      services: [],
       showModal: false,
       showEditModal: false,
-      showDeleteModal: false,
-      showCreateModalVisible: false,
-      selectedTipo: null,
-      newTipo: { nombre: '' }
+      selectedService: null
     };
   },
   mounted() {
-    this.fetchTiposServicios();
+    this.fetchServices();
   },
   methods: {
-    fetchTiposServicios() {
-      axios.get('https://localhost:7006/api/TiposServicios')
+    fetchServices() {
+      this.$axios.get('TiposServicios')
         .then(response => {
-          console.log('Datos de tipos de servicios:', response.data); // Log para verificar datos
-          this.tiposServicios = response.data;
+          console.log('Datos de servicios:', response.data);
+          this.services = response.data;
         })
         .catch(error => {
-          console.error('Error al cargar datos de tipos de servicios:', error.response || error.message || error);
+          console.error('Error al cargar datos de servicios:', error);
         });
     },
-    showTipo(tipo) {
-      this.selectedTipo = tipo;
+    showService(service) {
+      this.selectedService = service;
       this.showModal = true;
     },
-    editTipo(tipo) {
-      this.selectedTipo = { ...tipo };
+    editService(service) {
+      this.selectedService = { ...service };
       this.showEditModal = true;
     },
-    confirmDeleteTipo(tipo) {
-      this.selectedTipo = tipo;
-      this.showDeleteModal = true;
-    },
-    showCreateModal() {
-      this.newTipo = { nombre: '' };
-      this.showCreateModalVisible = true;
-    },
-    clearSelectedTipo() {
-      this.selectedTipo = null;
-    },
-    updateTipo() {
-      axios.put(`https://localhost:7006/api/TiposServicios/${this.selectedTipo.pkTiposServicio}`, this.selectedTipo)
-        .then(() => {
-          this.fetchTiposServicios();
+    updateService() {
+      this.$axios.put(`TiposServicios/${this.selectedService.pkTiposServicio}`, this.selectedService)
+        .then(response => {
+          console.log('Servicio actualizado:', response.data);
           this.showEditModal = false;
-          this.selectedTipo = null;
+          this.fetchServices();
         })
         .catch(error => {
-          console.error('Error al actualizar tipo de servicio:', error.response || error.message || error);
+          console.error('Error al actualizar el servicio:', error);
         });
     },
-    deleteTipo() {
-      console.log(`Intentando eliminar tipo de servicio con ID: ${this.selectedTipo.pkTiposServicio}`);
-      axios.delete(`https://localhost:7006/api/TiposServicios/${this.selectedTipo.pkTiposServicio}`)
-        .then(() => {
-          console.log('Tipo de servicio eliminado con éxito');
-          this.fetchTiposServicios();
-          this.showDeleteModal = false;
-          this.selectedTipo = null;
+    deleteService(pkTiposServicio) {
+      this.$axios.delete(`TiposServicios/${pkTiposServicio}`)
+        .then(response => {
+          console.log('Servicio eliminado:', response.data);
+          this.fetchServices();
         })
         .catch(error => {
-          console.error('Error al eliminar tipo de servicio:', error.response || error.message || error);
+          console.error('Error al eliminar el servicio:', error);
         });
     },
-    createTipo() {
-      axios.post('https://localhost:7006/api/TiposServicios', this.newTipo)
-        .then(() => {
-          this.fetchTiposServicios();
-          this.showCreateModalVisible = false;
-          this.newTipo = { nombre: '' };
-        })
-        .catch(error => {
-          console.error('Error al crear tipo de servicio:', error.response || error.message || error);
-        });
+    clearSelectedService() {
+      this.selectedService = null;
+      this.showModal = false;
+      this.showEditModal = false;
     }
   }
 };
 </script>
+
+
 
 <style scoped>
 .fallout-data-table {
@@ -201,4 +157,21 @@ export default {
 .fallout-data-table tbody tr:hover {
   background-color: #444;
 }
+
+.btn-primary {
+  background-color: blue;
+  border-color: blue;
+}
+
+.btn-success {
+  background-color: green;
+  border-color: green;
+}
+
+.btn-danger {
+  background-color: red;
+  border-color: red;
+}
 </style>
+
+
