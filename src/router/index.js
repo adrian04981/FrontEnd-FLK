@@ -28,6 +28,7 @@ import AgendarCita from '../views/AgendarCita/AgendarCitaServicio.vue';
 
 //Gestionar Servicio
 import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue';
+import DeleteService from '../views/GestionarServicio/DeleteService.vue'; 
 
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
@@ -71,9 +72,15 @@ const adminChildren = addRequiresRole([
   {
     path: 'GestionarServicio',
     name: 'Servicio',
-    component: GestionarServicio, // Ruta para la lista de usuarios
+    component: GestionarServicio, 
+    children: [
+      {
+        path: 'DeleteService/:id', 
+        name: 'DeleteService',
+        component: DeleteService
+      }
+    ]
   }
-    
   
 ], 'Administrador');
 
