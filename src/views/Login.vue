@@ -1,18 +1,41 @@
 <template>
-  <div class="wrapper fadeInDown">
-    <div id="formContent">
-      <div class="fadeIn first">
-        <img src="../assets/FLK_Logo.png" id="icon" alt="User Icon" />
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6 text-black">
+
+        <div class="px-5 ms-xl-4">
+          <i class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style="color:
+           #709085;"></i>
+          <span class="h1 fw-bold mb-0">GRUPO FLK</span>
+        </div>
+
+        <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+
+          <form style="width: 23rem;" @submit.prevent="login">
+            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Login</h3>
+
+            <div data-mdb-input-init class="form-floating mb-3">
+              <input type="text" id="form2Example18" v-model="username" class="form-control form-control-lg" />
+              <label class="form-label" for="form2Example18">Usuario</label>
+            </div>
+
+            <div data-mdb-input-init class="form-floating mb-3">
+              <input type="password" id="form2Example28" v-model="password" class="form-control form-control-lg" />
+              <label class="form-label" for="form2Example28">Contraseña</label>
+            </div>
+
+            <div class="pt-1 mb-4">
+              <button class="btn btn-info btn-lg btn-block" type="submit">Iniciar Sesion</button>
+            </div>
+
+            <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">Olvidaste tu contraseña?</a></p>
+          </form>
+        </div>
       </div>
-      <form @submit.prevent="login" class="fallout-form">
-        <input type="text" id="username" class="fadeIn second" name="login" placeholder="Usuario" v-model="username">
-        <input type="password" id="password" class="fadeIn third" name="login" placeholder="Contraseña" v-model="password">
-        <input type="submit" class="fadeIn fourth" value="Ingresar">
-      </form>
-      <div id="formFooter">
-        <a class="underlineHover" href="#">Olvidaste Tu contraseña?</a>
+      <div class="col-sm-6 px-0 d-none d-sm-block">
+        <img src="../assets/portada-1.png"
+          alt="Login image" class="w-100 h-100" style="object-fit: cover; object-position: left;">
       </div>
-      <div v-if="errorMessage" style="color: red;">{{ errorMessage }}</div>
     </div>
   </div>
 </template>
@@ -31,25 +54,19 @@ export default {
   methods: {
     async login() {
       try {
-        // Realizar la solicitud POST al endpoint de login
         const response = await axios.post('Usuarios/Login', {
           nombreUsuario: this.username,
           contraseña: this.password
         });
 
-        // Verificar si se recibió un usuario válido en la respuesta
         if (response.data) {
-          // Obtener el ID del rol del usuario autenticado
           const roleId = response.data.fkRol;
-          // Realizar una solicitud GET para obtener el nombre del rol
           const roleResponse = await axios.get(`Rols/${roleId}`);
           const roleName = roleResponse.data.nombre;
 
-          // Almacenar el estado de inicio de sesión y el rol en el almacenamiento local
           localStorage.setItem('loggedIn', 'true');
           localStorage.setItem('role', roleName);
 
-          // Redirigir al usuario al dashboard específico según su rol
           switch (roleName) {
             case 'Administrador':
               this.$router.push('/dashboard-admin');
@@ -67,11 +84,9 @@ export default {
               break;
           }
         } else {
-          // Credenciales inválidas
           this.errorMessage = 'Nombre de usuario o contraseña incorrectos';
         }
       } catch (error) {
-        // Error al realizar la solicitud
         console.error('Error al iniciar sesión:', error);
         this.errorMessage = 'Error al iniciar sesión, inténtalo de nuevo más tarde';
       }
@@ -79,261 +94,19 @@ export default {
   }
 };
 </script>
-  
-  
- 
-<style>
-body {
-  font-family: "Poppins", sans-serif;
-  height: 100vh;
-}
 
-a {
-  color: #92badd;
-  display:inline-block;
-  text-decoration: none;
-  font-weight: 400;
-}
-
-h2 {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  display:inline-block;
-  margin: 40px 8px 10px 8px; 
-  color: #cccccc;
-}
-
-
-
-/* STRUCTURE */
-
-.wrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: column; 
-  justify-content: center;
-  width: 100%;
-  min-height: 100%;
-  padding: 20px;
-}
-
-#formContent {
-  -webkit-border-radius: 10px 10px 10px 10px;
-  border-radius: 10px 10px 10px 10px;
-  background: #fff;
-  padding: 30px;
-  width: 90%;
-  max-width: 450px;
+<style scoped>
+.bg-image-vertical {
   position: relative;
-  padding: 0px;
-  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-  text-align: center;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: auto 100%;
 }
 
-#formFooter {
-  background-color: #f6f6f6;
-  border-top: 1px solid #dce8f1;
-  padding: 25px;
-  text-align: center;
-  -webkit-border-radius: 0 0 10px 10px;
-  border-radius: 0 0 10px 10px;
-}
-
-
-
-/* TABS */
-
-h2.inactive {
-  color: #cccccc;
-}
-
-h2.active {
-  color: #0d0d0d;
-  border-bottom: 2px solid #5fbae9;
-}
-
-
-
-/* FORM TYPOGRAPHY*/
-
-input[type=button], input[type=submit], input[type=reset]  {
-  background-color: #56baed;
-  border: none;
-  color: white;
-  padding: 15px 80px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  text-transform: uppercase;
-  font-size: 13px;
-  -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-  box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-  margin: 5px 20px 40px 20px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
-input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
-  background-color: #39ace7;
-}
-
-input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {
-  -moz-transform: scale(0.95);
-  -webkit-transform: scale(0.95);
-  -o-transform: scale(0.95);
-  -ms-transform: scale(0.95);
-  transform: scale(0.95);
-}
-
-input[type=text] {
-  background-color: #f6f6f6;
-  border: none;
-  color: #0d0d0d;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 5px;
-  width: 85%;
-  border: 2px solid #f6f6f6;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out;
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-}
-
-input[type=text]:focus {
-  background-color: #fff;
-  border-bottom: 2px solid #5fbae9;
-}
-
-input[type=text]:placeholder {
-  color: #cccccc;
-}
-/* ANIMATIONS */
-
-/* Simple CSS3 Fade-in-down Animation */
-.fadeInDown {
-  -webkit-animation-name: fadeInDown;
-  animation-name: fadeInDown;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-@-webkit-keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
+@media (min-width: 1025px) {
+  .h-custom-2 {
+    min-height: 100vh; /* Cambia la altura mínima a 100% de la altura de la ventana */
   }
 }
-
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-/* Simple CSS3 Fade-in Animation */
-@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
-.fadeIn {
-  opacity:0;
-  -webkit-animation:fadeIn ease-in 1;
-  -moz-animation:fadeIn ease-in 1;
-  animation:fadeIn ease-in 1;
-
-  -webkit-animation-fill-mode:forwards;
-  -moz-animation-fill-mode:forwards;
-  animation-fill-mode:forwards;
-
-  -webkit-animation-duration:1s;
-  -moz-animation-duration:1s;
-  animation-duration:1s;
-}
-
-.fadeIn.first {
-  -webkit-animation-delay: 0.4s;
-  -moz-animation-delay: 0.4s;
-  animation-delay: 0.4s;
-}
-
-.fadeIn.second {
-  -webkit-animation-delay: 0.6s;
-  -moz-animation-delay: 0.6s;
-  animation-delay: 0.6s;
-}
-
-.fadeIn.third {
-  -webkit-animation-delay: 0.8s;
-  -moz-animation-delay: 0.8s;
-  animation-delay: 0.8s;
-}
-
-.fadeIn.fourth {
-  -webkit-animation-delay: 1s;
-  -moz-animation-delay: 1s;
-  animation-delay: 1s;
-}
-
-/* Simple CSS3 Fade-in Animation */
-.underlineHover:after {
-  display: block;
-  left: 0;
-  bottom: -10px;
-  width: 0;
-  height: 2px;
-  background-color: #56baed;
-  content: "";
-  transition: width 0.2s;
-}
-
-.underlineHover:hover {
-  color: #0d0d0d;
-}
-
-.underlineHover:hover:after{
-  width: 100%;
-}
-
-
-
-/* OTHERS */
-
-*:focus {
-    outline: none;
-} 
-
-#icon {
-  width:60%;
-}
-
 </style>
