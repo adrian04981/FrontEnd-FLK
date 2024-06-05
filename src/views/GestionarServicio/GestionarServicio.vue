@@ -18,14 +18,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="service in services" :key="service.PK_Servicio">
+              <tr v-for="service in services" :key="service.pkServicio">
                 <td>{{ service.pkServicio }}</td>
                 <td>{{ service.fkTipoServicio }}</td>
                 <td>{{ service.fechaAgendada }}</td>
                 <td>
-                  <b-button @click="showService(service)" variant="info">Consultar</b-button>
-                  <router-link :to="'/EditService/' + service.pkServicio" class="btn btn-warning mr-2">Editar</router-link>
-                  <router-link :to="'/DeleteService/' + service.pkServicio" class="btn btn-danger">Eliminar</router-link>
+                  <button @click="showService(service)" class="btn btn-primary mr-2">Consultar</button>
+                  <button @click="editService(service)" class="btn btn-success mr-2">Editar</button>
+                  <button @click="deleteService(service.pkServicio)" class="btn btn-danger">Eliminar</button>
                 </td>
               </tr>
             </tbody>
@@ -42,16 +42,38 @@
         <p><strong>Fecha Agendada:</strong> {{ selectedService.fechaAgendada }}</p>
       </div>
     </b-modal>
+
+    <!-- Modal para Editar Servicio -->
+    <b-modal v-if="selectedService" v-model="showEditModal" title="Editar Servicio" @hide="clearSelectedService">
+      <div>
+        <form @submit.prevent="updateService">
+          <div class="form-group">
+            <label for="pkServicio">PK_Servicio</label>
+            <input type="text" class="form-control" id="pkServicio" v-model="selectedService.pkServicio" disabled>
+          </div>
+          <div class="form-group">
+            <label for="fkTipoServicio">FK_TipoServicio</label>
+            <input type="text" class="form-control" id="fkTipoServicio" v-model="selectedService.fkTipoServicio">
+          </div>
+          <div class="form-group">
+            <label for="fechaAgendada">Fecha Agendada</label>
+            <input type="date" class="form-control" id="fechaAgendada" v-model="selectedService.fechaAgendada">
+          </div>
+          <button type="submit" class="btn btn-success">Guardar Cambios</button>
+        </form>
+      </div>
+    </b-modal>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Dashboard',
+  name: 'GestionarServicio',
   data() {
     return {
       services: [],
       showModal: false,
+      showEditModal: false,
       selectedService: null
     };
   },
@@ -73,8 +95,28 @@ export default {
       this.selectedService = service;
       this.showModal = true;
     },
+    editService(service) {
+      this.selectedService = { ...service }; // Crear una copia para editar
+      this.showEditModal = true;
+    },
+    updateService() {
+      this.$axios.put(`Servicios/${this.selectedService.pkServicio}`, this.selectedService)
+        .then(response => {
+          console.log('Servicio actualizado:', response.data);
+          this.showEditModal = false;
+          this.fetchServices(); // Refrescar la lista de servicios
+        })
+        .catch(error => {
+          console.error('Error al actualizar el servicio:', error);
+        });
+    },
+    deleteService(pkServicio) {
+      this.$router.push(`/delete/${pkServicio}`); // Corregido: ruta de eliminación
+    },
     clearSelectedService() {
       this.selectedService = null;
+      this.showModal = false;
+      this.showEditModal = false;
     }
   }
 };
@@ -114,4 +156,21 @@ export default {
 .fallout-data-table tbody tr:hover {
   background-color: #444;
 }
+
+.btn-primary {
+  background-color: blue;
+  border-color: blue;
+}
+
+.btn-success {
+  background-color: green;
+  border-color: green;
+}
+
+.btn-danger {
+  background-color: red;
+  border-color: red;
+}
 </style>
+
+

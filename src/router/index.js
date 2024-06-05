@@ -17,9 +17,17 @@ import ConsultarPersonal from '../views/GestionarPersonal/ConsultarPersonal.vue'
 import ListarTiposInspeccion from '../views/TipoInspeccion/ListarTiposInspeccion.vue';
 import EditarInspeccion from '../views/TipoInspeccion/EditarInspeccion.vue';
 import ConsultarTipoInspeccion from '../views/TipoInspeccion/ConsultarTipoInspeccion.vue';
+import AgregarTipoInspeccion from '../views/TipoInspeccion/AgregarTipoInspeccion.vue';
+
+// Agendar Cita 
+import AgendarCita from '../views/AgendarCita/AgendarCitaServicio.vue';
 
 //Gestionar Servicio
 import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue';
+import DeleteService from '../views/GestionarServicio/DeleteService.vue'; 
+
+//Listar Inspectores Disponibles
+import ListaInspectoresDisponibles from '../views/GestionarInspectoresDisponiles/ListaInspectoresDisponibles.vue';
 
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
@@ -53,7 +61,14 @@ const adminChildren = addRequiresRole([
   {
     path: 'GestionarServicio',
     name: 'Servicio',
-    component: GestionarServicio,
+    component: GestionarServicio, 
+    children: [
+      {
+        path: 'DeleteService/:id', 
+        name: 'DeleteService',
+        component: DeleteService
+      }
+    ]
   },
   {
     path: 'listartiposinspeccion',
@@ -69,6 +84,11 @@ const adminChildren = addRequiresRole([
     path: 'consultartipoinspeccion/:id',
     name: 'ConsultarTipoInspeccion',
     component: ConsultarTipoInspeccion,
+  },
+  {
+    path: 'ListaInspectoresDisponibles',
+    name: 'ListaInspectoresDisponibles',
+    component: ListaInspectoresDisponibles
   }
 ], 'Administrador');
 
@@ -117,6 +137,27 @@ const routes = [
     component: DashboardReceptionist,
     children: receptionistChildren
   },
+  {
+    path: '/listartiposinspeccion',
+    name: 'TipoDeInspeccion',
+    component: ListarTiposInspeccion
+  },
+  {
+    path: '/editarinspeccion/:id',
+    name: 'EditarInspeccion',
+    component: EditarInspeccion
+  },
+  {
+    path: '/consultartipoinspeccion/:id',
+    name: 'ConsultarTipoInspeccion',
+    component: ConsultarTipoInspeccion,
+  },
+  {
+    path: '/agregartipoinspeccion',
+    name: 'AgregarTipoInspeccion',
+    component: AgregarTipoInspeccion,
+  }
+
 ];
 
 const router = createRouter({
