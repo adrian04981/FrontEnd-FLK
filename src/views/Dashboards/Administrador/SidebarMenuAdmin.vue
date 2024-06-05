@@ -1,326 +1,325 @@
 <template>
-<div class="msb" id="msb">
-		<nav class="navbar navbar-default" role="navigation">
-			<div class="navbar-header">
-				<div class="brand-wrapper">
-					<!-- Brand -->
-					<div class="brand-name-wrapper">
-						<a class="navbar-brand" href="#">
-							GRUPO FLK
-						</a>
-					</div>
-				</div>
-			</div>
-			<!-- Main Menu -->
-			<div class="side-menu-container">
-				<ul class="nav navbar-nav">
-          <li><a href="#"><i class="fa fa-heart"></i> Extras</a></li>
-          <li><router-link to="/dashboard-admin/GestionarServicio"><i class="fa fa-dashboard"></i> Gestionar Servicios</router-link></li>
-          <li><router-link to="/dashboard-admin/listarpersonal" class="btn btn-primary">Listar Personal</router-link></li>
-					<li><router-link to="/dashboard-admin/AgendarCita"><i class="fa fa-dashboard"></i> AgendarCita</router-link></li>
-          <li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
-                    <button @click="logout">Logout</button>
-				</ul>
-			</div>
-		</nav>  
-</div>
-  </template>
-  
-  <script>
-  export default {
-    methods: {
-      logout() {
-        localStorage.removeItem('loggedIn');
-        localStorage.removeItem('role');
-        this.$router.push('/login');
+  <div class="msb" id="msb">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <div class="brand-wrapper">
+            <!-- Brand -->
+            <div class="brand-name-wrapper">
+              <a class="navbar-brand" href="#">
+                GRUPO FLK
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Main Menu -->
+        <div class="side-menu-container">
+          <ul class="nav navbar-nav">
+            <li><a href="#"><i class="fa fa-heart"></i> Extras</a></li>
+            <li><router-link to="/dashboard-admin/GestionarServicio"><i class="fa fa-dashboard"></i> GestionarServicio</router-link></li>
+            <li><router-link to="/dashboard-admin/listarpersonal" class="fa fa-dashboard">Listar Personal</router-link></li>
+            <li><router-link to="/dashboard-admin/listaInspectoresDisponibles" class="fa fa-dashboard">Lista Inspectores Disponibles</router-link></li>
+            <li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
+                      <button @click="logout">Logout</button>
+          </ul>
+        </div>
+      </nav>  
+  </div>
+    </template>
+    
+    <script>
+    export default {
+      methods: {
+        logout() {
+          localStorage.removeItem('loggedIn');
+          localStorage.removeItem('role');
+          this.$router.push('/login');
+        }
       }
     }
+    </script>
+    
+    <style scoped>
+  body {
+    margin-top: 50px;
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    color: #39464e;
   }
-  </script>
   
-  <style scoped>
-body {
-  margin-top: 50px;
-  background-color: #fff;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  letter-spacing: 0.01em;
-  color: #39464e;
-}
-
-.navbar-default {
-  background-color: #FFF;
-  margin-left: 200px;
-}
-
-/*main side bar*/
-.msb {
-  width: 200px;
-  background-color: #F5F7F9;
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: auto;
-  min-height: 100%;
-  overflow-y: auto;
-  white-space: nowrap;
-  height: 100%;
-  z-index: 1;
-  border-right: 1px solid #ddd;
-  .navbar {
-    border: none;
-    margin-left: 0;
-    background-color: inherit;
+  .navbar-default {
+    background-color: #FFF;
+    margin-left: 200px;
   }
-  .navbar-header {
-    width: 100%;
-    border-bottom: 1px solid #e7e7e7;
-    margin-bottom: 20px;
-    background: #fff;
-  }
-  .navbar-nav {
-    .panel {
-      border: 0 none;
-      box-shadow: none;
-      margin: 0;
-      background: inherit;
+  
+  /*main side bar*/
+  .msb {
+    width: 200px;
+    background-color: #F5F7F9;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: auto;
+    min-height: 100%;
+    overflow-y: auto;
+    white-space: nowrap;
+    height: 100%;
+    z-index: 1;
+    border-right: 1px solid #ddd;
+    .navbar {
+      border: none;
+      margin-left: 0;
+      background-color: inherit;
     }
+    .navbar-header {
+      width: 100%;
+      border-bottom: 1px solid #e7e7e7;
+      margin-bottom: 20px;
+      background: #fff;
+    }
+    .navbar-nav {
+      .panel {
+        border: 0 none;
+        box-shadow: none;
+        margin: 0;
+        background: inherit;
+      }
+      li {
+        display: block;
+        width: 100%;
+        a {
+          padding: 15px;
+          color: #5f5f5f;
+          .glyphicon, .fa {
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+    .nb {
+      padding-top: 5px;
+      padding-left: 10px;
+      margin-bottom: 30px;
+      overflow: hidden;
+      
+    }
+  }
+  ul.nv,
+  ul.ns {
+    position: relative;
+    padding: 0;
+    list-style: none;  
+  }
+  .nv {  
     li {
       display: block;
-      width: 100%;
+      position: relative;
+      
+      &::before {
+        clear: both;
+        content: "";      
+        display: table;
+      }
       a {
-        padding: 15px;
-        color: #5f5f5f;
-        .glyphicon, .fa {
-          margin-right: 8px;
+        color: #444;
+        padding: 10px 25px;
+        display: block;
+        vertical-align: middle;
+        
+        .ic {
+          font-size: 16px;
+          margin-right: 5px;
+          font-weight: 300;
+          display: inline-block;
+        }
+      }
+    }
+    /*ns: nav-sub*/
+    .ns {
+      li {
+        a {
+          padding: 10px 50px;
+        }
+      }
+      
+    }
+    
+  }
+  
+  
+  /*main content wrapper*/
+  .mcw {
+    margin-left: 200px;
+    position: relative;
+    min-height: 100%;
+    
+    /*content view*/
+    .cv {
+    }
+  }
+  
+  
+  /*globals*/
+  a,
+  a:focus,
+  a:hover {
+   text-decoration: none;
+  }
+  
+  .inbox {
+    .container-fluid {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    
+    ul, li {
+      margin: 0;
+      padding: 0;
+    }
+    ul {    
+      li {
+        list-style: none;
+        a {
+          display: block;
+          padding: 10px 20px;
         }
       }
     }
   }
-  .nb {
-    padding-top: 5px;
-    padding-left: 10px;
-    margin-bottom: 30px;
-    overflow: hidden;
-    
+  .msb, .mnb {
+      -moz-animation: slidein 300ms forwards;
+      -o-animation: slidein 300ms forwards;
+      -webkit-animation: slidein 300ms forwards;
+      animation: slidein 300ms forwards;
+      -webkit-transform-style: preserve-3d;
+      transform-style: preserve-3d;  
   }
-}
-ul.nv,
-ul.ns {
-  position: relative;
-  padding: 0;
-  list-style: none;  
-}
-.nv {  
-  li {
-    display: block;
-    position: relative;
-    
-    &::before {
-      clear: both;
-      content: "";      
-      display: table;
+  .mcw {
+      -moz-animation: bodyslidein 300ms forwards;
+      -o-animation: bodyslidein 300ms forwards;
+      -webkit-animation: bodyslidein 300ms forwards;
+      animation: bodyslidein 300ms forwards;
+      -webkit-transform-style: preserve-3d;
+      transform-style: preserve-3d;  
+  }
+  body.msb-x {
+  
+    .mcw, .mnb {
+      margin-left: 0;
+  -moz-animation: bodyslideout 300ms forwards;
+      -o-animation: bodyslideout 300ms forwards;
+      -webkit-animation: bodyslideout 300ms forwards;
+      animation: bodyslideout 300ms forwards;
+      -webkit-transform-style: preserve-3d;
+      transform-style: preserve-3d;
     }
-    a {
-      color: #444;
-      padding: 10px 25px;
-      display: block;
-      vertical-align: middle;
-    
-      .ic {
-        font-size: 16px;
-        margin-right: 5px;
-        font-weight: 300;
-        display: inline-block;
+    .msb {
+      -moz-animation: slideout 300ms forwards;
+      -o-animation: slideout 300ms forwards;
+      -webkit-animation: slideout 300ms forwards;
+      animation: slideout 300ms forwards;
+      -webkit-transform-style: preserve-3d;
+      transform-style: preserve-3d;
+    }
+  }
+  
+    /* Slide in animation */
+    @-moz-keyframes slidein {
+      0% {
+        left: -200px;
+      }
+      100% {
+        left: 0;
       }
     }
-  }
-  /*ns: nav-sub*/
-  .ns {
-    li {
-      a {
-        padding: 10px 50px;
+    @-webkit-keyframes slidein {
+      0% {
+        left: -200px;
+      }
+      100% {
+        left: 0;
       }
     }
-    
-  }
-  
-}
-
-
-/*main content wrapper*/
-.mcw {
-  margin-left: 200px;
-  position: relative;
-  min-height: 100%;
-  
-  /*content view*/
-  .cv {
-  }
-}
-
-
-/*globals*/
-a,
-a:focus,
-a:hover {
- text-decoration: none;
-}
-
-.inbox {
-  .container-fluid {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  
-  ul, li {
-    margin: 0;
-    padding: 0;
-  }
-  ul {    
-    li {
-      list-style: none;
-      a {
-        display: block;
-        padding: 10px 20px;
+    @keyframes slidein {
+      0% {
+        left: -200px;
+      }
+      100% {
+        left: 0;
       }
     }
-  }
-}
-.msb, .mnb {
-    -moz-animation: slidein 300ms forwards;
-    -o-animation: slidein 300ms forwards;
-    -webkit-animation: slidein 300ms forwards;
-    animation: slidein 300ms forwards;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;  
-}
-.mcw {
-    -moz-animation: bodyslidein 300ms forwards;
-    -o-animation: bodyslidein 300ms forwards;
-    -webkit-animation: bodyslidein 300ms forwards;
-    animation: bodyslidein 300ms forwards;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;  
-}
-body.msb-x {
-
-  .mcw, .mnb {
-    margin-left: 0;
--moz-animation: bodyslideout 300ms forwards;
-    -o-animation: bodyslideout 300ms forwards;
-    -webkit-animation: bodyslideout 300ms forwards;
-    animation: bodyslideout 300ms forwards;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-  }
-  .msb {
-    -moz-animation: slideout 300ms forwards;
-    -o-animation: slideout 300ms forwards;
-    -webkit-animation: slideout 300ms forwards;
-    animation: slideout 300ms forwards;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-  }
-}
-
-  /* Slide in animation */
-  @-moz-keyframes slidein {
-    0% {
-      left: -200px;
+    @-moz-keyframes slideout {
+      0% {
+        left: 0;
+      }
+      100% {
+        left: -200px;
+      }
     }
-    100% {
-      left: 0;
+    @-webkit-keyframes slideout {
+      0% {
+        left: 0;
+      }
+      100% {
+        left: -200px;
+      }
     }
-  }
-  @-webkit-keyframes slidein {
-    0% {
-      left: -200px;
+    @keyframes slideout {
+      0% {
+        left: 0;
+      }
+      100% {
+        left: -200px;
+      }
     }
-    100% {
-      left: 0;
-    }
-  }
-  @keyframes slidein {
-    0% {
-      left: -200px;
-    }
-    100% {
-      left: 0;
-    }
-  }
-  @-moz-keyframes slideout {
-    0% {
-      left: 0;
-    }
-    100% {
-      left: -200px;
-    }
-  }
-  @-webkit-keyframes slideout {
-    0% {
-      left: 0;
-    }
-    100% {
-      left: -200px;
-    }
-  }
-  @keyframes slideout {
-    0% {
-      left: 0;
-    }
-    100% {
-      left: -200px;
-    }
-  }
-
-  @-moz-keyframes bodyslidein {
-    0% {
-      left: 0;
-    }
-    100% {
-      margin-left: 200px;
-    }
-  }
-  @-webkit-keyframes bodyslidein {
-    0% {
-      left: 0;
-    }
-    100% {
-      left:0
-    }
-  }
-  @keyframes bodyslidein {
-    0% {
-      margin-left: 0;
-    }
-    100% {
-      margin-left: 200px;
-    }
-  }
-  @-moz-keyframes bodyslideout {
-    0% {
-      margin-left: 200px;
-    }
-    100% {
-      margin-right: 0;
-    }
-  }
-  @-webkit-keyframes bodyslideout {
-    0% {
-      margin-left: 200px;
-    }
-    100% {
-      margin-left: 0;
-    }
-  }
-  @keyframes bodyslideout {
-    0% {
-      margin-left: 200px;
-    }
-    100% {
-      margin-left: 0;
-    }
-  }
-  </style>
   
+    @-moz-keyframes bodyslidein {
+      0% {
+        left: 0;
+      }
+      100% {
+        margin-left: 200px;
+      }
+    }
+    @-webkit-keyframes bodyslidein {
+      0% {
+        left: 0;
+      }
+      100% {
+        left:0
+      }
+    }
+    @keyframes bodyslidein {
+      0% {
+        margin-left: 0;
+      }
+      100% {
+        margin-left: 200px;
+      }
+    }
+    @-moz-keyframes bodyslideout {
+      0% {
+        margin-left: 200px;
+      }
+      100% {
+        margin-right: 0;
+      }
+    }
+    @-webkit-keyframes bodyslideout {
+      0% {
+        margin-left: 200px;
+      }
+      100% {
+        margin-left: 0;
+      }
+    }
+    @keyframes bodyslideout {
+      0% {
+        margin-left: 200px;
+      }
+      100% {
+        margin-left: 0;
+      }
+    }
+    </style>
