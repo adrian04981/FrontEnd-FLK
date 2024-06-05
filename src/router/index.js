@@ -21,7 +21,12 @@ import ConsultarPersonal from '../views/GestionarPersonal/ConsultarPersonal.vue'
 import ListarTiposInspeccion from '../views/TipoInspeccion/ListarTiposInspeccion.vue';
 import EditarInspeccion from '../views/TipoInspeccion/EditarInspeccion.vue';
 import ConsultarTipoInspeccion from '../views/TipoInspeccion/ConsultarTipoInspeccion.vue';
-// Gestionar Servicio
+import AgregarTipoInspeccion from '../views/TipoInspeccion/AgregarTipoInspeccion.vue';
+
+// Agendar Cita 
+import AgendarCita from '../views/AgendarCita/AgendarCitaServicio.vue';
+
+//Gestionar Servicio
 import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue';
 import DeleteService from '../views/GestionarServicio/DeleteService.vue'; 
 
@@ -138,7 +143,12 @@ const routes = [
     path: '/consultartipoinspeccion/:id',
     name: 'ConsultarTipoInspeccion',
     component: ConsultarTipoInspeccion,
-  }
+  },
+  {
+    path: '/agregartipoinspeccion',
+    name: 'AgregarTipoInspeccion',
+    component: AgregarTipoInspeccion,
+  },
 ];
 
 const router = createRouter({
