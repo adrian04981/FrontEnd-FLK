@@ -4,10 +4,6 @@
   </div>
 </template>
 
-<script>
-import DataTable from 'datatables.net-bs5';
-</script>
-
 
 <style lang="scss">
 :root{
