@@ -3,21 +3,21 @@
     <!-- Lista de Personal -->
     <div class="row justify-content-center mt-5">
       <div class="col-10">
-        <h2 class="text-center mb-4">Lista PERSONAL</h2>
-        <div class="text-center mb-4">
-          <router-link to="/createuser" class="btn btn-primary">Crear Personal</router-link>
-        </div>
+        <h2 class="text mb-4">LISTA PERSONAL</h2>
+    <div class="text mb-4">
+      <router-link to="/createuser" class="btn btn-primary" style="background-color: #000000; color: white; font-size: 14px; padding: 10px 20px; border: 1px solid #000000; border-radius: 20px;">Crear Personal</router-link>      
+    </div>
         <div class="fallout-data-table">
           <table class="table">
             <thead>
               <tr>
                 <th scope="col" class="text-white">#</th>
-                <th scope="col" class="text-white">Nombre</th>
+                <th scope="col" class="text-white">NOMBRE</th>
                 <th scope="col" class="text-white">DNI</th>
-                <th scope="col" class="text-white">Email</th>
-                <th scope="col" class="text-white">Dirección</th>
-                <th scope="col" class="text-white">Telefono</th>
-                <th scope="col" class="text-white">Acciones</th>
+                <th scope="col" class="text-white">EMAIL</th>
+                <th scope="col" class="text-white">DIRECCION</th>
+                <th scope="col" class="text-white">TELEFONO</th>
+                <th scope="col" class="text-white">ACCIONES</th>
               </tr>
             </thead>
             <tbody>
@@ -29,9 +29,10 @@
                 <td>{{ personal.direccion }}</td>
                 <td>{{ personal.telefono }}</td>
                 <td>
-                  <b-button @click="showPersonal(personal)" variant="info">Consultar</b-button>
-                  <router-link :to="'/EditarPersonal/' + personal.pkPersonal" class="btn btn-warning mr-2">Editar</router-link>
-                  <router-link :to="'/DeleteUsuario/' + personal.pkPersonal" class="btn btn-danger">Eliminar</router-link>
+                  <b-button @click="showPersonal(personal)" variant="danger">Consultar</b-button>
+                  <router-link :to="'/EditarPersonal/' + personal.pkPersonal" class="btn btn-success mr-4">Editar</router-link>
+                  <router-link :to="'/DeleteUsuario/' + personal.pkPersonal" class="btn btn-info">Eliminar</router-link>
+
                 </td>
               </tr>
             </tbody>
@@ -42,17 +43,18 @@
 
     <!-- Modal para Consultar Personal -->
     <b-modal v-if="selectedPersonal" v-model="showModal" title="Consultar Personal" @hide="clearSelectedPersonal">
-      <div>
+      <div style="text-transform: uppercase; text-align: center;">
         <p><strong>#:</strong> {{ selectedPersonal.pkPersonal }}</p>
-        <p><strong>Nombre:</strong> {{ selectedPersonal.nombre }}</p>
+        <p><strong>NOMBRE:</strong> {{ selectedPersonal.nombre }}</p>
         <p><strong>DNI:</strong> {{ selectedPersonal.dni }}</p>
-        <p><strong>Email:</strong> {{ selectedPersonal.email }}</p>
-        <p><strong>Dirección:</strong> {{ selectedPersonal.direccion }}</p>
-        <p><strong>Telefono:</strong> {{ selectedPersonal.telefono }}</p>
+        <p><strong>EMAIL:</strong> {{ selectedPersonal.email }}</p>
+        <p><strong>DIRECCION:</strong> {{ selectedPersonal.direccion }}</p>
+        <p><strong>TELEFONO:</strong> {{ selectedPersonal.telefono }}</p>
       </div>
     </b-modal>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -97,18 +99,19 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 .fallout-data-table {
   font-family: 'Roboto', sans-serif;
   color: #FFF;
-  margin: 20px auto;
+  margin: 100px auto;
   padding: 20px;
-  background-color: #222;
+  background-color: #f0f0f0;
   border: 1px solid #888;
-  border-radius: 5px;
+  border-radius: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
+  width: 1000px; /* Ajuste del ancho */
+  height: 200px; /* Ajuste del largo */
+} 
 
 .fallout-data-table table {
   width: 100%;
@@ -119,17 +122,18 @@ export default {
 .fallout-data-table td {
   padding: 10px;
   border-bottom: 2px solid #888;
+  text-align: center; /* Alinea el texto al centro */
 }
 
 .fallout-data-table th {
-  background-color: #111;
+  background-color: #000000;
 }
 
 .fallout-data-table tbody tr:nth-child(even) {
-  background-color: #333;
+  background-color: #ffffff;
 }
 
 .fallout-data-table tbody tr:hover {
-  background-color: #444;
+  background-color: #3d3939;
 }
 </style>

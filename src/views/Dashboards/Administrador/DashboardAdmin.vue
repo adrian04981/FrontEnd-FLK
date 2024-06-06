@@ -2,7 +2,6 @@
   <div class="dashboard-wrapper">
     <sidebar-menu class="sidebar-menu"></sidebar-menu>
     <div class="dashboard-content">
-      <h1>Hola, Administrador</h1>
       <router-view />
     </div>
   </div>
