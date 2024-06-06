@@ -9,17 +9,7 @@
         </option>
       </select>
     </div>
-    <div class="form-group">
-      <label for="fechaAgendada">Fecha Agendada:</label>
-      <input
-        type="date"
-        id="fechaAgendada"
-        v-model="fechaAgendada"
-        required
-        @change="validateFecha"
-      />
-    </div>
-    <button @click="agendarServicio" :disabled="!fechaAgendada || error">
+    <button @click="agendarServicio" :disabled="!tipoServicio || error">
       Agendar
     </button>
     <p class="error" v-if="error">{{ errorMessage }}</p>
@@ -28,38 +18,28 @@
 
 <script>
 import axios from 'axios';
+
 export default {
   data() {
     return {
       tipoServicio: '',
-      fechaAgendada: '',
       TiposServicios: [],
       error: false,
       errorMessage: ''
     };
   },
   methods: {
-    validateFecha() {
-      // Lógica de validación para la fecha
-      if (!this.fechaAgendada) {
-        this.error = true;
-        this.errorMessage = 'Por favor, selecciona una fecha.';
-      } else {
-        this.error = false;
-        this.errorMessage = '';
-      }
-    },
     agendarServicio() {
       if (!this.error) {
         const servicio = {
-          pkServicio: 0,
-          fkTipoServicio: this.tipoServicio,
-          fechaAgendada: this.fechaAgendada
+          fkTipoServicio: this.tipoServicio
         };
 
-        axios.post('/Servicios', servicio)
+        axios.post('/api/Servicios', servicio)
           .then(response => {
-            alert(`Servicio agendado para ${this.fechaAgendada}`);
+            alert(`Servicio agendado`);
+            // Redirigir al usuario a la página deseada con el ID generado
+            this.$router.push(`/dashboard-admin/AgendarCitaBuscarCliente/${response.data.pkServicio}`);
           })
           .catch(error => {
             console.error('Error al agendar el servicio:', error);
@@ -70,7 +50,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('/TiposServicios')
+    axios.get('/api/TiposServicios')
       .then(response => {
         this.TiposServicios = response.data;
       })

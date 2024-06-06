@@ -2,19 +2,19 @@
   <div class="container">
     <div class="row justify-content-center mt-5">
       <!-- Roles Section -->
-      <div class="col-5 roles-section">
+      <div class="col-md-5">
         <h2 class="text-center mb-4">Lista roles</h2>
         <div class="text-center mb-4">
-          <b-button variant="primary" @click="showModal('createRol')">Crear Rol</b-button>
+          <button class="btn btn-primary" @click="showModal('createRol')">Crear Rol</button>
         </div>
-        <div class="fallout-data-table">
-          <table class="table">
+        <div class="table-responsive">
+          <table class="table table-dark table-striped">
             <thead>
               <tr>
-                <th scope="col" class="text-white">ID</th>
-                <th scope="col" class="text-white">Nombre</th>
-                <th scope="col" class="text-white">Descripción</th>
-                <th scope="col" class="text-white">Acciones</th>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -23,9 +23,9 @@
                 <td>{{ rol.nombre }}</td>
                 <td>{{ rol.descripcion }}</td>
                 <td>
-                  <b-button variant="info" class="mr-2" @click="showModal('viewRol', rol)">Consultar</b-button>
-                  <b-button variant="warning" class="mr-2" @click="showModal('editRol', rol)">Editar</b-button>
-                  <b-button variant="danger" @click="showModal('deleteRol', rol)">Eliminar</b-button>
+                  <button class="btn btn-info btn-sm mr-2" @click="showModal('viewRol', rol)">Consultar</button>
+                  <button class="btn btn-warning btn-sm mr-2" @click="showModal('editRol', rol)">Editar</button>
+                  <button class="btn btn-danger btn-sm" @click="showModal('deleteRol', rol)">Eliminar</button>
                 </td>
               </tr>
             </tbody>
@@ -34,20 +34,20 @@
       </div>
 
       <!-- Usuarios Section -->
-      <div class="col-5 usuarios-section">
+      <div class="col-md-5">
         <h2 class="text-center mb-4">Lista Usuarios</h2>
         <div class="text-center mb-4">
-          <b-button variant="primary" @click="showModal('createUser')">Crear Usuario</b-button>
+          <button class="btn btn-primary" @click="showModal('createUser')">Crear Usuario</button>
         </div>
-        <div class="fallout-data-table">
-          <table class="table">
+        <div class="table-responsive">
+          <table class="table table-dark table-striped">
             <thead>
               <tr>
-                <th scope="col" class="text-white">#</th>
-                <th scope="col" class="text-white">Usuario</th>
-                <th scope="col" class="text-white">Contraseña</th>
-                <th scope="col" class="text-white">Rol</th>
-                <th scope="col" class="text-white">Acciones</th>
+                <th scope="col">#</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Contraseña</th>
+                <th scope="col">Rol</th>
+                <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -57,9 +57,9 @@
                 <td>{{ usuario.contraseña }}</td>
                 <td>{{ usuario.fkRol }}</td>
                 <td>
-                  <b-button variant="info" class="mr-2" @click="showModal('viewUser', usuario)">Consultar</b-button>
-                  <b-button variant="warning" class="mr-2" @click="showModal('editUser', usuario)">Editar</b-button>
-                  <b-button variant="danger" @click="showModal('deleteUser', usuario)">Eliminar</b-button>
+                  <button class="btn btn-info btn-sm mr-2" @click="showModal('viewUser', usuario)">Consultar</button>
+                  <button class="btn btn-warning btn-sm mr-2" @click="showModal('editUser', usuario)">Editar</button>
+                  <button class="btn btn-danger btn-sm" @click="showModal('deleteUser', usuario)">Eliminar</button>
                 </td>
               </tr>
             </tbody>
@@ -69,55 +69,75 @@
     </div>
 
     <!-- Modals -->
-    <b-modal v-if="selectedItem && modalType" v-model="showModalFlag" :title="modalTitle">
-      <template v-slot:default>
-        <div v-if="modalType === 'viewUser' || modalType === 'viewRol'">
-          <p><strong>ID:</strong> {{ selectedItem.pkUsuario || selectedItem.pkRol }}</p>
-          <p><strong>Nombre:</strong> {{ selectedItem.nombreUsuario || selectedItem.nombre }}</p>
-          <p v-if="selectedItem.contraseña"><strong>Contraseña:</strong> {{ selectedItem.contraseña }}</p>
-          <p><strong>Rol/Descripción:</strong> {{ selectedItem.fkRol || selectedItem.descripcion }}</p>
-        </div>
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">{{ modalTitle }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div v-if="modalType === 'viewUser' || modalType === 'viewRol'">
+              <p><strong>ID:</strong> {{ selectedItem.pkUsuario || selectedItem.pkRol }}</p>
+              <p><strong>Nombre:</strong> {{ selectedItem.nombreUsuario || selectedItem.nombre }}</p>
+              <p v-if="selectedItem.contraseña"><strong>Contraseña:</strong> {{ selectedItem.contraseña }}</p>
+              <p><strong>Rol/Descripción:</strong> {{ selectedItem.fkRol || selectedItem.descripcion }}</p>
+            </div>
 
-        <!-- Form for create/edit role -->
-        <div v-else-if="modalType === 'createRol' || modalType === 'editRol'">
-          <b-form @submit.prevent="handleSubmit">
-            <b-form-group label="Nombre:" label-for="nombreRol">
-              <b-form-input id="nombreRol" v-model="selectedItem.nombre" required></b-form-input>
-            </b-form-group>
-            <b-button type="submit" variant="primary">{{ modalType === 'createRol' ? 'Crear' : 'Guardar' }}</b-button>
-          </b-form>
-        </div>
+            <!-- Form for create/edit role -->
+            <div v-else-if="modalType === 'createRol' || modalType === 'editRol'">
+              <form @submit.prevent="handleSubmit">
+                <div class="mb-3">
+                  <label for="nombreRol" class="form-label">Nombre:</label>
+                  <input type="text" class="form-control" id="nombreRol" v-model="selectedItem.nombre" required>
+                </div>
+                <div class="mb-3">
+                  <label for="descripcionRol" class="form-label">Descripción:</label>
+                  <input type="text" class="form-control" id="descripcionRol" v-model="selectedItem.descripcion" required>
+                </div>
+                <button type="submit" class="btn btn-primary">{{ modalType === 'createRol' ? 'Crear' : 'Guardar' }}</button>
+              </form>
+            </div>
 
-        <!-- Form for create/edit user -->
-        <div v-else-if="modalType === 'createUser' || modalType === 'editUser'">
-          <b-form @submit.prevent="handleSubmit">
-            <b-form-group label="Usuario:" label-for="nombreUsuario">
-              <b-form-input id="nombreUsuario" v-model="selectedItem.nombreUsuario" required></b-form-input>
-            </b-form-group>
-            <b-form-group label="Contraseña:" label-for="contraseñaUsuario">
-              <b-form-input id="contraseñaUsuario" type="password" v-model="selectedItem.contraseña" required></b-form-input>
-            </b-form-group>
-            <b-form-group label="Rol:" label-for="rolUsuario">
-              <b-form-select id="rolUsuario" v-model="selectedItem.fkRol" :options="rolOptions" required></b-form-select>
-            </b-form-group>
-            <b-button type="submit" variant="primary">{{ modalType === 'createUser' ? 'Crear' : 'Guardar' }}</b-button>
-          </b-form>
-        </div>
+            <!-- Form for create/edit user -->
+            <div v-else-if="modalType === 'createUser' || modalType === 'editUser'">
+              <form @submit.prevent="handleSubmit">
+                <div class="mb-3">
+                  <label for="nombreUsuario" class="form-label">Usuario:</label>
+                  <input type="text" class="form-control" id="nombreUsuario" v-model="selectedItem.nombreUsuario" required>
+                </div>
+                <div class="mb-3">
+                  <label for="contraseñaUsuario" class="form-label">Contraseña:</label>
+                  <input type="password" class="form-control" id="contraseñaUsuario" v-model="selectedItem.contraseña" required>
+                </div>
+                <div class="mb-3">
+                  <label for="rolUsuario" class="form-label">Rol:</label>
+                  <select class="form-select" id="rolUsuario" v-model="selectedItem.fkRol" required>
+                    <option v-for="rol in rolOptions" :value="rol.value">{{ rol.text }}</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">{{ modalType === 'createUser' ? 'Crear' : 'Guardar' }}</button>
+              </form>
+            </div>
 
-        <!-- Confirm delete -->
-        <div v-else-if="modalType === 'deleteUser' || modalType === 'deleteRol'">
-          <p>¿Estás seguro de que quieres eliminar este {{ modalType === 'deleteUser' ? 'usuario' : 'rol' }}?</p>
-          <b-button variant="danger" @click="handleDelete">Eliminar</b-button>
+            <!-- Confirm delete -->
+            <div v-else-if="modalType === 'deleteUser' || modalType === 'deleteRol'">
+              <p>¿Estás seguro de que quieres eliminar este {{ modalType === 'deleteUser' ? 'usuario' : 'rol' }}?</p>
+              <button class="btn btn-danger" @click="handleDelete">Eliminar</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          </div>
         </div>
-      </template>
-      <template v-slot:modal-footer>
-        <b-button variant="secondary" @click="showModalFlag = false">Cancelar</b-button>
-      </template>
-    </b-modal>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { Modal } from 'bootstrap';
+
 function generateRandomId() {
   return Math.floor(10000000 + Math.random() * 90000000);
 }
@@ -128,9 +148,9 @@ export default {
     return {
       usuarioList: [],
       rolList: [],
-      showModalFlag: false,
       selectedItem: null,
       modalType: null,
+      modalInstance: null,
     };
   },
   mounted() {
@@ -158,9 +178,14 @@ export default {
       this.selectedItem = item
         ? { ...item }
         : type.includes('Rol')
-          ? { pkRol: 0, nombre: '' }
+          ? { pkRol: 0, nombre: '', descripcion: '' }
           : { pkUsuario: 0, nombreUsuario: '', contraseña: '', fkRol: 0 };
-      this.showModalFlag = true;
+      
+      this.$nextTick(() => {
+        const modalElement = document.getElementById('modal');
+        this.modalInstance = new Modal(modalElement);
+        this.modalInstance.show();
+      });
     },
     handleSubmit() {
       if (this.modalType === 'createUser' || this.modalType === 'editUser') {
@@ -174,7 +199,7 @@ export default {
         };
         this.$axios[method](url, data)
           .then(() => {
-            this.showModalFlag = false;
+            this.modalInstance.hide();
             this.fetchServices();
           })
           .catch(error => {
@@ -185,11 +210,12 @@ export default {
         const method = this.modalType === 'createRol' ? 'post' : 'put';
         const data = {
           pkRol: this.selectedItem.pkRol || generateRandomId(),
-          nombre: this.selectedItem.nombre
+          nombre: this.selectedItem.nombre,
+          descripcion: this.selectedItem.descripcion
         };
         this.$axios[method](url, data)
           .then(() => {
-            this.showModalFlag = false;
+            this.modalInstance.hide();
             this.fetchServices();
           })
           .catch(error => {
@@ -201,7 +227,7 @@ export default {
       const url = this.modalType === 'deleteUser' ? `Usuarios/${this.selectedItem.pkUsuario}` : `Rols/${this.selectedItem.pkRol}`;
       this.$axios.delete(url)
         .then(() => {
-          this.showModalFlag = false;
+          this.modalInstance.hide();
           this.fetchServices();
         })
         .catch(error => {
@@ -243,45 +269,30 @@ export default {
 </script>
 
 <style scoped>
-.roles-section {
-  margin-right: 5%;
+.roles-section, .usuarios-section {
+  margin: 2.5%;
 }
 
-.usuarios-section {
-  margin-left: 5%;
-}
-
-.fallout-data-table {
-  font-family: 'Roboto', sans-serif;
-  color: #FFF;
-  margin: 20px auto;
-  padding: 20px;
+.table-responsive {
   background-color: #222;
-  border: 1px solid #888;
   border-radius: 5px;
+  padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.fallout-data-table table {
-  width: 100%;
-  border-collapse: collapse;
+.table-dark th, .table-dark td {
+  border-color: #444;
 }
 
-.fallout-data-table th,
-.fallout-data-table td {
-  padding: 10px;
-  border-bottom: 2px solid #888;
-}
-
-.fallout-data-table th {
-  background-color: #111;
-}
-
-.fallout-data-table tbody tr:nth-child(even) {
+.table-dark thead th {
   background-color: #333;
 }
 
-.fallout-data-table tbody tr:hover {
+.table-dark tbody tr:hover {
+  background-color: #555;
+}
+
+.table-dark tbody tr:nth-child(even) {
   background-color: #444;
 }
 </style>

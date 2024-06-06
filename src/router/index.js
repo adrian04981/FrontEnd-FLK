@@ -53,12 +53,12 @@ const adminChildren = addRequiresRole([
     component: AgendarCitaServicio
   },
   {
-    path: 'AgendarCitaInspeccion',
+    path: 'AgendarCitaInspeccion/:clienteId/:servicioId',
     name: 'AgendarCitaInspeccion',
     component: AgendarCitaInspeccion
   },  
   {
-    path: 'AgendarCitaBuscarCliente',
+    path: 'AgendarCitaBuscarCliente/:id',
     name: 'AgendarCitaBuscarCliente',
     component: AgendarCitaBuscarCliente
   },

@@ -5,7 +5,7 @@
       <div class="col-10">
         <h2 class="text-center mb-4">Lista PERSONAL</h2>
         <div class="text-center mb-4">
-          <router-link to="/createuser" class="btn btn-primary">Crear Personal</router-link>
+          <button class="btn btn-primary" @click="showModal('createPersonal')">Crear Personal</button>
         </div>
         <div class="fallout-data-table">
           <table class="table">
@@ -29,9 +29,9 @@
                 <td>{{ personal.direccion }}</td>
                 <td>{{ personal.telefono }}</td>
                 <td>
-                  <b-button @click="showPersonal(personal)" variant="info">Consultar</b-button>
-                  <router-link :to="'/EditarPersonal/' + personal.pkPersonal" class="btn btn-warning mr-2">Editar</router-link>
-                  <router-link :to="'/DeleteUsuario/' + personal.pkPersonal" class="btn btn-danger">Eliminar</router-link>
+                  <button class="btn btn-info btn-sm mr-2" @click="showModal('viewPersonal', personal)">Consultar</button>
+                  <button class="btn btn-warning btn-sm mr-2" @click="showModal('editPersonal', personal)">Editar</button>
+                  <button class="btn btn-danger btn-sm" @click="showModal('deletePersonal', personal)">Eliminar</button>
                 </td>
               </tr>
             </tbody>
@@ -40,28 +40,81 @@
       </div>
     </div>
 
-    <!-- Modal para Consultar Personal -->
-    <b-modal v-if="selectedPersonal" v-model="showModal" title="Consultar Personal" @hide="clearSelectedPersonal">
-      <div>
-        <p><strong>#:</strong> {{ selectedPersonal.pkPersonal }}</p>
-        <p><strong>Nombre:</strong> {{ selectedPersonal.nombre }}</p>
-        <p><strong>DNI:</strong> {{ selectedPersonal.dni }}</p>
-        <p><strong>Email:</strong> {{ selectedPersonal.email }}</p>
-        <p><strong>Dirección:</strong> {{ selectedPersonal.direccion }}</p>
-        <p><strong>Telefono:</strong> {{ selectedPersonal.telefono }}</p>
+    <!-- Modals -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">{{ modalTitle }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div v-if="modalType === 'viewPersonal'">
+              <p><strong>#:</strong> {{ selectedItem.pkPersonal }}</p>
+              <p><strong>Nombre:</strong> {{ selectedItem.nombre }}</p>
+              <p><strong>DNI:</strong> {{ selectedItem.dni }}</p>
+              <p><strong>Email:</strong> {{ selectedItem.email }}</p>
+              <p><strong>Dirección:</strong> {{ selectedItem.direccion }}</p>
+              <p><strong>Telefono:</strong> {{ selectedItem.telefono }}</p>
+            </div>
+
+            <!-- Form for create/edit personal -->
+            <div v-else-if="modalType === 'createPersonal' || modalType === 'editPersonal'">
+              <form @submit.prevent="handleSubmit">
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Nombre:</label>
+                  <input type="text" class="form-control" id="nombre" v-model="selectedItem.nombre" required>
+                </div>
+                <div class="mb-3">
+                  <label for="dni" class="form-label">DNI:</label>
+                  <input type="text" class="form-control" id="dni" v-model="selectedItem.dni" required>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email:</label>
+                  <input type="email" class="form-control" id="email" v-model="selectedItem.email" required>
+                </div>
+                <div class="mb-3">
+                  <label for="direccion" class="form-label">Dirección:</label>
+                  <input type="text" class="form-control" id="direccion" v-model="selectedItem.direccion" required>
+                </div>
+                <div class="mb-3">
+                  <label for="telefono" class="form-label">Telefono:</label>
+                  <input type="text" class="form-control" id="telefono" v-model="selectedItem.telefono" required>
+                </div>
+                <button type="submit" class="btn btn-primary">{{ modalType === 'createPersonal' ? 'Crear' : 'Guardar' }}</button>
+              </form>
+            </div>
+
+            <!-- Confirm delete -->
+            <div v-else-if="modalType === 'deletePersonal'">
+              <p>¿Estás seguro de que quieres eliminar este personal?</p>
+              <button class="btn btn-danger" @click="handleDelete">Eliminar</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
       </div>
-    </b-modal>
+    </div>
   </div>
 </template>
 
 <script>
+import { Modal } from 'bootstrap';
+
+function generateRandomId() {
+  return Math.floor(10000000 + Math.random() * 90000000);
+}
+
 export default {
   name: 'Dashboard',
   data() {
     return {
       personalList: [],
-      showModal: false,
-      selectedPersonal: null
+      selectedItem: null,
+      modalType: null,
+      modalInstance: null,
     };
   },
   mounted() {
@@ -71,28 +124,71 @@ export default {
     fetchPersonal() {
       this.$axios.get('Personals')
         .then(response => {
-          console.log('Datos de personal:', response.data); // Log para verificar datos
+          console.log('Datos de personal:', response.data);
           this.personalList = response.data;
         })
         .catch(error => {
           console.error('Error al cargar datos de personal:', error);
         });
+    },
+    showModal(type, item = null) {
+      this.modalType = type;
+      this.selectedItem = item ? { ...item } : { pkPersonal: 0, nombre: '', dni: '', email: '', direccion: '', telefono: '' };
 
-      // Obtiene la lista de roles al cargar el componente
-      this.$axios.get('Rols')
-        .then(response => {
-          this.roles = response.data; 
+      this.$nextTick(() => {
+        const modalElement = document.getElementById('modal');
+        this.modalInstance = new Modal(modalElement);
+        this.modalInstance.show();
+      });
+    },
+    handleSubmit() {
+      if (this.modalType === 'createPersonal' || this.modalType === 'editPersonal') {
+        const url = this.modalType === 'createPersonal' ? 'Personals' : `Personals/${this.selectedItem.pkPersonal}`;
+        const method = this.modalType === 'createPersonal' ? 'post' : 'put';
+        const data = {
+          pkPersonal: this.selectedItem.pkPersonal || generateRandomId(),
+          nombre: this.selectedItem.nombre,
+          dni: this.selectedItem.dni,
+          email: this.selectedItem.email,
+          direccion: this.selectedItem.direccion,
+          telefono: this.selectedItem.telefono
+        };
+        this.$axios[method](url, data)
+          .then(() => {
+            this.modalInstance.hide();
+            this.fetchPersonal();
+          })
+          .catch(error => {
+            console.error('Error al guardar personal:', error);
+          });
+      }
+    },
+    handleDelete() {
+      const url = `Personals/${this.selectedItem.pkPersonal}`;
+      this.$axios.delete(url)
+        .then(() => {
+          this.modalInstance.hide();
+          this.fetchPersonal();
         })
         .catch(error => {
-          console.error('Error al cargar roles:', error);
+          console.error('Error al eliminar personal:', error);
         });
-    },
-    showPersonal(personal) {
-      this.selectedPersonal = personal;
-      this.showModal = true;
-    },
-    clearSelectedPersonal() {
-      this.selectedPersonal = null;
+    }
+  },
+  computed: {
+    modalTitle() {
+      switch (this.modalType) {
+        case 'createPersonal':
+          return 'Crear Personal';
+        case 'editPersonal':
+          return 'Editar Personal';
+        case 'viewPersonal':
+          return 'Consultar Personal';
+        case 'deletePersonal':
+          return 'Eliminar Personal';
+        default:
+          return '';
+      }
     }
   }
 };
@@ -104,10 +200,11 @@ export default {
   color: #FFF;
   margin: 20px auto;
   padding: 20px;
-  background-color: #222;
+  background-color: #f3eded;
   border: 1px solid #888;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  overflow-x: auto; /* Permite desplazamiento horizontal en dispositivos pequeños */
 }
 
 .fallout-data-table table {
@@ -119,14 +216,16 @@ export default {
 .fallout-data-table td {
   padding: 10px;
   border-bottom: 2px solid #888;
+  font-size: 16px; /* Tamaño de letra un poco más grande */
 }
 
 .fallout-data-table th {
   background-color: #111;
+  font-size: 18px; /* Tamaño de letra un poco más grande */
 }
 
 .fallout-data-table tbody tr:nth-child(even) {
-  background-color: #333;
+  background-color: #d8c7c7;
 }
 
 .fallout-data-table tbody tr:hover {
