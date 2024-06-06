@@ -1,39 +1,63 @@
 <template>
-    <div class="dashboard-wrapper">
-      <SidebarMenuOperations></SidebarMenuOperations>
-      <div class="dashboard">
-        <h1>Hola, Asistente de Operaciones</h1>
-        <router-view />
-      </div>
+  <div class="dashboard-wrapper">
+    <sidebar-menu class="sidebar-menu"></sidebar-menu>
+    <div class="dashboard-content">
+      <h1>Hola, Asistente de Operaciones</h1>
+      <router-view />
     </div>
-  </template>
-  
-    
-    <script>
-    import SidebarMenuOperations from './SidebarMenuOperations.vue';
-    export default {
-        components: {
-        SidebarMenuOperations
-    },
-      name: 'Dashboard',
-      methods: {
-        logout() {
-          localStorage.removeItem('loggedIn');
-          localStorage.removeItem('role');
-          this.$router.push('/login');
-        }
-      }
+  </div>
+</template>
+
+<script>
+import SidebarMenu from './SidebarMenuOperations.vue';
+
+export default {
+  components: {
+    SidebarMenu,
+  },
+  name: 'Dashboard',
+  methods: {
+    logout() {
+      localStorage.removeItem('loggedIn');
+      localStorage.removeItem('role');
+      this.$router.push('/login');
     }
-    
-    </script>
-  
-  <style>
-  .dashboard {
-    display: flex;
   }
-  .content {
-    flex: 1;
-    padding: 20px;
+};
+</script>
+
+<style>
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.sidebar-menu {
+  width: 250px;
+  background-color: #f8f9fa;
+  z-index: 1;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
+}
+
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    flex-direction: column;
   }
-  </style>
-    
+
+  .sidebar-menu {
+    width: 100%;
+    height: auto;
+  }
+
+  .dashboard-content {
+    padding: 10px;
+    margin-top: 10px;
+  }
+}
+</style>
