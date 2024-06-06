@@ -19,6 +19,7 @@ import EditarInspeccion from '../views/TipoInspeccion/EditarInspeccion.vue';
 import ConsultarTipoInspeccion from '../views/TipoInspeccion/ConsultarTipoInspeccion.vue';
 import AgregarTipoInspeccion from '../views/TipoInspeccion/AgregarTipoInspeccion.vue';
 
+import Website from '../views/Website/Website.vue'
 // Agendar Cita 
 import AgendarCita from '../views/AgendarCita/AgendarCitaServicio.vue';
 
@@ -156,6 +157,11 @@ const routes = [
     path: '/agregartipoinspeccion',
     name: 'AgregarTipoInspeccion',
     component: AgregarTipoInspeccion,
+  },
+  {
+    path: '/Website',
+    name: 'Website',
+    component: Website,
   }
 
 ];

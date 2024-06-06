@@ -4,9 +4,6 @@
   </div>
 </template>
 
-
-
-
 <style lang="scss">
 :root{
   --primary: #4ade80;
