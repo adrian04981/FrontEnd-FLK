@@ -28,7 +28,7 @@
 				<span class="material-icons">add_box</span>
 				<span class="text">Gestionar Servicios</span>
 			</router-link>
-			<router-link to="/dashboard-admin/GestionarServicio" class="button">
+			<router-link to="/dashboard-admin/AgendarCitaServicio" class="button">
 				<span class="material-icons">add_box</span>
 				<span class="text">Agendar Cita</span>
 			</router-link>

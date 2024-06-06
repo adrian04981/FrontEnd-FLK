@@ -21,9 +21,9 @@ import AgregarTipoInspeccion from '../views/TipoInspeccion/AgregarTipoInspeccion
 
 import Website from '../views/Website/Website.vue'
 // Agendar Cita 
-import AgendarCita from '../views/AgendarCita/AgendarCitaServicio.vue';
-import AgendarCita from '../views/AgendarCita/AgendarCitaInspecciones.vue';
-import AgendarCita from '../views/AgendarCita/BuscarCliente.vue';
+import AgendarCitaServicio from '../views/AgendarCita/AgendarCitaServicio.vue';
+import AgendarCitaInspeccion from '../views/AgendarCita/AgendarCitaInspecciones.vue';
+import AgendarCitaBuscarCliente from '../views/AgendarCita/BuscarCliente.vue';
 
 //Gestionar Servicio
 import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue';
@@ -48,19 +48,24 @@ const adminChildren = addRequiresRole([
     component: Credenciales
   },
   {
+    path: 'AgendarCitaServicio',
+    name: 'AgendarCitaServicio',
+    component: AgendarCitaServicio
+  },
+  {
+    path: 'AgendarCitaInspeccion',
+    name: 'AgendarCitaInspeccion',
+    component: AgendarCitaInspeccion
+  },  
+  {
+    path: 'AgendarCitaBuscarCliente',
+    name: 'AgendarCitaBuscarCliente',
+    component: AgendarCitaBuscarCliente
+  },
+  {
     path: 'listarpersonal',
     name: 'listarPersonal',
     component: ListarPersonal
-  },
-  {
-    path: 'AgendarCita',
-    name: 'AgendarCita',
-    component: AgendarCita
-  },
-  {
-    path: 'AgendarCitaInspecciones',
-    name: 'AgendarCitaInspecciones',
-    component: AgendarCitaInspecciones
   },
   {
     path: 'BuscarCliente',

@@ -1,49 +1,42 @@
 <template>
-  <div>
-    <h2>Editar Cliente</h2>
-    <div>
-      <label for="tipoCliente">Tipo de Cliente:</label>
-      <select v-model="tipoCliente">
-        <option value="personal">Personal</option>
-        <option value="empresa">Empresa</option>
-      </select>
+  <div class="container">
+    <h2>Buscar o Registrar Cliente : Empresa</h2>
+    
+    <div class="form-group">
+      <label for="ruc">RUC:</label>
+      <input type="text" id="ruc" v-model="consultaId" />
+      <button @click="buscarCliente">Buscar</button>
     </div>
-    <div>
-      <label for="idConsulta">ID a Consultar:</label>
-      <input type="text" v-model="consultaId" />
-      <button @click="fetchCliente">Consultar</button>
+    
+    <div v-if="cliente">
+      <h3>Detalles del Cliente</h3>
     </div>
-    <form @submit.prevent="updateCliente" v-if="cliente.id">
-      <div>
-        <label for="id">ID:</label>
-        <input type="text" v-model="cliente.id" disabled />
-      </div>
-      <div>
+    
+    <form @submit.prevent="registrarCliente">
+      <div class="form-group">
         <label for="nombre">Nombre:</label>
-        <input type="text" v-model="cliente.nombre" required />
+        <input type="text" id="nombre" v-model="empresa.nombre" required />
       </div>
-      <div v-if="tipoCliente === 'personal'">
-        <label for="dni">DNI:</label>
-        <input type="text" v-model="cliente.dni" required />
+      <div class="form-group">
+        <label for="razonSocial">Razón Social:</label>
+        <input type="text" id="razonSocial" v-model="empresa.razonSocial" required />
       </div>
-      <div v-if="tipoCliente === 'empresa'">
-        <label for="ruc">RUC:</label>
-        <input type="text" v-model="cliente.ruc" required />
-      </div>
-      <div>
+      <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" v-model="cliente.email" required />
+        <input type="email" id="email" v-model="empresa.email" required />
       </div>
-      <div>
+      <div class="form-group">
         <label for="direccion">Dirección:</label>
-        <input type="text" v-model="cliente.direccion" required />
+        <input type="text" id="direccion" v-model="empresa.direccion" required />
       </div>
-      <div>
+      <div class="form-group">
         <label for="telefono">Teléfono:</label>
-        <input type="text" v-model="cliente.telefono" required />
+        <input type="tel" id="telefono" v-model="empresa.telefono" required />
       </div>
-      <button type="submit">Guardar cambios</button>
+      <button type="submit">Registrar</button>
     </form>
+    
+    <p v-if="error" class="error">{{ errorMessage }}</p>
   </div>
 </template>
 
@@ -53,60 +46,94 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      tipoCliente: 'personal', // Default to 'personal'
       consultaId: '',
-      cliente: {
-        id: '',
-        nombre: '',
-        dni: '',
+      cliente: null,
+      empresa: {
         ruc: '',
+        nombre: '',
+        razonSocial: '',
         email: '',
         direccion: '',
         telefono: ''
-      }
+      },
+      error: false,
+      errorMessage: ''
     };
   },
   methods: {
-    async fetchCliente() {
-      try {
-        const url = this.tipoCliente === 'personal'
-          ? `https://localhost:7006/api/ListarPersonal/${this.consultaId}`
-          : `https://localhost:7006/api/ListarEmpresa/${this.consultaId}`;
-
-        const response = await axios.get(url);
-        this.cliente = response.data;
-      } catch (error) {
-        console.error('Error al obtener el cliente:', error);
-        alert('Error al consultar el cliente');
-      }
+    buscarCliente() {
+      const apiUrl = `https://localhost:7006/api/Empresas/byRuc/${this.consultaId}`;
+      
+      axios.get(apiUrl)
+        .then(response => {
+          this.cliente = response.data;
+          this.empresa = { ...this.cliente };  // Llenar los campos del formulario con los datos obtenidos
+          this.error = false;
+          this.errorMessage = '';
+        })
+        .catch(error => {
+          console.error('Error al buscar el cliente:', error);
+          this.error = true;
+          this.errorMessage = 'Cliente no encontrado. Puede proceder a registrarlo.';
+          this.cliente = null;
+        });
     },
-    async updateCliente() {
-      try {
-        const url = this.tipoCliente === 'personal'
-          ? `https://localhost:7006/api/ListarPersonal/${this.cliente.id}`
-          : `${this.cliente.id}`;
-
-        await axios.put(url, this.cliente);
-        alert('Datos actualizados correctamente');
-        this.$router.push('/');  // Redireccionar a otra página después de guardar
-      } catch (error) {
-        console.error('Error al actualizar el cliente:', error);
-        alert('Error al actualizar el cliente');
-      }
+    registrarCliente() {
+      const apiUrl = 'https://localhost:7006/api/Empresas';
+      
+      axios.post(apiUrl, this.empresa)
+        .then(response => {
+          alert('Empresa registrada exitosamente');
+          this.cliente = response.data;
+          this.error = false;
+          this.errorMessage = '';
+        })
+        .catch(error => {
+          console.error('Error al registrar la empresa:', error);
+          this.error = true;
+          this.errorMessage = 'Hubo un problema al registrar la empresa. Por favor, inténtelo de nuevo.';
+        });
     }
   }
 };
 </script>
 
 <style scoped>
-form {
-  display: flex;
-  flex-direction: column;
+body {
+  font-family: Arial, sans-serif;
 }
-form > div {
-  margin-bottom: 10px;
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
-form > div > label {
-  margin-right: 10px;
+.form-group {
+  margin-bottom: 15px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+.error {
+  color: red;
+  margin-top: 10px;
+}
+button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:disabled {
+  background-color: #ccc;
 }
 </style>
