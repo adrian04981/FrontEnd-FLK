@@ -10,9 +10,9 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="fechaAgendada">Fecha y Hora:</label>
+        <label for="fechaAgendada">Fecha Agendada:</label>
         <input
-          type="datetime-local"
+          type="date"
           id="fechaAgendada"
           v-model="fechaAgendada"
           required
@@ -27,65 +27,32 @@
   </template>
   
   <script>
-  import axios from 'axios';
-  
   export default {
     data() {
       return {
-        tipoServicio: '1',
         fechaAgendada: '',
-        serviciosAgendados: [],
         error: false,
-        errorMessage: '',
+        errorMessage: ''
       };
     },
     methods: {
       validateFecha() {
-        const selectedDate = new Date(this.fechaAgendada);
-        const isDuplicate = this.serviciosAgendados.some((servicio) => {
-          const existingDate = new Date(servicio.fechaAgendada);
-          return (
-            existingDate.toDateString() === selectedDate.toDateString() &&
-            existingDate.getHours() === selectedDate.getHours() &&
-            existingDate.getMinutes() === selectedDate.getMinutes()
-          );
-        });
-  
-        if (isDuplicate) {
+        // Lógica de validación para la fecha
+        if (!this.fechaAgendada) {
           this.error = true;
-          this.errorMessage =
-            'Ya existe un servicio agendado a esta hora en este día.';
+          this.errorMessage = 'Por favor, selecciona una fecha.';
         } else {
           this.error = false;
           this.errorMessage = '';
         }
       },
-      async agendarServicio() {
-        if (this.error) {
-          return;
+      agendarServicio() {
+        if (!this.error) {
+          // Lógica para agendar el servicio
+          alert(`Servicio agendado para ${this.fechaAgendada}`);
         }
-  
-        const nuevoServicio = {
-          pkServicio: this.serviciosAgendados.length + 1,
-          fkTipoServicio: this.tipoServicio,
-          fechaAgendada: this.fechaAgendada,
-        };
-  
-        try {
-          const response = await axios.post(
-            'https://localhost:7006/api/Servicios',
-            nuevoServicio
-          );
-  
-          this.serviciosAgendados.push(response.data);
-          alert('Servicio agendado correctamente');
-          this.fechaAgendada = ''; // Resetear el campo de fecha y hora
-        } catch (error) {
-          console.error('Error al agendar el servicio:', error);
-          alert('Error al agendar el servicio');
-        }
-      },
-    },
+      }
+    }
   };
   </script>
   
