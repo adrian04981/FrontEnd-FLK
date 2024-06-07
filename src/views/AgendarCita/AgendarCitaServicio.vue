@@ -34,12 +34,10 @@ export default {
         const servicio = {
           fkTipoServicio: this.tipoServicio
         };
-
-        axios.post('/api/Servicios', servicio)
+        axios.post('https://localhost:7006/api/Servicios', servicio)
           .then(response => {
             alert(`Servicio agendado`);
-            // Redirigir al usuario a la página deseada con el ID generado
-            this.$router.push(`/dashboard-admin/AgendarCitaBuscarCliente/${response.data.pkServicio}`);
+            this.$router.push('/dashboard-admin/AgendarCitaBuscarCliente/${response.data.pkServicio');
           })
           .catch(error => {
             console.error('Error al agendar el servicio:', error);
@@ -47,16 +45,19 @@ export default {
             this.errorMessage = 'Hubo un problema al agendar el servicio. Por favor, inténtalo de nuevo.';
           });
       }
+    },
+    cargarTiposServicios() {
+      axios.get('https://localhost:7006/api/TiposServicios')
+        .then(response => {
+          this.TiposServicios = response.data;
+        })
+        .catch(error => {
+          console.error('Error al cargar datos de servicios:', error);
+        });
     }
   },
   mounted() {
-    axios.get('/api/TiposServicios')
-      .then(response => {
-        this.TiposServicios = response.data;
-      })
-      .catch(error => {
-        console.error('Error al cargar datos de servicios:', error);
-      });
+    this.cargarTiposServicios();
   }
 };
 </script>

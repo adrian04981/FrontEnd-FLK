@@ -35,6 +35,10 @@
 			<router-link to="/dashboard-admin/ListarCertificadosDisponibles" class="button">
 				<span class="material-icons">add_box</span>
 				<span class="text">Listar Certificados Disponibles</span>
+			</router-link>			
+			<router-link to="/dashboard-admin/ListaInspectoresDisponibles" class="button">
+				<span class="material-icons">add_box</span>
+				<span class="text">Listar Inspectores Disponibles</span>
 			</router-link>
 		</div>
 		<div class="flex"></div>
