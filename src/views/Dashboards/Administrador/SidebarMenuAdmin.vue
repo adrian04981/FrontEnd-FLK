@@ -32,6 +32,10 @@
 				<span class="material-icons">add_box</span>
 				<span class="text">Agendar Cita</span>
 			</router-link>
+			<router-link to="/dashboard-admin/ListarCertificadosDisponibles" class="button">
+				<span class="material-icons">add_box</span>
+				<span class="text">Listar Certificados Disponibles</span>
+			</router-link>
 		</div>
 		<div class="flex"></div>
 		
