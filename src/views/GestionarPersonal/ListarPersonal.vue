@@ -5,7 +5,7 @@
       <div class="col-10">
         <h2 class="text-center mb-4">Lista PERSONAL</h2>
         <div class="text-center mb-4">
-          <button class="btn btn-primary" @click="showModal('createPersonal')">Crear Personal</button>
+          <b-button @click="showCreateModal = true" class="btn btn-primary">Crear Personal</b-button>
         </div>
         <div class="fallout-data-table">
           <table class="table">
@@ -29,9 +29,9 @@
                 <td>{{ personal.direccion }}</td>
                 <td>{{ personal.telefono }}</td>
                 <td>
-                  <button class="btn btn-info btn-sm mr-2" @click="showModal('viewPersonal', personal)">Consultar</button>
-                  <button class="btn btn-warning btn-sm mr-2" @click="showModal('editPersonal', personal)">Editar</button>
-                  <button class="btn btn-danger btn-sm" @click="showModal('deletePersonal', personal)">Eliminar</button>
+                  <b-button @click="showPersonal(personal)" variant="info">Consultar</b-button>
+                  <b-button @click="editPersonal(personal)" variant="warning" class="mr-2">Editar</b-button>
+                  <b-button @click="confirmDeletePersonal(personal)" variant="danger">Eliminar</b-button>
                 </td>
               </tr>
             </tbody>
@@ -40,81 +40,118 @@
       </div>
     </div>
 
-    <!-- Modals -->
-    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalLabel">{{ modalTitle }}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div v-if="modalType === 'viewPersonal'">
-              <p><strong>#:</strong> {{ selectedItem.pkPersonal }}</p>
-              <p><strong>Nombre:</strong> {{ selectedItem.nombre }}</p>
-              <p><strong>DNI:</strong> {{ selectedItem.dni }}</p>
-              <p><strong>Email:</strong> {{ selectedItem.email }}</p>
-              <p><strong>Dirección:</strong> {{ selectedItem.direccion }}</p>
-              <p><strong>Telefono:</strong> {{ selectedItem.telefono }}</p>
-            </div>
-
-            <!-- Form for create/edit personal -->
-            <div v-else-if="modalType === 'createPersonal' || modalType === 'editPersonal'">
-              <form @submit.prevent="handleSubmit">
-                <div class="mb-3">
-                  <label for="nombre" class="form-label">Nombre:</label>
-                  <input type="text" class="form-control" id="nombre" v-model="selectedItem.nombre" required>
-                </div>
-                <div class="mb-3">
-                  <label for="dni" class="form-label">DNI:</label>
-                  <input type="text" class="form-control" id="dni" v-model="selectedItem.dni" required>
-                </div>
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email:</label>
-                  <input type="email" class="form-control" id="email" v-model="selectedItem.email" required>
-                </div>
-                <div class="mb-3">
-                  <label for="direccion" class="form-label">Dirección:</label>
-                  <input type="text" class="form-control" id="direccion" v-model="selectedItem.direccion" required>
-                </div>
-                <div class="mb-3">
-                  <label for="telefono" class="form-label">Telefono:</label>
-                  <input type="text" class="form-control" id="telefono" v-model="selectedItem.telefono" required>
-                </div>
-                <button type="submit" class="btn btn-primary">{{ modalType === 'createPersonal' ? 'Crear' : 'Guardar' }}</button>
-              </form>
-            </div>
-
-            <!-- Confirm delete -->
-            <div v-else-if="modalType === 'deletePersonal'">
-              <p>¿Estás seguro de que quieres eliminar este personal?</p>
-              <button class="btn btn-danger" @click="handleDelete">Eliminar</button>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          </div>
-        </div>
+    <!-- Modal para Consultar Personal -->
+    <b-modal v-if="selectedPersonal" v-model="showModal" title="Consultar Personal" @hide="clearSelectedPersonal">
+      <div>
+        <p><strong>#:</strong> {{ selectedPersonal.pkPersonal }}</p>
+        <p><strong>Nombre:</strong> {{ selectedPersonal.nombre }}</p>
+        <p><strong>DNI:</strong> {{ selectedPersonal.dni }}</p>
+        <p><strong>Email:</strong> {{ selectedPersonal.email }}</p>
+        <p><strong>Dirección:</strong> {{ selectedPersonal.direccion }}</p>
+        <p><strong>Telefono:</strong> {{ selectedPersonal.telefono }}</p>
       </div>
-    </div>
+    </b-modal>
+
+    <!-- Modal para Editar Personal -->
+    <b-modal v-if="editPersonalData" v-model="showEditModal" title="Editar Personal" @hide="clearEditPersonal">
+      <div>
+        <b-form @submit.prevent="updatePersonal">
+          <b-form-group label="Nombre:" label-for="edit-nombre">
+            <b-form-input id="edit-nombre" v-model="editPersonalData.nombre" required></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="DNI:" label-for="edit-dni">
+            <b-form-input id="edit-dni" v-model="editPersonalData.dni" required></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Email:" label-for="edit-email">
+            <b-form-input id="edit-email" type="email" v-model="editPersonalData.email" required></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Dirección:" label-for="edit-direccion">
+            <b-form-input id="edit-direccion" v-model="editPersonalData.direccion" required></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Telefono:" label-for="edit-telefono">
+            <b-form-input id="edit-telefono" v-model="editPersonalData.telefono" required></b-form-input>
+          </b-form-group>
+
+          <b-button type="submit" variant="success">Guardar</b-button>
+        </b-form>
+      </div>
+    </b-modal>
+
+    <!-- Modal para Crear Personal -->
+    <b-modal v-model="showCreateModal" title="Crear Personal" @hide="clearCreatePersonal">
+      <div>
+        <b-form @submit.prevent="createPersonal">
+          <b-form-group label="Nombre:" label-for="create-nombre">
+            <b-form-input id="create-nombre" v-model="newPersonal.nombre" required></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="DNI:" label-for="create-dni">
+            <b-form-input id="create-dni" v-model="newPersonal.dni" required></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Email:" label-for="create-email">
+            <b-form-input id="create-email" type="email" v-model="newPersonal.email" required></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Dirección:" label-for="create-direccion">
+            <b-form-input id="create-direccion" v-model="newPersonal.direccion" required></b-form-input>
+          </b-form-group>
+
+          <b-form-group label="Telefono:" label-for="create-telefono">
+            <b-form-input id="create-telefono" v-model="newPersonal.telefono" required></b-form-input>
+          </b-form-group>
+
+          <b-button type="submit" variant="success">Crear</b-button>
+        </b-form>
+      </div>
+    </b-modal>
+
+    <!-- Modal para Confirmar Eliminación -->
+    <b-modal v-if="deletePersonalData" v-model="showDeleteModal" title="Confirmar Eliminación" @hide="clearDeletePersonal">
+      <div>
+        <p>¿Está seguro de que desea eliminar a {{ deletePersonalData.nombre }}?</p>
+        <b-button @click="deletePersonal" variant="danger">Sí</b-button>
+        <b-button @click="showDeleteModal = false" variant="secondary">No</b-button>
+      </div>
+    </b-modal>
+
+    <!-- Modal para Mensaje de Eliminación Exitosa -->
+    <b-modal v-model="showSuccessModal" title="Eliminación Exitosa" @hide="clearSuccessModal">
+      <div>
+        <p>Fue correctamente eliminado</p>
+        <b-button @click="showSuccessModal = false" variant="primary">Cerrar</b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
 <script>
-import { Modal } from 'bootstrap';
-
-function generateRandomId() {
-  return Math.floor(10000000 + Math.random() * 90000000);
-}
+import axios from 'axios';
 
 export default {
   name: 'Dashboard',
   data() {
     return {
       personalList: [],
-      selectedItem: null,
-      modalType: null,
-      modalInstance: null,
+      showModal: false,
+      showEditModal: false,
+      showCreateModal: false,
+      showDeleteModal: false,
+      showSuccessModal: false,
+      selectedPersonal: null,
+      editPersonalData: null,
+      deletePersonalData: null,
+      newPersonal: {
+        nombre: '',
+        dni: '',
+        email: '',
+        direccion: '',
+        telefono: ''
+      }
     };
   },
   mounted() {
@@ -122,73 +159,78 @@ export default {
   },
   methods: {
     fetchPersonal() {
-      this.$axios.get('Personals')
+      axios.get('https://localhost:7006/api/Personals')
         .then(response => {
-          console.log('Datos de personal:', response.data);
           this.personalList = response.data;
         })
         .catch(error => {
           console.error('Error al cargar datos de personal:', error);
         });
     },
-    showModal(type, item = null) {
-      this.modalType = type;
-      this.selectedItem = item ? { ...item } : { pkPersonal: 0, nombre: '', dni: '', email: '', direccion: '', telefono: '' };
-
-      this.$nextTick(() => {
-        const modalElement = document.getElementById('modal');
-        this.modalInstance = new Modal(modalElement);
-        this.modalInstance.show();
-      });
+    showPersonal(personal) {
+      this.selectedPersonal = personal;
+      this.showModal = true;
     },
-    handleSubmit() {
-      if (this.modalType === 'createPersonal' || this.modalType === 'editPersonal') {
-        const url = this.modalType === 'createPersonal' ? 'Personals' : `Personals/${this.selectedItem.pkPersonal}`;
-        const method = this.modalType === 'createPersonal' ? 'post' : 'put';
-        const data = {
-          pkPersonal: this.selectedItem.pkPersonal || generateRandomId(),
-          nombre: this.selectedItem.nombre,
-          dni: this.selectedItem.dni,
-          email: this.selectedItem.email,
-          direccion: this.selectedItem.direccion,
-          telefono: this.selectedItem.telefono
-        };
-        this.$axios[method](url, data)
-          .then(() => {
-            this.modalInstance.hide();
-            this.fetchPersonal();
-          })
-          .catch(error => {
-            console.error('Error al guardar personal:', error);
-          });
-      }
+    editPersonal(personal) {
+      this.editPersonalData = { ...personal };
+      this.showEditModal = true;
     },
-    handleDelete() {
-      const url = `Personals/${this.selectedItem.pkPersonal}`;
-      this.$axios.delete(url)
-        .then(() => {
-          this.modalInstance.hide();
+    updatePersonal() {
+      axios.put(`https://localhost:7006/api/Personals/${this.editPersonalData.pkPersonal}`, this.editPersonalData)
+        .then(response => {
+          this.showEditModal = false;
+          this.fetchPersonal();
+        })
+        .catch(error => {
+          console.error('Error al actualizar personal:', error);
+        });
+    },
+    createPersonal() {
+      axios.post('https://localhost:7006/api/Personals', this.newPersonal)
+        .then(response => {
+          this.showCreateModal = false;
+          this.fetchPersonal();
+          this.clearCreatePersonal();
+        })
+        .catch(error => {
+          console.error('Error al crear personal:', error);
+        });
+    },
+    confirmDeletePersonal(personal) {
+      this.deletePersonalData = personal;
+      this.showDeleteModal = true;
+    },
+    deletePersonal() {
+      axios.delete(`https://localhost:7006/api/Personals/${this.deletePersonalData.pkPersonal}`)
+        .then(response => {
+          this.showDeleteModal = false;
+          this.showSuccessModal = true;
           this.fetchPersonal();
         })
         .catch(error => {
           console.error('Error al eliminar personal:', error);
         });
-    }
-  },
-  computed: {
-    modalTitle() {
-      switch (this.modalType) {
-        case 'createPersonal':
-          return 'Crear Personal';
-        case 'editPersonal':
-          return 'Editar Personal';
-        case 'viewPersonal':
-          return 'Consultar Personal';
-        case 'deletePersonal':
-          return 'Eliminar Personal';
-        default:
-          return '';
-      }
+    },
+    clearSelectedPersonal() {
+      this.selectedPersonal = null;
+    },
+    clearEditPersonal() {
+      this.editPersonalData = null;
+    },
+    clearCreatePersonal() {
+      this.newPersonal = {
+        nombre: '',
+        dni: '',
+        email: '',
+        direccion: '',
+        telefono: ''
+      };
+    },
+    clearDeletePersonal() {
+      this.deletePersonalData = null;
+    },
+    clearSuccessModal() {
+      this.showSuccessModal = false;
     }
   }
 };
@@ -200,11 +242,10 @@ export default {
   color: #FFF;
   margin: 20px auto;
   padding: 20px;
-  background-color: #f3eded;
+  background-color: #222;
   border: 1px solid #888;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  overflow-x: auto; /* Permite desplazamiento horizontal en dispositivos pequeños */
 }
 
 .fallout-data-table table {
@@ -216,16 +257,14 @@ export default {
 .fallout-data-table td {
   padding: 10px;
   border-bottom: 2px solid #888;
-  font-size: 16px; /* Tamaño de letra un poco más grande */
 }
 
 .fallout-data-table th {
   background-color: #111;
-  font-size: 18px; /* Tamaño de letra un poco más grande */
 }
 
 .fallout-data-table tbody tr:nth-child(even) {
-  background-color: #d8c7c7;
+  background-color: #333;
 }
 
 .fallout-data-table tbody tr:hover {

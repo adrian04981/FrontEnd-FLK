@@ -11,8 +11,8 @@ import DashboardReceptionist from '../views/Dashboards/Recepcionista/DashboardRe
 import Credenciales from '../views/GestionarCredenciales/Credenciales.vue';
 // Gestiona personal
 import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue';
-import EditarPersonal from '../views/GestionarPersonal/EditarPersonal.vue';
-import ConsultarPersonal from '../views/GestionarPersonal/ConsultarPersonal.vue';
+
+ 
 // Gestionar TIPOS DE INSPECCION
 import ListarTiposInspeccion from '../views/TipoInspeccion/ListarTiposInspeccion.vue';
 import EditarInspeccion from '../views/TipoInspeccion/EditarInspeccion.vue';
@@ -32,6 +32,9 @@ import DeleteService from '../views/GestionarServicio/DeleteService.vue';
 //Listar Inspectores Disponibles
 import ListaInspectoresDisponibles from '../views/GestionarInspectoresDisponiles/ListaInspectoresDisponibles.vue';
 import BuscarCliente from '../views/AgendarCita/BuscarCliente.vue';
+
+//Gestionar Certificados Disponibles
+import ListarCertificadosDisponibles from '../views/GestionarCertificadosDisponibles/ListarCertificadosDisponibles.vue';
 
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
@@ -73,16 +76,6 @@ const adminChildren = addRequiresRole([
     component: BuscarCliente
   },
   {
-    path: 'editarpersonal/:id',
-    name: 'EditarPersonal',
-    component: EditarPersonal
-  },
-  {
-    path: 'consultarpersonal/:id',
-    name: 'ConsultarPersonal',
-    component: ConsultarPersonal
-  },
-  {
     path: 'GestionarServicio',
     name: 'Servicio',
     component: GestionarServicio, 
@@ -109,6 +102,13 @@ const adminChildren = addRequiresRole([
     name: 'ConsultarTipoInspeccion',
     component: ConsultarTipoInspeccion,
   },
+  
+  {
+    path: 'ListarCertificadosDisponibles',
+    name: 'ListarCertificadosDisponibles',
+    component: ListarCertificadosDisponibles}
+
+  ,
   {
     path: 'ListaInspectoresDisponibles',
     name: 'ListaInspectoresDisponibles',
@@ -175,6 +175,12 @@ const routes = [
     path: '/consultartipoinspeccion/:id',
     name: 'ConsultarTipoInspeccion',
     component: ConsultarTipoInspeccion,
+  },
+  {
+    path: '/ListarCertificadosDisponibles',
+    name: 'ListarCertificadosDisponibles',
+    component: ListarCertificadosDisponibles
+
   },
   {
     path: '/agregartipoinspeccion',
