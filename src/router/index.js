@@ -28,7 +28,7 @@ import AgendarCitaBuscarCliente from '../views/AgendarCita/BuscarCliente.vue';
 //Gestionar Servicio
 import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue';
 import DeleteService from '../views/GestionarServicio/DeleteService.vue'; 
-
+import GestionarTiposServicios from '../views/GestionarTiposServicios/GestionarTiposServicios.vue';
 //Listar Inspectores Disponibles
 import ListaInspectoresDisponibles from '../views/GestionarInspectoresDisponiles/ListaInspectoresDisponibles.vue';
 import BuscarCliente from '../views/AgendarCita/BuscarCliente.vue';
@@ -93,6 +93,12 @@ const adminChildren = addRequiresRole([
         component: DeleteService
       }
     ]
+  },
+  {
+    path: 'GestionarTiposServicios',
+    name: 'TiposServicios',
+    component: GestionarTiposServicios, 
+ 
   },
   {
     path: 'listartiposinspeccion',
