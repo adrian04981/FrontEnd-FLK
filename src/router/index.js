@@ -139,7 +139,7 @@ const receptionistChildren = addRequiresRole([
 
 const routes = [
   {
-    path: '/',
+    path: '/Home',
     name: 'Home',
     component: Home
   },
