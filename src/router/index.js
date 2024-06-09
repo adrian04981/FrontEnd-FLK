@@ -11,8 +11,7 @@ import DashboardReceptionist from '../views/Dashboards/Recepcionista/DashboardRe
 import Credenciales from '../views/GestionarCredenciales/Credenciales.vue';
 // Gestiona personal
 import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue';
-import EditarPersonal from '../views/GestionarPersonal/EditarPersonal.vue';
-import ConsultarPersonal from '../views/GestionarPersonal/ConsultarPersonal.vue';
+
 // Gestionar TIPOS DE INSPECCION
 import ListarTiposInspeccion from '../views/TipoInspeccion/ListarTiposInspeccion.vue';
 import EditarInspeccion from '../views/TipoInspeccion/EditarInspeccion.vue';
@@ -21,14 +20,22 @@ import AgregarTipoInspeccion from '../views/TipoInspeccion/AgregarTipoInspeccion
 
 import Website from '../views/Website/Website.vue'
 // Agendar Cita 
-import AgendarCita from '../views/AgendarCita/AgendarCitaServicio.vue';
+import AgendarCitaServicio from '../views/AgendarCita/AgendarCitaServicio.vue';
+import AgendarCitaInspeccion from '../views/AgendarCita/AgendarCitaInspecciones.vue';
+import AgendarCitaBuscarCliente from '../views/AgendarCita/BuscarCliente.vue';
 
 //Gestionar Servicio
 import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue';
 import DeleteService from '../views/GestionarServicio/DeleteService.vue'; 
-
+import GestionarTiposServicios from '../views/GestionarTiposServicios/GestionarTiposServicios.vue';
 //Listar Inspectores Disponibles
-import ListaInspectoresDisponibles from '../views/GestionarInspectoresDisponiles/ListaInspectoresDisponibles.vue';
+import ListaInspectoresDisponibles from '../views/GestionarInspectoresDisponibles/ListaInspectoresDisponibles.vue';
+
+
+import BuscarCliente from '../views/AgendarCita/BuscarCliente.vue';
+
+//Listar Certifiacor Disponible
+import ListarCertificadosDisponibles from '../views/GestionarCertificadosDisponibles/ListarCertificadosDisponibles.vue'
 
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
@@ -45,19 +52,34 @@ const adminChildren = addRequiresRole([
     component: Credenciales
   },
   {
-    path: 'listarpersonal',
-    name: 'listarPersonal',
+    path: 'ListarCertificadosDisponibles',
+    name: 'ListarCertificadosDisponibles',
+    component: ListarCertificadosDisponibles
+  },
+  {
+    path: 'AgendarCitaServicio',
+    name: 'AgendarCitaServicio',
+    component: AgendarCitaServicio
+  },
+  {
+    path: 'AgendarCitaInspeccion/:clienteId/:servicioId',
+    name: 'AgendarCitaInspeccion',
+    component: AgendarCitaInspeccion
+  },  
+  {
+    path: 'AgendarCitaBuscarCliente/:id',
+    name: 'AgendarCitaBuscarCliente',
+    component: AgendarCitaBuscarCliente
+  },  
+  {
+    path: 'ListarPersonal',
+    name: 'ListarPersonal',
     component: ListarPersonal
   },
   {
-    path: 'editarpersonal/:id',
-    name: 'EditarPersonal',
-    component: EditarPersonal
-  },
-  {
-    path: 'consultarpersonal/:id',
-    name: 'ConsultarPersonal',
-    component: ConsultarPersonal
+    path: 'BuscarCliente',
+    name: 'BuscarCliente',
+    component: BuscarCliente
   },
   {
     path: 'GestionarServicio',
@@ -70,6 +92,12 @@ const adminChildren = addRequiresRole([
         component: DeleteService
       }
     ]
+  },
+  {
+    path: 'GestionarTiposServicios',
+    name: 'TiposServicios',
+    component: GestionarTiposServicios, 
+ 
   },
   {
     path: 'listartiposinspeccion',

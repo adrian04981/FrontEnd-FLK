@@ -5,7 +5,7 @@
       <div class="col-10">
         <h2 class="text-center mb-4">Lista de Inspectores Disponibles</h2>
         <div class="text-center mb-4">
-          <b-button @click="showCreateModal" variant="primary">Crear Inspector</b-button>
+          <button @click="showCreateModal" class="btn btn-primary">Crear Inspector</button>
         </div>
         <div class="fallout-data-table">
           <table class="table">
@@ -27,9 +27,9 @@
                 <td>{{ inspector.fechaEmisionCertificado }}</td>
                 <td>{{ inspector.fechaVencimientoCertificado }}</td>
                 <td>
-                  <b-button @click="showInspector(inspector)" variant="info">Consultar</b-button>
-                  <b-button @click="editInspector(inspector)" variant="warning" class="mr-2">Editar</b-button>
-                  <b-button @click="deleteInspector(inspector.pkInpectoresDisponibles)" variant="danger">Eliminar</b-button>
+                  <button @click="showInspector(inspector)" class="btn btn-info">Consultar</button>
+                  <button @click="editInspector(inspector)" class="btn btn-warning">Editar</button>
+                  <button @click="deleteInspector(inspector.pkInpectoresDisponibles)" class="btn btn-danger">Eliminar</button>
                 </td>
               </tr>
             </tbody>
@@ -39,61 +39,85 @@
     </div>
 
     <!-- Modal para Consultar Inspector -->
-    <b-modal v-if="selectedInspector" v-model="showModal" title="Consultar Inspector" @hide="clearSelectedInspector">
-      <div>
-        <p><strong>ID:</strong> {{ selectedInspector.pkInpectoresDisponibles }}</p>
-        <p><strong>Usuario:</strong> {{ selectedInspector.fkUsuario }}</p>
-        <p><strong>Tipo de Inspección:</strong> {{ selectedInspector.fkTipoInspeccion }}</p>
-        <p><strong>Fecha de Emisión:</strong> {{ selectedInspector.fechaEmisionCertificado }}</p>
-        <p><strong>Fecha de Vencimiento:</strong> {{ selectedInspector.fechaVencimientoCertificado }}</p>
+    <div class="modal" tabindex="-1" role="dialog" v-if="selectedInspector">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Consultar Inspector</h5>
+            <button type="button" class="btn-close" @click="clearSelectedInspector" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>ID:</strong> {{ selectedInspector.pkInpectoresDisponibles }}</p>
+            <p><strong>Usuario:</strong> {{ selectedInspector.fkUsuario }}</p>
+            <p><strong>Tipo de Inspección:</strong> {{ selectedInspector.fkTipoInspeccion }}</p>
+            <p><strong>Fecha de Emisión:</strong> {{ selectedInspector.fechaEmisionCertificado }}</p>
+            <p><strong>Fecha de Vencimiento:</strong> {{ selectedInspector.fechaVencimientoCertificado }}</p>
+          </div>
+        </div>
       </div>
-    </b-modal>
+    </div>
 
     <!-- Modal para Editar Inspector -->
-    <b-modal v-if="selectedInspector" v-model="showEditModal" title="Editar Inspector" @hide="clearSelectedInspector">
-      <div>
-        <div class="form-group">
-          <label for="Usuario">Usuario</label>
-          <input type="text" class="form-control" v-model="selectedInspector.fkUsuario" />
+    <div class="modal" tabindex="-1" role="dialog" v-if="selectedInspector">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Inspector</h5>
+            <button type="button" class="btn-close" @click="clearSelectedInspector" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="Usuario">Usuario</label>
+              <input type="text" class="form-control" v-model="selectedInspector.fkUsuario" />
+            </div>
+            <div class="form-group">
+              <label for="tipoInspeccion">Tipo de Inspección</label>
+              <input type="text" class="form-control" v-model="selectedInspector.fkTipoInspeccion" />
+            </div>
+            <div class="form-group">
+              <label for="fechaEmision">Fecha de Emisión</label>
+              <input type="date" class="form-control" v-model="selectedInspector.fechaEmisionCertificado" />
+            </div>
+            <div class="form-group">
+              <label for="fechaVencimiento">Fecha de Vencimiento</label>
+              <input type="date" class="form-control" v-model="selectedInspector.fechaVencimientoCertificado" />
+            </div>
+            <button @click="updateInspector" class="btn btn-primary">Guardar cambios</button>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="tipoInspeccion">Tipo de Inspección</label>
-          <input type="text" class="form-control" v-model="selectedInspector.fkTipoInspeccion" />
-        </div>
-        <div class="form-group">
-          <label for="fechaEmision">Fecha de Emisión</label>
-          <input type="date" class="form-control" v-model="selectedInspector.fechaEmisionCertificado" />
-        </div>
-        <div class="form-group">
-          <label for="fechaVencimiento">Fecha de Vencimiento</label>
-          <input type="date" class="form-control" v-model="selectedInspector.fechaVencimientoCertificado" />
-        </div>
-        <b-button @click="updateInspector" variant="primary">Guardar cambios</b-button>
       </div>
-    </b-modal>
+    </div>
 
     <!-- Modal para Crear Inspector -->
-    <b-modal v-model="showCreateModal" title="Crear Inspector" @hide="clearNewInspector">
-      <div>
-        <div class="form-group">
-          <label for="usuario">Usuario</label>
-          <input type="text" class="form-control" v-model="newInspector.fkUsuario" />
+    <div class="modal" tabindex="-1" role="dialog" v-if="showCreateModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Crear Inspector</h5>
+            <button type="button" class="btn-close" @click="clearNewInspector" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="usuario">Usuario</label>
+              <input type="text" class="form-control" v-model="newInspector.fkUsuario" />
+            </div>
+            <div class="form-group">
+              <label for="tipoInspeccion">Tipo de Inspección</label>
+              <input type="text" class="form-control" v-model="newInspector.fkTipoInspeccion" />
+            </div>
+            <div class="form-group">
+              <label for="fechaEmision">Fecha de Emisión</label>
+              <input type="date" class="form-control" v-model="newInspector.fechaEmisionCertificado" />
+            </div>
+            <div class="form-group">
+              <label for="fechaVencimiento">Fecha de Vencimiento</label>
+              <input type="date" class="form-control" v-model="newInspector.fechaVencimientoCertificado" />
+            </div>
+            <button @click="createInspector" class="btn btn-primary">Crear Inspector</button>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="tipoInspeccion">Tipo de Inspección</label>
-          <input type="text" class="form-control" v-model="newInspector.fkTipoInspeccion" />
-        </div>
-        <div class="form-group">
-          <label for="fechaEmision">Fecha de Emisión</label>
-          <input type="date" class="form-control" v-model="newInspector.fechaEmisionCertificado" />
-        </div>
-        <div class="form-group">
-          <label for="fechaVencimiento">Fecha de Vencimiento</label>
-          <input type="date" class="form-control" v-model="newInspector.fechaVencimientoCertificado" />
-        </div>
-        <b-button @click="createInspector" variant="primary">Crear Inspector</b-button>
       </div>
-    </b-modal>
+    </div>
   </div>
 </template>
 
@@ -228,3 +252,4 @@ export default {
   background-color: #444;
 }
 </style>
+
