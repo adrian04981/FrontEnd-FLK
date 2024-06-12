@@ -7,8 +7,6 @@ import Login from '../views/Login.vue';
 import DashboardAdmin from '../views/Dashboards/Administrador/DashboardAdmin.vue';
 import DashboardOperations from '../views/Dashboards/Asistente de Operaciones/DashboardOperations.vue';
 import DashboardReceptionist from '../views/Dashboards/Recepcionista/DashboardReceptionist.vue';
-// Gestiona usuario + rol
-import Credenciales from '../views/GestionarCredenciales/Credenciales.vue';
 // Gestiona personal
 import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue';
 
@@ -37,6 +35,14 @@ import BuscarCliente from '../views/AgendarCita/BuscarCliente.vue';
 //Listar Certifiacor Disponible
 import ListarCertificadosDisponibles from '../views/GestionarCertificadosDisponibles/ListarCertificadosDisponibles.vue'
 
+
+//FIJOSSSSS//FIJOSSSSS//FIJOSSSSS
+
+//GESTIONAR CREDENCIALES
+import GestionarCredencialesLista from '../views/GestionarCredenciales/Lista.vue';
+
+//GESTIONAR VEHICULOS
+import GestionarVehiculos from '../views/GestionarVehiculos/Lista.vue';
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
   return routes.map(route => {
@@ -47,10 +53,16 @@ const addRequiresRole = (routes, role) => {
 
 const adminChildren = addRequiresRole([
   {
-    path: 'Credenciales',
-    name: 'Credenciales',
-    component: Credenciales
+    path: 'ListarCertificadosDisponibles',
+    name: 'ListarCertificadosDisponibles',
+    component: ListarCertificadosDisponibles
+  },  
+  {
+    path: 'GestionarVehiculos',
+    name: 'GestionarVehiculos',
+    component: GestionarVehiculos
   },
+
   {
     path: 'ListarCertificadosDisponibles',
     name: 'ListarCertificadosDisponibles',
@@ -60,6 +72,11 @@ const adminChildren = addRequiresRole([
     path: 'AgendarCitaServicio',
     name: 'AgendarCitaServicio',
     component: AgendarCitaServicio
+  },  
+  {
+    path: 'GestionarCredencialesLista',
+    name: 'GestionarCredencialesLista',
+    component: GestionarCredencialesLista
   },
   {
     path: 'AgendarCitaInspeccion/:clienteId/:servicioId',

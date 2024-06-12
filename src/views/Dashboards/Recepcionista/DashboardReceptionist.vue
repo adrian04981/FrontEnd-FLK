@@ -1,63 +1,95 @@
 <template>
-  <div class="dashboard-wrapper">
-    <sidebar-menu class="sidebar-menu"></sidebar-menu>
-    <div class="dashboard-content">
-      <h1>Hola, Recepcionista</h1>
-      <router-view />
+  <div class="app">
+    <button class="toggle-sidebar-btn" @click="toggleSidebar">☰</button>
+    <div class="app-body">
+      <sidebar-menu-admin class="sidebar-menu" :class="{ 'is-open': isSidebarOpen }" @close="isSidebarOpen = false"></sidebar-menu-admin>
+      <main class="app-content">
+        <router-view />
+      </main>
     </div>
   </div>
 </template>
 
 <script>
-import SidebarMenu from './SidebarMenuRecepcionist.vue';
+import SidebarMenuAdmin from './SidebarMenuRecepcionist.vue';
 
 export default {
   components: {
-    SidebarMenu,
+    SidebarMenuAdmin,
   },
-  name: 'Dashboard',
+  data() {
+    return {
+      isSidebarOpen: false,
+    };
+  },
   methods: {
-    logout() {
-      localStorage.removeItem('loggedIn');
-      localStorage.removeItem('role');
-      this.$router.push('/login');
-    }
-  }
+    toggleSidebar() {
+      this.isSidebarOpen = !this.isSidebarOpen;
+    },
+  },
 };
 </script>
 
 <style>
-.dashboard-wrapper {
+.app {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 100vh;
+}
+
+.toggle-sidebar-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--dark);
+  font-size: 24px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
 }
 
 .sidebar-menu {
   width: 250px;
-  background-color: #f8f9fa;
+  background-color: var(--dark);
   z-index: 1;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
 }
 
-.dashboard-content {
+.sidebar-menu.is-open {
+  transform: translateX(0);
+}
+
+.app-content {
   flex: 1;
   padding: 20px;
-  overflow: auto;
+  overflow-y: auto;
+  transition: margin-left 0.3s ease;
 }
 
 @media (max-width: 768px) {
-  .dashboard-wrapper {
-    flex-direction: column;
+  .toggle-sidebar-btn {
+    display: block;
   }
 
   .sidebar-menu {
-    width: 100%;
-    height: auto;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100%);
   }
 
-  .dashboard-content {
+  .sidebar-menu.is-open {
+    transform: translateX(0);
+  }
+
+  .app-content {
     padding: 10px;
-    margin-top: 10px;
   }
 }
 </style>
