@@ -7,8 +7,6 @@ import Login from '../views/Login.vue';
 import DashboardAdmin from '../views/Dashboards/Administrador/DashboardAdmin.vue';
 import DashboardOperations from '../views/Dashboards/Asistente de Operaciones/DashboardOperations.vue';
 import DashboardReceptionist from '../views/Dashboards/Recepcionista/DashboardReceptionist.vue';
-// Gestiona personal
-import ListarPersonal from '../views/GestionarPersonal/ListarPersonal.vue';
 
 // Gestionar TIPOS DE INSPECCION
 import ListarTiposInspeccion from '../views/TipoInspeccion/ListarTiposInspeccion.vue';
@@ -74,11 +72,6 @@ const adminChildren = addRequiresRole([
     path: 'GestionarCredencialesLista',
     name: 'GestionarCredencialesLista',
     component: GestionarCredencialesLista
-  },
-  {
-    path: 'ListarPersonal',
-    name: 'ListarPersonal',
-    component: ListarPersonal
   },
   {
     path: 'GestionarServicio',

@@ -2,7 +2,7 @@
   <div class="container pt-5">
     <button class="btn btn-primary mb-3" @click="showRegisterModal = true">Registrar Usuario</button>
     
-    <!-- Fila para los filtros -->
+    <!-- Fila para los filtros de Usuarios -->
     <div class="row mb-3">
       <div class="col-auto">
         <!-- Filtro por nombre de usuario -->
@@ -31,7 +31,6 @@
     </div>
     <!-- Tabla de usuarios -->
     <table id="usuarios-table" class="table table-striped" style="width:100%">
-      <!-- Encabezado de la tabla -->
       <thead>
         <tr>
           <th>ID</th>
@@ -41,7 +40,6 @@
           <th>Acciones</th>
         </tr>
       </thead>
-      <!-- Cuerpo de la tabla -->
       <tbody>
         <tr v-for="usuario in paginatedUsuarios" :key="usuario.pkUsuario">
           <td>{{ usuario.pkUsuario }}</td>
@@ -50,7 +48,6 @@
           <td>{{ getRoleName(usuario.fkRol) }}</td>
           <td>
             <button class="btn btn-info btn-sm" @click="consultarUsuario(usuario.pkUsuario)">Consultar</button>
-            <button class="btn btn-danger btn-sm" @click="confirmDelete(usuario.pkUsuario)">Eliminar</button>
           </td>
         </tr>
       </tbody>
@@ -78,26 +75,103 @@
         </nav>
       </div>
     </div>
+
+    <!-- Fila para los filtros de Personal -->
+    <div class="row mb-3">
+      <div class="col-auto">
+        <!-- Filtro por nombre de personal -->
+        <div class="input-group input-group-sm">
+          <label for="personal-name-filter" class="input-group-text">Filtrar por nombre:</label>
+          <input type="text" class="form-control" id="personal-name-filter" v-model="personalNameFilter">
+        </div>
+      </div>
+      <div class="col-auto">
+        <!-- Barra de búsqueda -->
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control" placeholder="Buscar en todos los campos..." v-model="personalGlobalSearch">
+          <button class="btn btn-outline-secondary" type="button" @click="clearPersonalFilters">Limpiar</button>
+        </div>
+      </div>
+    </div>
+    <!-- Tabla de personal -->
+    <table id="personal-table" class="table table-striped" style="width:100%">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>DNI</th>
+          <th>Email</th>
+          <th>Dirección</th>
+          <th>Teléfono</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="personal in paginatedPersonal" :key="personal.pkPersonal">
+          <td>{{ personal.nombre }}</td>
+          <td>{{ personal.dni }}</td>
+          <td>{{ personal.email }}</td>
+          <td>{{ personal.direccion }}</td>
+          <td>{{ personal.telefono }}</td>
+          <td>
+            <button class="btn btn-info btn-sm" @click="consultarPersonal(personal.pkPersonal)">Consultar</button>
+            <button class="btn btn-warning btn-sm" @click="editarPersonal(personal.pkPersonal)">Editar</button>
+            <button class="btn btn-danger btn-sm" @click="confirmDeletePersonal(personal.pkPersonal, personal.fkUsuario)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Controles de navegación de página -->
+    <div class="row justify-content-between mb-3">
+      <div class="col-auto">
+        <div class="input-group input-group-sm">
+          <label for="personal-page-select" class="input-group-text">Página:</label>
+          <select class="form-select" id="personal-page-select" v-model="personalPageSize">
+            <option v-for="size in pageSizes" :key="size" :value="size">{{ size }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-auto">
+        <nav aria-label="Page navigation">
+          <ul class="pagination pagination-sm">
+            <li class="page-item" :class="{ disabled: personalCurrentPage === 1 }">
+              <button class="page-link" @click="prevPersonalPage" :disabled="personalCurrentPage === 1">Anterior</button>
+            </li>
+            <li class="page-item" :class="{ disabled: personalCurrentPage === personalTotalPages }">
+              <button class="page-link" @click="nextPersonalPage" :disabled="personalCurrentPage === personalTotalPages">Siguiente</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
     <!-- Modal para registrar usuario -->
     <RegisterUser v-if="showRegisterModal" @close="showRegisterModal = false" @user-registered="fetchUsuarios" :roles="roles" />
-    <!-- Modal para eliminar usuario -->
-    <EliminarUsuario v-if="showDeleteModal" @close="showDeleteModal = false" @user-deleted="fetchUsuarios" :usuarioId="usuarioToDelete" />
     <!-- Modal para consultar usuario -->
     <ConsultarUsuario v-if="showConsultarModal" @close="showConsultarModal = false" :usuario="usuarioToConsultar" />
+
+    <!-- Modales para personal -->
+    <ConsultarPersonal v-if="showConsultarPersonalModal" @close="showConsultarPersonalModal = false" :id="personalId" />
+    <EditarPersonal v-if="showEditarPersonalModal" @close="showEditarPersonalModal = false" :id="personalId" />
+    <EliminarPersonal v-if="showDeletePersonalModal" @close="showDeletePersonalModal = false" @personal-deleted="fetchPersonales" :personalId="personalToDelete" :usuarioId="usuarioToDelete" />
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import RegisterUser from 'C:/Users/adria/FrontEnd-FLK/src/components/GestionarCredenciales/RegistrarUsuario.vue';
-import EliminarUsuario from 'C:/Users/adria/FrontEnd-FLK/src/components/GestionarCredenciales/EliminarUsuario.vue';
-import ConsultarUsuario from 'C:/Users/adria/FrontEnd-FLK/src/components/GestionarCredenciales/ConsultarUsuario.vue';
+import RegisterUser from '@/components/GestionarCredenciales/RegistrarUsuario.vue';
+import ConsultarUsuario from '@/components/GestionarCredenciales/ConsultarUsuario.vue';
+import ConsultarPersonal from '@/components/GestionarPersonal/ConsultarPersonal.vue';
+import EditarPersonal from '@/components/GestionarPersonal/EditarPersonal.vue';
+import EliminarPersonal from '@/components/GestionarPersonal/EliminarPersonal.vue';
+
 
 export default {
   components: {
     RegisterUser,
-    EliminarUsuario,
-    ConsultarUsuario
+    ConsultarUsuario,
+    ConsultarPersonal,
+    EditarPersonal,
+    EliminarPersonal
   },
   data() {
     return {
@@ -110,15 +184,25 @@ export default {
       currentPage: 1,
       pageSizes: [5, 10, 15, 20],
       showRegisterModal: false,
-      showDeleteModal: false,
       showConsultarModal: false,
-      usuarioToDelete: null,
       usuarioToConsultar: null,
+      showConsultarPersonalModal: false,
+      showEditarPersonalModal: false,
+      personalId: null,
+      personales: [],
+      personalNameFilter: '',
+      personalGlobalSearch: '',
+      personalPageSize: 10,
+      personalCurrentPage: 1,
+      personalToDelete: null,
+      usuarioToDelete: null,
+      showDeletePersonalModal: false
     };
   },
   created() {
     this.fetchUsuarios();
     this.fetchRoles();
+    this.fetchPersonales();
   },
   computed: {
     filteredUsuarios() {
@@ -139,6 +223,24 @@ export default {
       const start = (this.currentPage - 1) * this.pageSize;
       const end = start + this.pageSize;
       return this.filteredUsuarios.slice(start, end);
+    },
+    filteredPersonal() {
+      return this.personales.filter(personal => {
+        const matchesName = personal.nombre.toLowerCase().includes(this.personalNameFilter.toLowerCase());
+        const matchesGlobalSearch = Object.values(personal).some(value =>
+          value.toString().toLowerCase().includes(this.personalGlobalSearch.toLowerCase())
+        );
+
+        return matchesName && matchesGlobalSearch;
+      });
+    },
+    personalTotalPages() {
+      return Math.ceil(this.filteredPersonal.length / this.personalPageSize);
+    },
+    paginatedPersonal() {
+      const start = (this.personalCurrentPage - 1) * this.personalPageSize;
+      const end = start + this.personalPageSize;
+      return this.filteredPersonal.slice(start, end);
     }
   },
   methods: {
@@ -158,6 +260,14 @@ export default {
         console.error('Error fetching roles:', error);
       }
     },
+    async fetchPersonales() {
+      try {
+        const response = await axios.get('https://localhost:7006/api/Personals');
+        this.personales = response.data;
+      } catch (error) {
+        console.error('Error fetching personales:', error);
+      }
+    },
     getRoleName(roleId) {
       const role = this.roles.find(role => role.pkRol === roleId);
       return role ? role.nombre : '';
@@ -167,6 +277,11 @@ export default {
       this.roleFilter = '';
       this.globalSearch = '';
       this.currentPage = 1;
+    },
+    clearPersonalFilters() {
+      this.personalNameFilter = '';
+      this.personalGlobalSearch = '';
+      this.personalCurrentPage = 1;
     },
     prevPage() {
       if (this.currentPage > 1) {
@@ -178,9 +293,20 @@ export default {
         this.currentPage++;
       }
     },
-    confirmDelete(usuarioId) {
+    prevPersonalPage() {
+      if (this.personalCurrentPage > 1) {
+        this.personalCurrentPage--;
+      }
+    },
+    nextPersonalPage() {
+      if (this.personalCurrentPage < this.personalTotalPages) {
+        this.personalCurrentPage++;
+      }
+    },
+    confirmDeletePersonal(personalId, usuarioId) {
+      this.personalToDelete = personalId;
       this.usuarioToDelete = usuarioId;
-      this.showDeleteModal = true;
+      this.showDeletePersonalModal = true;
     },
     async consultarUsuario(usuarioId) {
       try {
@@ -190,6 +316,14 @@ export default {
       } catch (error) {
         console.error('Error fetching usuario:', error);
       }
+    },
+    consultarPersonal(id) {
+      this.personalId = id;
+      this.showConsultarPersonalModal = true;
+    },
+    editarPersonal(id) {
+      this.personalId = id;
+      this.showEditarPersonalModal = true;
     }
   }
 };

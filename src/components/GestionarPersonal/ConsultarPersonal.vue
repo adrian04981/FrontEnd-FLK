@@ -3,15 +3,15 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Eliminar Personal</h5>
+            <h5 class="modal-title">Consultar Personal</h5>
             <button type="button" class="btn-close" @click="$emit('close')"></button>
           </div>
           <div class="modal-body">
-            <p>¿Estás seguro que deseas eliminar este personal?</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="$emit('close')">Cancelar</button>
-            <button type="button" class="btn btn-danger" @click="eliminarPersonal">Eliminar</button>
+            <p><strong>Nombre:</strong> {{ personal.nombre }}</p>
+            <p><strong>DNI:</strong> {{ personal.dni }}</p>
+            <p><strong>Email:</strong> {{ personal.email }}</p>
+            <p><strong>Dirección:</strong> {{ personal.direccion }}</p>
+            <p><strong>Teléfono:</strong> {{ personal.telefono }}</p>
           </div>
         </div>
       </div>
@@ -22,16 +22,22 @@
   import axios from 'axios';
   
   export default {
-    props: ['personalId', 'usuarioId'],
+    props: ['id'],
+    data() {
+      return {
+        personal: {}
+      };
+    },
+    created() {
+      this.fetchPersonal();
+    },
     methods: {
-      async eliminarPersonal() {
+      async fetchPersonal() {
         try {
-          await axios.delete(`https://localhost:7006/api/Personals/${this.personalId}`);
-          await axios.delete(`https://localhost:7006/api/Usuarios/${this.usuarioId}`);
-          this.$emit('personal-deleted');
-          this.$emit('close');
+          const response = await axios.get(`https://localhost:7006/api/Personals/${this.id}`);
+          this.personal = response.data;
         } catch (error) {
-          console.error('Error deleting personal:', error);
+          console.error('Error fetching personal:', error);
         }
       }
     }

@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import AgendarServicio from 'C:/Users/adria/FrontEnd-FLK/src/components/AgendarCita/AgendarServicio.vue';
-import VerificarCliente from 'C:/Users/adria/FrontEnd-FLK/src/components/AgendarCita/VerificarCliente.vue';
-import RegistrarEmpresa from 'C:/Users/adria/FrontEnd-FLK/src/components/AgendarCita/RegistrarEmpresa.vue';
-import RegistrarInspeccion from 'C:/Users/adria/FrontEnd-FLK/src/components/AgendarCita/RegistrarInspeccion.vue';
-import EnProgreso from 'C:/Users/adria/FrontEnd-FLK/src/components/AgendarCita/EnProgreso.vue';
+import AgendarServicio from '@/components/AgendarCita/AgendarServicio.vue';
+import VerificarCliente from '@/components/AgendarCita/VerificarCliente.vue';
+import RegistrarEmpresa from '@/components/AgendarCita/RegistrarEmpresa.vue';
+import RegistrarInspeccion from '@/components/AgendarCita/RegistrarInspeccion.vue';
+import EnProgreso from '@/components/AgendarCita/EnProgreso.vue';
 
 export default {
   components: {

@@ -188,14 +188,15 @@
 
 <script>
 import axios from 'axios';
-import AgregarVehiculo from 'C:/Users/adria/FrontEnd-FLK/src/components/GestionarVehiculos/AgregarVehiculo.vue';
-import ConsultarVehiculo from 'C:/Users/adria/FrontEnd-FLK/src/components/GestionarVehiculos/ConsultarVehiculo.vue';
-import EditarVehiculo from 'C:/Users/adria/FrontEnd-FLK/src/components/GestionarVehiculos/EditarVehiculo.vue';
-import EliminarVehiculo from 'C:/Users/adria/FrontEnd-FLK/src/components/GestionarVehiculos/EliminarVehiculo.vue';
-import CrearTipoVehiculo from 'C:/Users/adria/FrontEnd-FLK/src/components/GestionarVehiculos/CrearTipoVehiculo.vue';
-import ConsultarTipoVehiculo from 'C:/Users/adria/FrontEnd-FLK/src/components/GestionarVehiculos/ConsultarTipoVehiculo.vue';
-import EditarTipoVehiculo from 'C:/Users/adria/FrontEnd-FLK/src/components/GestionarVehiculos/EditarTipoVehiculo.vue';
-import EliminarTipoVehiculo from 'C:/Users/adria/FrontEnd-FLK/src/components/GestionarVehiculos/EliminarTipoVehiculo.vue';
+import AgregarVehiculo from '@/components/GestionarVehiculos/AgregarVehiculo.vue';
+import ConsultarVehiculo from '@/components/GestionarVehiculos/ConsultarVehiculo.vue';
+import EditarVehiculo from '@/components/GestionarVehiculos/EditarVehiculo.vue';
+import EliminarVehiculo from '@/components/GestionarVehiculos/EliminarVehiculo.vue';
+import CrearTipoVehiculo from '@/components/GestionarVehiculos/CrearTipoVehiculo.vue';
+import ConsultarTipoVehiculo from '@/components/GestionarVehiculos/ConsultarTipoVehiculo.vue';
+import EditarTipoVehiculo from '@/components/GestionarVehiculos/EditarTipoVehiculo.vue';
+import EliminarTipoVehiculo from '@/components/GestionarVehiculos/EliminarTipoVehiculo.vue';
+
 
 export default {
   components: {

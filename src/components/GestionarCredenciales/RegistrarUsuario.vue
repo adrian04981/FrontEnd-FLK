@@ -7,20 +7,42 @@
           <button type="button" class="btn-close" @click="$emit('close')"></button>
         </div>
         <div class="modal-body">
-          <form @submit.prevent="registerUser">
+          <form @submit.prevent="registrarUsuario">
             <div class="mb-3">
               <label for="nombreUsuario" class="form-label">Nombre de Usuario</label>
-              <input type="text" class="form-control" id="nombreUsuario" v-model="usuario.nombreUsuario" required>
+              <input type="text" class="form-control" v-model="usuario.nombreUsuario" required>
             </div>
             <div class="mb-3">
               <label for="contraseña" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="contraseña" v-model="usuario.contraseña" required>
+              <input type="password" class="form-control" v-model="usuario.contraseña" required>
             </div>
             <div class="mb-3">
-              <label for="fkRol" class="form-label">Rol</label>
-              <select class="form-select" id="fkRol" v-model="usuario.fkRol" required>
+              <label for="rol" class="form-label">Rol</label>
+              <select class="form-select" v-model="usuario.fkRol" required>
                 <option v-for="rol in roles" :key="rol.pkRol" :value="rol.pkRol">{{ rol.nombre }}</option>
               </select>
+            </div>
+            <hr />
+            <h5>Datos del Personal</h5>
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" v-model="personal.nombre" required>
+            </div>
+            <div class="mb-3">
+              <label for="dni" class="form-label">DNI</label>
+              <input type="text" class="form-control" v-model="personal.dni" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" v-model="personal.email" required>
+            </div>
+            <div class="mb-3">
+              <label for="direccion" class="form-label">Dirección</label>
+              <input type="text" class="form-control" v-model="personal.direccion" required>
+            </div>
+            <div class="mb-3">
+              <label for="telefono" class="form-label">Teléfono</label>
+              <input type="text" class="form-control" v-model="personal.telefono" required>
             </div>
             <button type="submit" class="btn btn-primary">Registrar</button>
           </form>
@@ -38,21 +60,34 @@ export default {
   data() {
     return {
       usuario: {
-        pkUsuario: 0,
         nombreUsuario: '',
         contraseña: '',
-        fkRol: 0
+        fkRol: ''
+      },
+      personal: {
+        nombre: '',
+        dni: '',
+        email: '',
+        direccion: '',
+        telefono: '',
+        fkUsuario: null // Se actualizará después de crear el usuario
       }
     };
   },
   methods: {
-    async registerUser() {
+    async registrarUsuario() {
       try {
-        await axios.post('https://localhost:7006/api/Usuarios', this.usuario);
+        const response = await axios.post('https://localhost:7006/api/Usuarios', this.usuario);
+        const usuarioId = response.data.pkUsuario;
+        
+        // Ahora registrar el personal con el ID del usuario
+        this.personal.fkUsuario = usuarioId;
+        await axios.post('https://localhost:7006/api/Personals', this.personal);
+        
         this.$emit('user-registered');
         this.$emit('close');
       } catch (error) {
-        console.error('Error registrando usuario:', error);
+        console.error('Error registrando usuario o personal:', error);
       }
     }
   }
