@@ -32,6 +32,14 @@
 		  <span class="material-icons">add_box</span>
 		  <span class="text">Agendar Cita</span>
 		</router-link>
+		<router-link to="/dashboard-admin/GestionarAsistentesDeOperacionesDisponibles" class="button">
+		  <span class="material-icons">add_box</span>
+		  <span class="text">Certificados de Asistentes de Operaciones</span>
+		</router-link>
+		<router-link to="/dashboard-admin/GestionarInspeccionesYAsignaturas" class="button">
+		  <span class="material-icons">add_box</span>
+		  <span class="text">Gestionar Inspecciones Y Asignaturas</span>
+		</router-link>
 	  </div>
 	  <div class="flex"></div>
   
