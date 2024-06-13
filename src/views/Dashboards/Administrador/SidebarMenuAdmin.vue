@@ -20,7 +20,7 @@
 		  <span class="material-icons">key</span>
 		  <span class="text">Gestionar Credenciales</span>
 		</router-link>
-		<router-link to="/dashboard-admin/listarpersonal" class="button">
+		<router-link to="/dashboard-admin/GestionarEmpresas" class="button">
 		  <span class="material-icons">group</span>
 		  <span class="text">Gestionar Personal</span>
 		</router-link>

@@ -38,6 +38,10 @@ import AgendarCita from '../views/AgendarCita/AgendarCita.vue';
 
 //GESTIONAR VEHICULOS
 import GestionarVehiculos from '../views/GestionarVehiculos/Lista.vue';
+
+//GESTIONAR EMPRESAS
+import GestionarEmpresas from '../views/GestionarEmpresas/Lista.vue';
+
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
   return routes.map(route => {
@@ -61,6 +65,11 @@ const adminChildren = addRequiresRole([
     path: 'GestionarVehiculos',
     name: 'GestionarVehiculos',
     component: GestionarVehiculos
+  },  
+  {
+    path: 'GestionarEmpresas',
+    name: 'GestionarEmpresas',
+    component: GestionarEmpresas
   },
 
   {

@@ -1,5 +1,6 @@
 <template>
   <div class="container pt-5">
+    <h1>Lista de Usuarios</h1>
     <button class="btn btn-primary mb-3" @click="showRegisterModal = true">Registrar Usuario</button>
     
     <!-- Fila para los filtros de Usuarios -->
@@ -77,6 +78,7 @@
     </div>
 
     <!-- Fila para los filtros de Personal -->
+    <h1>Datos de Usuario</h1>
     <div class="row mb-3">
       <div class="col-auto">
         <!-- Filtro por nombre de personal -->
