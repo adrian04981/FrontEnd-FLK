@@ -27,6 +27,10 @@
 		<router-link to="/dashboard-admin/GestionarVehiculos" class="button">
 		  <span class="material-icons">add_box</span>
 		  <span class="text">Gestionar Vehiculos</span>
+		</router-link>		
+		<router-link to="/dashboard-admin/AgendarCita" class="button">
+		  <span class="material-icons">add_box</span>
+		  <span class="text">Agendar Cita</span>
 		</router-link>
 	  </div>
 	  <div class="flex"></div>

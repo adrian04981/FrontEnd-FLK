@@ -28,12 +28,13 @@
               <button class="btn btn-info btn-lg btn-block" type="submit">Iniciar Sesion</button>
             </div>
 
-            <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">Olvidaste tu contraseña?</a></p>
+            <p class="small mb-5 pb-lg-2">+
+              +<a class="text-muted" href="#!">Olvidaste tu contraseña?</a></p>
           </form>
         </div>
       </div>
       <div class="col-sm-6 px-0 d-none d-sm-block">
-        <img src="../assets/portada-1.png"
+        <img src="../assets/Fondo_1.jpg"
           alt="Login image" class="w-100 h-100" style="object-fit: cover; object-position: left;">
       </div>
     </div>

@@ -17,10 +17,6 @@ import ConsultarTipoInspeccion from '../views/TipoInspeccion/ConsultarTipoInspec
 import AgregarTipoInspeccion from '../views/TipoInspeccion/AgregarTipoInspeccion.vue';
 
 import Website from '../views/Website/Website.vue'
-// Agendar Cita 
-import AgendarCitaServicio from '../views/AgendarCita/AgendarCitaServicio.vue';
-import AgendarCitaInspeccion from '../views/AgendarCita/AgendarCitaInspecciones.vue';
-import AgendarCitaBuscarCliente from '../views/AgendarCita/BuscarCliente.vue';
 
 //Gestionar Servicio
 import GestionarServicio from '../views/GestionarServicio/GestionarServicio.vue';
@@ -30,8 +26,6 @@ import GestionarTiposServicios from '../views/GestionarTiposServicios/GestionarT
 import ListaInspectoresDisponibles from '../views/GestionarInspectoresDisponibles/ListaInspectoresDisponibles.vue';
 
 
-import BuscarCliente from '../views/AgendarCita/BuscarCliente.vue';
-
 //Listar Certifiacor Disponible
 import ListarCertificadosDisponibles from '../views/GestionarCertificadosDisponibles/ListarCertificadosDisponibles.vue'
 
@@ -40,6 +34,9 @@ import ListarCertificadosDisponibles from '../views/GestionarCertificadosDisponi
 
 //GESTIONAR CREDENCIALES
 import GestionarCredencialesLista from '../views/GestionarCredenciales/Lista.vue';
+
+//AGENDAR CITA
+import AgendarCita from '../views/AgendarCita/AgendarCita.vue';
 
 //GESTIONAR VEHICULOS
 import GestionarVehiculos from '../views/GestionarVehiculos/Lista.vue';
@@ -56,6 +53,11 @@ const adminChildren = addRequiresRole([
     path: 'ListarCertificadosDisponibles',
     name: 'ListarCertificadosDisponibles',
     component: ListarCertificadosDisponibles
+  },    
+  {
+    path: 'AgendarCita',
+    name: 'AgendarCita',
+    component: AgendarCita
   },  
   {
     path: 'GestionarVehiculos',
@@ -69,34 +71,14 @@ const adminChildren = addRequiresRole([
     component: ListarCertificadosDisponibles
   },
   {
-    path: 'AgendarCitaServicio',
-    name: 'AgendarCitaServicio',
-    component: AgendarCitaServicio
-  },  
-  {
     path: 'GestionarCredencialesLista',
     name: 'GestionarCredencialesLista',
     component: GestionarCredencialesLista
   },
   {
-    path: 'AgendarCitaInspeccion/:clienteId/:servicioId',
-    name: 'AgendarCitaInspeccion',
-    component: AgendarCitaInspeccion
-  },  
-  {
-    path: 'AgendarCitaBuscarCliente/:id',
-    name: 'AgendarCitaBuscarCliente',
-    component: AgendarCitaBuscarCliente
-  },  
-  {
     path: 'ListarPersonal',
     name: 'ListarPersonal',
     component: ListarPersonal
-  },
-  {
-    path: 'BuscarCliente',
-    name: 'BuscarCliente',
-    component: BuscarCliente
   },
   {
     path: 'GestionarServicio',

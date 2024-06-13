@@ -15,6 +15,10 @@
 		<router-link to="/dashboard-admin" class="button">
 		  <span class="material-icons">home</span>
 		  <span class="text">Menu Principal</span>
+		</router-link>		
+		<router-link to="/dashboard-admin/AgendarCita" class="button">
+		  <span class="material-icons">home</span>
+		  <span class="text">Agendar Cita</span>
 		</router-link>
 	  </div>
 	  <div class="flex"></div>
