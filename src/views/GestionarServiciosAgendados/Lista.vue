@@ -1,7 +1,7 @@
 <template>
     <div class="container pt-5">
       <h1>Lista Combinada</h1>
-  
+      
       <!-- Filtro por Tipo de Inspección -->
       <div class="row mb-3">
         <div class="col-auto">
@@ -11,7 +11,7 @@
           </div>
         </div>
       </div>
-  
+      
       <!-- Tabla -->
       <table class="table table-striped">
         <thead>
@@ -30,47 +30,16 @@
             <td>{{ item.tipoInspeccion }}</td>
             <td>{{ item.fechaAgendada }}</td>
             <td>
-              <button class="btn btn-info btn-sm" @click="openViewModal(item)">Consultar</button>
               <button class="btn btn-warning btn-sm" @click="openEditModal(item)">Editar</button>
               <button class="btn btn-danger btn-sm" @click="openDeleteModal(item)">Eliminar</button>
             </td>
           </tr>
         </tbody>
       </table>
-  
-      <!-- Modal de Consulta -->
-      <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="viewModalLabel">Detalles del Registro</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <p><strong>Servicio:</strong> {{ viewForm.pkServicio }}</p>
-              <p><strong>Tipo de servicio:</strong> {{ viewForm.fkTipoServicio }}</p>
-              <p><strong>Fecha de Agendación:</strong> {{ viewForm.fechaAgendada }}</p>
-              <p><strong>Inspeccion:</strong> {{ viewForm.pkInspeccion }}</p>
-              <p><strong>Empresas:</strong> {{ viewForm.fkEmpresas }}</p>
-              <p><strong>Certificador asignado:</strong> {{ viewForm.fkCertificadorAsignado }}</p>
-              <p><strong>Tipo de inspeccion:</strong> {{ viewForm.fkTipoInspeccion }}</p>
-              <p><strong>Fecha inspeccion:</strong> {{ viewForm.fechaInspeccion }}</p>
-              <p><strong>Ubicacion:</strong> {{ viewForm.ubicacion }}</p>
-              <p><strong>Documentacion:</strong> {{ viewForm.documentacion }}</p>
-              <p><strong>Estado:</strong> {{ viewForm.estado }}</p>
-              <p><strong>Vehiculo:</strong> {{ viewForm.fkVehiculo }}</p>
-              <p><strong>Observaciones y recomendaciones:</strong> {{ viewForm.observacionesYRecomendaciones }}</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-  
+      
       <!-- Modal de Edición -->
       <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="editModalLabel">Editar Registro</h5>
@@ -89,14 +58,6 @@
                 <div class="mb-3">
                   <label for="fechaAgendada" class="form-label">Fecha Agendada</label>
                   <input type="date" class="form-control" id="fechaAgendada" v-model="editForm.fechaAgendada">
-                </div>
-                <div class="mb-3">
-                  <label for="empresa" class="form-label">Empresa</label>
-                  <input type="text" class="form-control" id="empresa" v-model="editForm.empresa">
-                </div>
-                <div class="mb-3">
-                  <label for="vehiculo" class="form-label">Vehículo</label>
-                  <input type="text" class="form-control" id="vehiculo" v-model="editForm.vehiculo">
                 </div>
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
               </form>
@@ -146,30 +107,13 @@
           id: null,
           tipoServicio: '',
           tipoInspeccion: '',
-          fechaAgendada: '',
-          empresa: '',
-          vehiculo: ''
+          fechaAgendada: ''
         },
         deleteForm: {
           id: null,
           tipoServicio: '',
           tipoInspeccion: '',
           fechaAgendada: ''
-        },
-        viewForm: {
-          pkServicio: '',
-          fkTipoServicio: '',
-          fechaAgendada: '',
-          pkInspeccion: '',
-          fkEmpresas: '',
-          fkCertificadorAsignado: '',
-          fkTipoInspeccion: '',
-          fechaInspeccion: '',
-          ubicacion: '',
-          documentacion: '',
-          estado: '',
-          fkVehiculo: '',
-          observacionesYRecomendaciones: ''
         }
       };
     },
@@ -192,115 +136,58 @@
           this.tiposInspeccion = tiposInspeccionResponse.data;
   
           // Combine data
-          this.combinedData = this.servicios.map(servicio => {
-            const inspeccion = this.inspecciones.find(ins => ins.fkServicio === servicio.pkServicio);
-            const tipoInspeccion = inspeccion ? this.tiposInspeccion.find(tipo => tipo.pkTipoInspeccion === inspeccion.fkTipoInspeccion) : null;
-            return {
-              id: servicio.pkServicio,
-              tipoServicio: servicio.fkTipoServicio,
-              fechaAgendada: servicio.fechaAgendada,
-              tipoInspeccion: tipoInspeccion ? tipoInspeccion.titulo : ''
-            };
-          });
+          this.combineData();
         } catch (error) {
           console.error('Error fetching data:', error);
         }
       },
+      combineData() {
+        this.combinedData = this.inspecciones.map(inspeccion => {
+          const servicio = this.servicios.find(serv => serv.pkServicio === inspeccion.fkServicio);
+          const tipoInspeccion = this.tiposInspeccion.find(tipo => tipo.pkTipoInspeccion === inspeccion.fkTipoInspeccion);
+          return {
+            id: servicio ? servicio.pkServicio : null,
+            tipoServicio: servicio ? servicio.fkTipoServicio : null,
+            tipoInspeccion: tipoInspeccion ? tipoInspeccion.titulo : null,
+            fechaAgendada: servicio ? servicio.fechaAgendada : null,
+          };
+        });
+      },
       openEditModal(item) {
-        const servicio = this.servicios.find(serv => serv.pkServicio === item.id);
-        const inspeccion = this.inspecciones.find(ins => ins.fkServicio === item.id);
-        this.editForm = {
-          id: servicio.pkServicio,
-          tipoServicio: servicio.fkTipoServicio,
-          tipoInspeccion: inspeccion ? inspeccion.fkTipoInspeccion : '',
-          fechaAgendada: servicio.fechaAgendada,
-          empresa: inspeccion ? inspeccion.fkEmpresas : '',
-          vehiculo: inspeccion ? inspeccion.fkVehiculo : ''
-        };
-        const editModal = new bootstrap.Modal(document.getElementById('editModal'));
-        editModal.show();
+        this.editForm = { ...item };
+        new bootstrap.Modal(document.getElementById('editModal')).show();
+      },
+      updateItem() {
+        const index = this.combinedData.findIndex(item => item.id === this.editForm.id);
+        if (index !== -1) {
+          this.combinedData.splice(index, 1, { ...this.editForm });
+        }
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+        modal.hide();
       },
       openDeleteModal(item) {
         this.deleteForm = { ...item };
-        const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-        deleteModal.show();
+        new bootstrap.Modal(document.getElementById('deleteModal')).show();
       },
-      openViewModal(item) {
-        const servicio = this.servicios.find(serv => serv.pkServicio === item.id);
-        const inspeccion = this.inspecciones.find(ins => ins.fkServicio === item.id);
-        const tipoInspeccion = this.tiposInspeccion.find(tipo => tipo.pkTipoInspeccion === inspeccion.fkTipoInspeccion);
-        this.viewForm = {
-          pkServicio: servicio ? servicio.pkServicio : '',
-          fkTipoServicio: servicio ? servicio.fkTipoServicio : '',
-          fechaAgendada: servicio ? servicio.fechaAgendada : '',
-          pkInspeccion: inspeccion ? inspeccion.pkInspeccion : '',
-          fkEmpresas: inspeccion ? inspeccion.fkEmpresas : '',
-          fkCertificadorAsignado: inspeccion ? inspeccion.fkCertificadorAsignado : '',
-          fkTipoInspeccion: tipoInspeccion ? tipoInspeccion.titulo : '',
-          fechaInspeccion: inspeccion ? inspeccion.fechaInspeccion : '',
-          ubicacion: inspeccion ? inspeccion.ubicacion : '',
-          documentacion: inspeccion ? inspeccion.documentacion : '',
-          estado: inspeccion ? inspeccion.estado : '',
-          fkVehiculo: inspeccion ? inspeccion.fkVehiculo : '',
-          observacionesYRecomendaciones: inspeccion ? inspeccion.observacionesYRecomendaciones : ''
-        };
-        const viewModal = new bootstrap.Modal(document.getElementById('viewModal'));
-        viewModal.show();
-      },
-      async updateItem() {
-        try {
-          const { id, tipoServicio, fechaAgendada, tipoInspeccion, empresa, vehiculo } = this.editForm;
-          const servicioUpdate = { fkTipoServicio: tipoServicio, fechaAgendada };
-  
-          // Actualizar Servicio
-          const responseServicio = await axios.put(`https://localhost:7006/api/Servicios/${id}`, servicioUpdate);
-  
-          const inspeccion = this.inspecciones.find(ins => ins.fkServicio === id);
-  
-          if (inspeccion) {
-            const inspeccionUpdate = {
-              fkTipoInspeccion: tipoInspeccion,
-              fkEmpresas: empresa,
-              fkVehiculo: vehiculo
-            };
-  
-            // Actualizar Inspección
-            const responseInspeccion = await axios.put(`https://localhost:7006/api/Inspecciones/${inspeccion.pkInspeccion}`, inspeccionUpdate);
-          }
-  
-          console.log('Registro actualizado:', responseServicio.data);
-          this.fetchData();
-          const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
-          editModal.hide();
-        } catch (error) {
-          console.error('Error actualizando el registro:', error);
+      deleteItem() {
+        const index = this.combinedData.findIndex(item => item.id === this.deleteForm.id);
+        if (index !== -1) {
+          this.combinedData.splice(index, 1);
         }
-      },
-      async deleteItem() {
-        try {
-          const response = await axios.delete(`https://localhost:7006/api/Servicios/${this.deleteForm.id}`);
-          console.log('Registro eliminado:', response.data);
-          this.fetchData();
-          const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
-          deleteModal.hide();
-        } catch (error) {
-          console.error('Error eliminando el registro:', error);
-        }
+        const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+        modal.hide();
       }
     },
     computed: {
       filteredData() {
-        return this.combinedData.filter(item =>
-          item.tipoInspeccion && item.tipoInspeccion.toLowerCase().includes(this.tipoInspeccionFilter.toLowerCase())
-        );
+        return this.combinedData.filter(item => {
+          return item.tipoInspeccion.toLowerCase().includes(this.tipoInspeccionFilter.toLowerCase());
+        });
       }
     }
   };
   </script>
   
-  <style>
-  .container {
-    max-width: 900px;
-  }
+  <style scoped>
+  /* Agregar estilos personalizados si es necesario */
   </style>
-  
