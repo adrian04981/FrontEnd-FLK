@@ -49,7 +49,7 @@
             <div class="modal-body">
               <p><strong>Servicio:</strong> {{ viewForm.pkServicio }}</p>
               <p><strong>Tipo de servicio:</strong> {{ viewForm.fkTipoServicio }}</p>
-              <p><strong>Fecha de Agendacion:</strong> {{ viewForm.fechaAgendada }}</p>
+              <p><strong>Fecha de Agendación:</strong> {{ viewForm.fechaAgendada }}</p>
               <p><strong>Inspeccion:</strong> {{ viewForm.pkInspeccion }}</p>
               <p><strong>Empresas:</strong> {{ viewForm.fkEmpresas }}</p>
               <p><strong>Certificador asignado:</strong> {{ viewForm.fkCertificadorAsignado }}</p>
