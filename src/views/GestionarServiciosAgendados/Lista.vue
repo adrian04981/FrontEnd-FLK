@@ -89,6 +89,14 @@
                 <label for="fechaAgendada" class="form-label">Fecha Agendada</label>
                 <input type="date" class="form-control" id="fechaAgendada" v-model="editForm.fechaAgendada">
               </div>
+              <div class="mb-3">
+                <label for="empresaNombre" class="form-label">Nombre de la Empresa</label>
+                <input type="text" class="form-control" id="empresaNombre" v-model="editForm.empresaNombre">
+              </div>
+              <div class="mb-3">
+                <label for="vehiculo" class="form-label">Nombre del Vehículo</label>
+                <input type="text" class="form-control" id="vehiculo" v-model="editForm.vehiculo">
+              </div>
               <button type="submit" class="btn btn-primary">Guardar Cambios</button>
             </form>
           </div>
