@@ -1,6 +1,6 @@
 <template>
   <div class="container pt-5">
-    <h1>Lista Combinada</h1>
+    <h1>Servicios e Inspecciones</h1>
     
     <!-- Filtro por Tipo de Inspección -->
     <div class="row mb-3">
