@@ -51,7 +51,7 @@
             <p><strong>Tipo de Servicio:</strong> {{ detailsForm.tipoServicio }}</p>
             <p><strong>Tipo de Inspección:</strong> {{ detailsForm.tipoInspeccion }}</p>
             <p><strong>Fecha Agendada:</strong> {{ detailsForm.fechaAgendada }}</p>
-            <p><strong>Empresa:</strong> {{ detailsForm.empresa }}</p>
+            <p><strong>Empresa:</strong> {{ detailsForm.empresaNombre }}</p>
             <p><strong>Certificador Asignado:</strong> {{ detailsForm.certificadorAsignado }}</p>
             <p><strong>Fecha de Inspección:</strong> {{ detailsForm.fechaInspeccion }}</p>
             <p><strong>Ubicación:</strong> {{ detailsForm.ubicacion }}</p>
@@ -131,6 +131,9 @@ export default {
       servicios: [],
       inspecciones: [],
       tiposInspeccion: [],
+      tiposServicios: [],
+      empresas: [],
+      tiposVehiculos: [],
       combinedData: [],
       tipoInspeccionFilter: '',
       detailsForm: {
@@ -139,6 +142,7 @@ export default {
         tipoInspeccion: '',
         fechaAgendada: '',
         empresa: '',
+        empresaNombre: '',
         certificadorAsignado: '',
         fechaInspeccion: '',
         ubicacion: '',
@@ -179,6 +183,18 @@ export default {
         const tiposInspeccionResponse = await axios.get('https://localhost:7006/api/TipoInspeccions');
         this.tiposInspeccion = tiposInspeccionResponse.data;
 
+        // Fetch Tipos de Servicios
+        const tiposServiciosResponse = await axios.get('https://localhost:7006/api/TiposServicios');
+        this.tiposServicios = tiposServiciosResponse.data;
+
+        // Fetch Empresas
+        const empresasResponse = await axios.get('https://localhost:7006/api/Empresas');
+        this.empresas = empresasResponse.data;
+
+        // Fetch Tipos de Vehículos
+        const tiposVehiculosResponse = await axios.get('https://localhost:7006/api/TipoDeVehiculoes');
+        this.tiposVehiculos = tiposVehiculosResponse.data;
+
         // Combine data
         this.combineData();
       } catch (error) {
@@ -189,19 +205,23 @@ export default {
       this.combinedData = this.inspecciones.map(inspeccion => {
         const servicio = this.servicios.find(serv => serv.pkServicio === inspeccion.fkServicio);
         const tipoInspeccion = this.tiposInspeccion.find(tipo => tipo.pkTipoInspeccion === inspeccion.fkTipoInspeccion);
+        const tipoServicio = servicio ? this.tiposServicios.find(tipo => tipo.pkTiposServicio === servicio.fkTipoServicio) : null;
+        const empresa = this.empresas.find(emp => emp.pkEmpresas === inspeccion.fkEmpresas);
+        const vehiculo = this.tiposVehiculos.find(veh => veh.pkTipoDeVehiculos === inspeccion.fkVehiculo);
 
         return {
           id: inspeccion.pkInspeccion,
-          tipoServicio: servicio?.fkTipoServicio || 'Desconocido',
-          tipoInspeccion: tipoInspeccion?.titulo || 'Desconocido',
-          fechaAgendada: servicio?.fechaAgendada || 'Desconocido',
-          empresa: inspeccion.fkEmpresas || 'Desconocido',
-          certificadorAsignado: inspeccion.fkCertificadorAsignado || 'Desconocido',
+          tipoServicio: tipoServicio ? tipoServicio.nombre : 'Desconocido',
+          tipoInspeccion: tipoInspeccion ? tipoInspeccion.titulo : 'Desconocido',
+          fechaAgendada: servicio ? servicio.fechaAgendada : 'Desconocido',
+          empresa: empresa ? empresa.nombre : 'Desconocido',
+          empresaNombre: empresa ? empresa.nombre : 'Desconocido',
+          certificadorAsignado: inspeccion.fkCertificadorAsignado || 'No asignado',
           fechaInspeccion: inspeccion.fechaInspeccion || 'Desconocido',
           ubicacion: inspeccion.ubicacion || 'Desconocido',
           documentacion: inspeccion.documentacion || 'Desconocido',
           estado: inspeccion.estado || 'Desconocido',
-          vehiculo: inspeccion.fkVehiculo || 'Desconocido',
+          vehiculo: vehiculo ? vehiculo.tipoDeVehiculo1 : 'Desconocido',
           observacionesYRecomendaciones: inspeccion.observacionesYRecomendaciones || 'Desconocido'
         };
       });
