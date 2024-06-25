@@ -10,6 +10,9 @@
           <input type="text" class="form-control" id="tipo-inspeccion-filter" v-model="tipoInspeccionFilter" placeholder="Tipo de Inspección">
         </div>
       </div>
+      <div class="col-auto">
+        <button class="btn btn-success btn-sm" @click="openCreateModal">Crear Nuevo Registro</button>
+      </div>
     </div>
     
     <!-- Tabla -->
@@ -38,6 +41,43 @@
       </tbody>
     </table>
     
+    <!-- Modal de Crear -->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="createModalLabel">Crear Nuevo Registro</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="createItem">
+              <div class="mb-3">
+                <label for="createTipoServicio" class="form-label">Tipo de Servicio</label>
+                <input type="text" class="form-control" id="createTipoServicio" v-model="createForm.tipoServicio">
+              </div>
+              <div class="mb-3">
+                <label for="createTipoInspeccion" class="form-label">Tipo de Inspección</label>
+                <input type="text" class="form-control" id="createTipoInspeccion" v-model="createForm.tipoInspeccion">
+              </div>
+              <div class="mb-3">
+                <label for="createFechaAgendada" class="form-label">Fecha Agendada</label>
+                <input type="date" class="form-control" id="createFechaAgendada" v-model="createForm.fechaAgendada">
+              </div>
+              <div class="mb-3">
+                <label for="createEmpresaNombre" class="form-label">Nombre de la Empresa</label>
+                <input type="text" class="form-control" id="createEmpresaNombre" v-model="createForm.empresaNombre">
+              </div>
+              <div class="mb-3">
+                <label for="createVehiculo" class="form-label">Nombre del Vehículo</label>
+                <input type="text" class="form-control" id="createVehiculo" v-model="createForm.vehiculo">
+              </div>
+              <button type="submit" class="btn btn-primary">Crear</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Modal de Detalles -->
     <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -170,6 +210,13 @@ export default {
         tipoServicio: '',
         tipoInspeccion: '',
         fechaAgendada: ''
+      },
+      createForm: {
+        tipoServicio: '',
+        tipoInspeccion: '',
+        fechaAgendada: '',
+        empresaNombre: '',
+        vehiculo: ''
       }
     };
   },
@@ -264,6 +311,30 @@ export default {
         const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
         deleteModal.hide();
       }
+    },
+    openCreateModal() {
+      this.createForm = {
+        tipoServicio: '',
+        tipoInspeccion: '',
+        fechaAgendada: '',
+        empresaNombre: '',
+        vehiculo: ''
+      };
+      const createModal = new bootstrap.Modal(document.getElementById('createModal'));
+      createModal.show();
+    },
+    createItem() {
+      const newItem = {
+        id: this.combinedData.length ? Math.max(this.combinedData.map(item => item.id)) + 1 : 1,
+        tipoServicio: this.createForm.tipoServicio,
+        tipoInspeccion: this.createForm.tipoInspeccion,
+        fechaAgendada: this.createForm.fechaAgendada,
+        empresaNombre: this.createForm.empresaNombre,
+        vehiculo: this.createForm.vehiculo
+      };
+      this.combinedData.push(newItem);
+      const createModal = bootstrap.Modal.getInstance(document.getElementById('createModal'));
+      createModal.hide();
     }
   },
   computed: {
