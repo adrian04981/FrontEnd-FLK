@@ -47,7 +47,7 @@ import GestionarAsistentesDeOperacionesDisponibles from '../views/GestionarDispo
 
 //GESTIONAR Gestionar Inspecciones Y Asignaturas
 import GestionarInspeccionesYAsignaturas from '../views/GestionarInspeccionesYAsignaturas/Lista.vue';
-
+import Agendar from '../views/GestionarServiciosAgendados/Agendar.vue'
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
   return routes.map(route => {
@@ -94,6 +94,11 @@ const adminChildren = addRequiresRole([
     component: ListarCertificadosDisponibles
   },
   {
+    path: 'GestionarServiciosAgendados',
+    name: 'GestionarServiciosAgendados',
+    component: Agendar
+  },
+  {
     path: 'GestionarCredencialesLista',
     name: 'GestionarCredencialesLista',
     component: GestionarCredencialesLista
@@ -135,7 +140,8 @@ const adminChildren = addRequiresRole([
     path: 'ListaInspectoresDisponibles',
     name: 'ListaInspectoresDisponibles',
     component: ListaInspectoresDisponibles
-  }
+  },
+  
 ], 'Administrador');
 
 const operationsChildren = addRequiresRole([
