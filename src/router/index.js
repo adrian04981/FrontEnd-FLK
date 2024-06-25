@@ -23,6 +23,8 @@ import GestionarTiposServicios from '../views/GestionarTiposServicios/GestionarT
 //Listar Inspectores Disponibles
 import ListaInspectoresDisponibles from '../views/GestionarInspectoresDisponibles/ListaInspectoresDisponibles.vue';
 
+//REGISTRAR INSPECCION
+import RegistrarInspeccion from '../views/RegistrarInspeccion/RegistrarInspeccion.vue';
 
 //Listar Certifiacor Disponible
 import ListarCertificadosDisponibles from '../views/GestionarCertificadosDisponibles/ListarCertificadosDisponibles.vue'
@@ -190,6 +192,11 @@ const routes = [
     name: 'DashboardReceptionist',
     component: DashboardReceptionist,
     children: receptionistChildren
+  },
+  {
+  path: '/RegistrarInspeccion',
+  name: 'RegistrarInspeccion',
+  component: RegistrarInspeccion
   },
   {
     path: '/listartiposinspeccion',
