@@ -22,7 +22,7 @@
 		</router-link>
 		<router-link to="/dashboard-admin/GestionarEmpresas" class="button">
 		  <span class="material-icons">group</span>
-		  <span class="text">Gestionar Personal</span>
+		  <span class="text">Gestionar Empresa</span>
 		</router-link>
 		<router-link to="/dashboard-admin/GestionarVehiculos" class="button">
 		  <span class="material-icons">add_box</span>
