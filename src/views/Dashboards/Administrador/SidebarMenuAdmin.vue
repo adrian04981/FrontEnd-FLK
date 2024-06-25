@@ -40,6 +40,10 @@
 		  <span class="material-icons">add_box</span>
 		  <span class="text">Gestionar Inspecciones Y Asignaturas</span>
 		</router-link>
+		<router-link to="/dashboard-admin/GestionarServiciosAgendados" class="button">
+		  <span class="material-icons">add_box</span>
+		  <span class="text">Gestionar Servicios Agendados</span>
+		</router-link>
 	  </div>
 	  <div class="flex"></div>
   
