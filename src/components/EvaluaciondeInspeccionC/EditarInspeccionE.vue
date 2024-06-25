@@ -1,71 +1,63 @@
 <template>
-    <div>
-      <b-form @submit.prevent="submitEdit">
-        <b-form-group label="Servicio:" label-for="edit-servicio">
-          <b-form-input id="edit-servicio" v-model="localInspeccion.fkServicio" required></b-form-input>
-        </b-form-group>
-  
-        <b-form-group label="Empresas:" label-for="edit-empresas">
-          <b-form-input id="edit-empresas" v-model="localInspeccion.fkEmpresas" required></b-form-input>
-        </b-form-group>
-  
-        <b-form-group label="Certificador Asignado:" label-for="edit-certificador">
-          <b-form-input id="edit-certificador" v-model="localInspeccion.fkCertificadorAsignado" required></b-form-input>
-        </b-form-group>
-  
-        <b-form-group label="Tipo de Inspección:" label-for="edit-tipo">
-          <b-form-input id="edit-tipo" v-model="localInspeccion.fkTipoInspeccion" required></b-form-input>
-        </b-form-group>
-  
-        <b-form-group label="Inspectores Asignados:" label-for="edit-inspectores">
-          <b-form-input id="edit-inspectores" v-model="localInspeccion.fkInspectoresAsignados" required></b-form-input>
-        </b-form-group>
-  
-        <b-form-group label="Fecha Inspección:" label-for="edit-fecha">
-          <b-form-input id="edit-fecha" type="date" v-model="localInspeccion.fechaInspeccion" required></b-form-input>
-        </b-form-group>
-  
-        <b-form-group label="Ubicación:" label-for="edit-ubicacion">
-          <b-form-input id="edit-ubicacion" v-model="localInspeccion.ubicacion" required></b-form-input>
-        </b-form-group>
-  
-        <b-form-group label="Documentación:" label-for="edit-documentacion">
-          <b-form-input id="edit-documentacion" v-model="localInspeccion.documentacion" required></b-form-input>
-        </b-form-group>
-  
-        <b-form-group label="Estado:" label-for="edit-estado">
-          <b-form-input id="edit-estado" v-model="localInspeccion.estado" required></b-form-input>
-        </b-form-group>
-  
-        <b-form-group label="Vehículo:" label-for="edit-vehiculo">
-          <b-form-input id="edit-vehiculo" v-model="localInspeccion.fkVehiculo" required></b-form-input>
-        </b-form-group>
-  
-        <b-form-group label="Observaciones y Recomendaciones:" label-for="edit-observaciones">
-          <b-form-input id="edit-observaciones" v-model="localInspeccion.observacionesYRecomendaciones" required></b-form-input>
-        </b-form-group>
-  
-        <b-button type="submit" variant="success">Guardar</b-button>
-      </b-form>
+   <div class="modal" tabindex="-1" role="dialog" style="display:block; background:rgba(0,0,0,0.5)">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Inspección</h5>
+            <button type="button" class="btn-close" @click="$emit('close')"></button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="editarInspeccion">
+              <div class="mb-3">
+                <label for="estado" class="form-label">Estado</label>
+                <input type="text" id="estado" class="form-control" v-model="inspeccion.estado " required>
+              </div>
+              <div class="mb-3">
+                <label for="documentacion" class="form-label">Documentacion</label>
+                <input type="text" id="documentacion" class="form-control" v-model="inspeccion.documentacion" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </template>
   
   <script>
+ import axios from 'axios';
+
   export default {
-    props: {
-      inspeccion: {
-        type: Object,
-        required: true
-      }
-    },
+    props: ['id'],
     data() {
       return {
-        localInspeccion: { ...this.inspeccion }
+        inspeccion: {
+          documentacion: '',
+          estado: '',
+          observacionesYRecomendaciones: ''
+        }
       };
     },
+    created() {
+      this.fetchInspeccion();
+    },
     methods: {
-      submitEdit() {
-        this.$emit('update', this.localInspeccion);
+      async fetchInspeccion() {
+        try {
+          const response = await axios.get(`https://localhost:7006/api/Inspeccions/${this.id}`);
+          this.inspeccion = response.data;
+        } catch (error) {
+          console.error('Error fetching inspección:', error);
+        }
+      },
+      async editarInspeccion() {
+        try {
+          await axios.put(`https://localhost:7006/api/Inspeccions/${this.id}`, this.inspeccion);
+          this.$emit('close');
+          this.$emit('inspeccion-updated');
+        } catch (error) {
+          console.error('Error updating inspección:', error);
+        }
       }
     }
   };

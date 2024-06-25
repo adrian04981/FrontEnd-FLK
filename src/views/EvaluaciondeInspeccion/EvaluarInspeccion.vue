@@ -16,6 +16,7 @@
                 <th scope="col" class="text-white">Empresas</th>
                 <th scope="col" class="text-white">Tipo de Inspección</th>
                 <th scope="col" class="text-white">Fecha Inspección</th>
+                <th scope="col" class="text-white">Documentacion</th>
                 <th scope="col" class="text-white">Estado</th>
                 <th scope="col" class="text-white">Título</th>
                 <th scope="col" class="text-white">Nombre</th>
@@ -29,6 +30,7 @@
                 <td>{{ inspeccion.fkEmpresas }}</td>
                 <td>{{ inspeccion.fkTipoInspeccion }}</td>
                 <td>{{ inspeccion.fechaInspeccion }}</td>
+                <td>{{ inspeccion.documentacion }}</td>
                 <td>{{ inspeccion.estado }}</td>
                 <td>{{ inspeccion.titulo }}</td>
                 <td>{{ inspeccion.nombre }}</td>
@@ -70,6 +72,7 @@
 </template>
 
 <script>
+
 import axios from 'axios';
 import ConsultarInspeccion from '@/components/EvaluaciondeInspeccionC/ConsultarInspeccionE.vue';
 import EditarInspeccion from '@/components/EvaluaciondeInspeccionC/EditarInspeccionE.vue';
