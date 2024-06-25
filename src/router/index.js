@@ -48,6 +48,9 @@ import GestionarAsistentesDeOperacionesDisponibles from '../views/GestionarDispo
 //GESTIONAR Gestionar Inspecciones Y Asignaturas
 import GestionarInspeccionesYAsignaturas from '../views/GestionarInspeccionesYAsignaturas/Lista.vue';
 
+//Evaluacion de Inspecciones
+import EvaluarInspeccion from '../views/EvaluaciondeInspeccion/EvaluarInspeccion.vue'
+
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
   return routes.map(route => {
@@ -97,6 +100,11 @@ const adminChildren = addRequiresRole([
     path: 'GestionarCredencialesLista',
     name: 'GestionarCredencialesLista',
     component: GestionarCredencialesLista
+  },
+  {
+    path: 'evaluarinspeccion',
+    name: 'EvaluarInspeccion',
+    component: EvaluarInspeccion
   },
   {
     path: 'GestionarServicio',
@@ -202,6 +210,11 @@ const routes = [
     path: '/agregartipoinspeccion',
     name: 'AgregarTipoInspeccion',
     component: AgregarTipoInspeccion,
+  },
+  {
+    path: '/evaluarInspecciones',
+    name: 'EvaluarInspecciones',
+    component: EvaluarInspeccion,
   },
   {
     path: '/Website',
