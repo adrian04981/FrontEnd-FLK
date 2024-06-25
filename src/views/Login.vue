@@ -62,11 +62,13 @@ export default {
 
         if (response.data) {
           const roleId = response.data.fkRol;
+          const usuarioId = response.data.pkUsuario;
           const roleResponse = await axios.get(`Rols/${roleId}`);
           const roleName = roleResponse.data.nombre;
 
           localStorage.setItem('loggedIn', 'true');
           localStorage.setItem('role', roleName);
+          localStorage.setItem('id_usuario', usuarioId );
 
           switch (roleName) {
             case 'Administrador':

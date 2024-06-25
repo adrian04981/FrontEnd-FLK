@@ -23,6 +23,8 @@ import GestionarTiposServicios from '../views/GestionarTiposServicios/GestionarT
 //Listar Inspectores Disponibles
 import ListaInspectoresDisponibles from '../views/GestionarInspectoresDisponibles/ListaInspectoresDisponibles.vue';
 
+//REGISTRAR INSPECCION
+import RegistrarInspeccion from '../views/RegistrarInspeccion/RegistrarInspeccion.vue';
 
 //Listar Certifiacor Disponible
 import ListarCertificadosDisponibles from '../views/GestionarCertificadosDisponibles/ListarCertificadosDisponibles.vue'
@@ -48,6 +50,7 @@ import GestionarAsistentesDeOperacionesDisponibles from '../views/GestionarDispo
 //GESTIONAR Gestionar Inspecciones Y Asignaturas
 import GestionarInspeccionesYAsignaturas from '../views/GestionarInspeccionesYAsignaturas/Lista.vue';
 import Agendar from '../views/GestionarServiciosAgendados/Agendar.vue'
+import EvaluarInspeccion from '../views/EvaluaciondeInspeccion/EvaluarInspeccion.vue'
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
   return routes.map(route => {
@@ -102,6 +105,11 @@ const adminChildren = addRequiresRole([
     path: 'GestionarCredencialesLista',
     name: 'GestionarCredencialesLista',
     component: GestionarCredencialesLista
+  },
+  {
+    path: 'evaluarinspeccion',
+    name: 'EvaluarInspeccion',
+    component: EvaluarInspeccion
   },
   {
     path: 'GestionarServicio',
@@ -190,6 +198,11 @@ const routes = [
     children: receptionistChildren
   },
   {
+  path: '/RegistrarInspeccion',
+  name: 'RegistrarInspeccion',
+  component: RegistrarInspeccion
+  },
+  {
     path: '/listartiposinspeccion',
     name: 'TipoDeInspeccion',
     component: ListarTiposInspeccion
@@ -208,6 +221,11 @@ const routes = [
     path: '/agregartipoinspeccion',
     name: 'AgregarTipoInspeccion',
     component: AgregarTipoInspeccion,
+  },
+  {
+    path: '/evaluarInspecciones',
+    name: 'EvaluarInspecciones',
+    component: EvaluarInspeccion,
   },
   {
     path: '/Website',
