@@ -29,7 +29,7 @@ Asegúrate de tener estos poderes antes de embarcarte en la aventura:
 
    ```bash
    git clone https://github.com/adrian04981/FrontEnd-FLK.git
-   cd proyecto-kawaii-macho
+   cd FrontEnd-FLK
 
 2. **Instala las Dependencias**
 
