@@ -54,7 +54,7 @@ Este frontend es más fresco que un Power-Up en Mario Kart y más organizado que
 
 Si encuentras algún monstruo (bug) en el camino, no dudes en reportarlo. Juntos, derrotaremos cualquier obstáculo que se nos presente.
 
-- **Reporta un Bug**: [Issues en GitHub](https://github.com/GrupoFLK/proyecto-kawaii-macho/issues)
+- **Reporta un Bug**: [Issues en GitHub]((https://github.com/adrian04981/FrontEnd-FLK.git))
 - **Contribuye**: ¡Las pull requests son bienvenidas, valiente guerrero!
 
 ### 🏆 **Créditos**
