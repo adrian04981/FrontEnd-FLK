@@ -32,3 +32,39 @@ Asegúrate de tener estos poderes antes de embarcarte en la aventura:
    ```bash
    git clone https://github.com/GrupoFLK/proyecto-kawaii-macho.git
    cd proyecto-kawaii-macho
+
+2. **Instala las Dependencias**
+
+   ```bash
+   npm install
+
+2. **Arranca el servidor**
+
+      ```bash
+   npm run dev
+
+### 🎮 **Arquitectura del Proyecto**
+
+Este frontend es más fresco que un Power-Up en Mario Kart y más organizado que una partida de Tetris.
+
+- **src/**: Aquí está toda la acción. 
+  - **components/**: Los bloques de construcción de nuestra aventura.
+  - **views/**: Las pantallas épicas donde la magia sucede.
+  - **services/**: Los hechizos de Axios para invocar nuestras APIs.
+
+### 👾 **Desafíos y Misiones**
+
+Si encuentras algún monstruo (bug) en el camino, no dudes en reportarlo. Juntos, derrotaremos cualquier obstáculo que se nos presente.
+
+- **Reporta un Bug**: [Issues en GitHub](https://github.com/GrupoFLK/proyecto-kawaii-macho/issues)
+- **Contribuye**: ¡Las pull requests son bienvenidas, valiente guerrero!
+
+### 🏆 **Créditos**
+
+Este proyecto fue creado por el increíble equipo de desarrollo de "GRUPO FLK". Gracias por unirte a nuestra aventura. ¡Que el código esté contigo! 🌟
+
+---
+
+¡Y ahí lo tienes! Un README épico, irónico y con un toque de humor infantil. ¡Feliz programación! 🚀
+
+<!-- </div> -->
