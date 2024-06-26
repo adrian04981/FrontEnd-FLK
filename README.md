@@ -1,6 +1,6 @@
 <!-- <div align="center"> -->
 
-# 🚀 **Proyecto Kawaii-Macho: Frontend para mejorar los procesos administrativos**
+# 🚀 **Proyecto Frontend: Sistema Web para Gestionar el servicio de acreditación del “Grupo FLK”**
 
 ### 🛠️ **Tecnologías Utilizadas**
 
