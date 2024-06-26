@@ -28,7 +28,7 @@ Asegúrate de tener estos poderes antes de embarcarte en la aventura:
 1. **Clona el Repositorio**
 
    ```bash
-   git clone https://github.com/GrupoFLK/proyecto-kawaii-macho.git
+   git clone https://github.com/adrian04981/FrontEnd-FLK.git
    cd proyecto-kawaii-macho
 
 2. **Instala las Dependencias**
@@ -54,7 +54,7 @@ Este frontend es más fresco que un Power-Up en Mario Kart y más organizado que
 
 Si encuentras algún monstruo (bug) en el camino, no dudes en reportarlo. Juntos, derrotaremos cualquier obstáculo que se nos presente.
 
-- **Reporta un Bug**: [Issues en GitHub]((https://github.com/adrian04981/FrontEnd-FLK.git))
+- **Reporta un Bug**: [Issues en GitHub]((https://github.com/adrian04981/))
 - **Contribuye**: ¡Las pull requests son bienvenidas, valiente guerrero!
 
 ### 🏆 **Créditos**
