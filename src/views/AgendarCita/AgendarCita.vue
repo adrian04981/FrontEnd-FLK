@@ -38,7 +38,7 @@
 
     <AgregarVehiculo
       v-if="showAgregarVehiculoModal"
-      :ruc="empresaRuc"
+      :fkEmpresas="fkEmpresas"
       @close="showAgregarVehiculoModal = false"
       @vehiculoAgregado="handleVehiculoAgregado"
     />
@@ -163,7 +163,8 @@ export default {
       console.log('Vehículo agregado:', vehiculo);
       selectedVehiculoId.value = vehiculo.pkVehiculo;
       showAgregarVehiculoModal.value = false;
-      showListarVehiculosModal.value = true;
+      showListarVehiculosModal.value = false;
+      showListarInspectoresModal.value = true;
     };
 
     const handleTurnSelected = ({ fechaYHora, turno, idInspectoresAsignados: asignacionId }) => {
@@ -188,43 +189,42 @@ export default {
 
       // Registrar la inspección
       try {
-  const date = new Date(selectedDate.value);
-  let fechaHoraInicio, fechaHoraFinalizacion;
+        const date = new Date(selectedDate.value);
+        let fechaHoraInicio, fechaHoraFinalizacion;
 
-  if (selectedTurno.value === 'Mañana') {
-    fechaHoraInicio = new Date(date.setHours(8, 0, 0, 0)).toISOString();
-    fechaHoraFinalizacion = new Date(date.setHours(12, 0, 0, 0)).toISOString();
-  } else if (selectedTurno.value === 'Tarde') {
-    fechaHoraInicio = new Date(date.setHours(13, 0, 0, 0)).toISOString();
-    fechaHoraFinalizacion = new Date(date.setHours(18, 0, 0, 0)).toISOString();
-  }
+        if (selectedTurno.value === 'Mañana') {
+          fechaHoraInicio = new Date(date.setHours(8, 0, 0, 0)).toISOString();
+          fechaHoraFinalizacion = new Date(date.setHours(12, 0, 0, 0)).toISOString();
+        } else if (selectedTurno.value === 'Tarde') {
+          fechaHoraInicio = new Date(date.setHours(13, 0, 0, 0)).toISOString();
+          fechaHoraFinalizacion = new Date(date.setHours(18, 0, 0, 0)).toISOString();
+        }
 
-  const inspeccionData = {
-    pkInspeccion: 0,
-    fkServicio: fkServicio.value,
-    fkEmpresas: fkEmpresas.value,
-    fkCertificadorAsignado: selectedCertificadorId.value,
-    fkTipoInspeccion: selectedInspectionId.value,
-    fkInspectoresAsignados: idInspectoresAsignados.value,
-    fechaInspeccion: selectedDate.value.split('T')[0], // Fecha en formato YYYY-MM-DD
-    ubicacion: selectedAddress.value,
-    documentacion: "",
-    estado: "Pendiente",
-    fkVehiculo: selectedVehiculoId.value,
-    observacionesYRecomendaciones: "",
-    fechaHoraInicio: fechaHoraInicio,
-    fechaHoraFinalizacion: fechaHoraFinalizacion,
-    fechaHoraEntrada: null,
-    fechaHoraSalida: null,
-    fechaHoraRegistroInspeccion: new Date().toISOString()
-  };
+        const inspeccionData = {
+          pkInspeccion: 0,
+          fkServicio: fkServicio.value,
+          fkEmpresas: fkEmpresas.value,
+          fkCertificadorAsignado: selectedCertificadorId.value,
+          fkTipoInspeccion: selectedInspectionId.value,
+          fkInspectoresAsignados: idInspectoresAsignados.value,
+          fechaInspeccion: selectedDate.value.split('T')[0], // Fecha en formato YYYY-MM-DD
+          ubicacion: selectedAddress.value,
+          documentacion: "",
+          estado: "Pendiente",
+          fkVehiculo: selectedVehiculoId.value,
+          observacionesYRecomendaciones: "",
+          fechaHoraInicio: fechaHoraInicio,
+          fechaHoraFinalizacion: fechaHoraFinalizacion,
+          fechaHoraEntrada: null,
+          fechaHoraSalida: null,
+          fechaHoraRegistroInspeccion: new Date().toISOString()
+        };
 
-  const response = await axios.post('/AgendarCita/RegistrarInspeccion', inspeccionData);
-  console.log('Inspección registrada:', response.data);
-} catch (error) {
-  console.error('Error al registrar la inspección:', error);
-}
-
+        const response = await axios.post('/AgendarCita/RegistrarInspeccion', inspeccionData);
+        console.log('Inspección registrada:', response.data);
+      } catch (error) {
+        console.error('Error al registrar la inspección:', error);
+      }
     };
 
     return {
