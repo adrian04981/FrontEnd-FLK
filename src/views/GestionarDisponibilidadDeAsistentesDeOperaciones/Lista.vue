@@ -17,20 +17,20 @@
       <thead>
         <tr>
           <th>Usuario ID</th>
+          <th>Nombre Personal</th>
           <th>Tipo de Inspección</th>
-          <th>Fecha de Emisión</th>
           <th>Fecha de Vencimiento</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="certificador in paginatedCertificadores" :key="certificador.pkCertificadoresDisponibles">
-          <td>{{ certificador.fkUsuario }}</td>
-          <td>{{ certificador.fkTipoInspeccion }}</td>
-          <td>{{ certificador.fechaEmisionCertificado }}</td>
-          <td>{{ certificador.fechaVencimientoCertificado }}</td>
+        <tr v-for="certificador in paginatedCertificadores" :key="certificador.id">
+          <td>{{ certificador.id }}</td>
+          <td>{{ certificador.nombrePersonal }}</td>
+          <td>{{ certificador.tipo_De_Inspeccion }}</td>
+          <td>{{ certificador.fechaVencimiento }}</td>
           <td>
-            <button class="btn btn-info btn-sm" @click="consultarCertificador(certificador.pkCertificadoresDisponibles)">Consultar</button>
+            <button class="btn btn-info btn-sm" @click="consultarCertificador(certificador.id)">Consultar</button>
           </td>
         </tr>
       </tbody>
@@ -61,20 +61,20 @@
       <thead>
         <tr>
           <th>Usuario ID</th>
+          <th>Nombre Personal</th>
           <th>Tipo de Inspección</th>
-          <th>Fecha de Emisión</th>
           <th>Fecha de Vencimiento</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="inspector in paginatedInspectores" :key="inspector.pkInpectoresDisponibles">
-          <td>{{ inspector.fkUsuario }}</td>
-          <td>{{ inspector.fkTipoInspeccion }}</td>
-          <td>{{ inspector.fechaEmisionCertificado }}</td>
-          <td>{{ inspector.fechaVencimientoCertificado }}</td>
+        <tr v-for="inspector in paginatedInspectores" :key="inspector.id">
+          <td>{{ inspector.id }}</td>
+          <td>{{ inspector.nombrePersonal }}</td>
+          <td>{{ inspector.tipo_De_Inspeccion }}</td>
+          <td>{{ inspector.fechaVencimiento }}</td>
           <td>
-            <button class="btn btn-info btn-sm" @click="consultarInspector(inspector.pkInpectoresDisponibles)">Consultar</button>
+            <button class="btn btn-info btn-sm" @click="consultarInspector(inspector.id)">Consultar</button>
           </td>
         </tr>
       </tbody>
@@ -105,20 +105,20 @@
       <thead>
         <tr>
           <th>Usuario ID</th>
+          <th>Nombre Personal</th>
           <th>Asignatura Certificada</th>
-          <th>Fecha de Emisión</th>
           <th>Fecha de Vencimiento</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="docente in paginatedDocentes" :key="docente.pkDocenteDisponibles">
-          <td>{{ docente.fkUsuario }}</td>
-          <td>{{ docente.fkAsinaturaCertificada }}</td>
-          <td>{{ docente.fechaEmisionCertificado }}</td>
-          <td>{{ docente.fechaVencimientoCertificado }}</td>
+        <tr v-for="docente in paginatedDocentes" :key="docente.id">
+          <td>{{ docente.id }}</td>
+          <td>{{ docente.nombrePersonal }}</td>
+          <td>{{ docente.asignaturaCertificada }}</td>
+          <td>{{ docente.fechaVencimiento }}</td>
           <td>
-            <button class="btn btn-info btn-sm" @click="consultarDocente(docente.pkDocenteDisponibles)">Consultar</button>
+            <button class="btn btn-info btn-sm" @click="consultarDocente(docente.id)">Consultar</button>
           </td>
         </tr>
       </tbody>
@@ -189,7 +189,7 @@ export default {
   computed: {
     filteredCertificadores() {
       return this.certificadores.filter(certificador =>
-        certificador.fkUsuario.toString().includes(this.certificadorFilter)
+        certificador.id.toString().includes(this.certificadorFilter)
       );
     },
     certificadorTotalPages() {
@@ -203,7 +203,7 @@ export default {
 
     filteredInspectores() {
       return this.inspectores.filter(inspector =>
-        inspector.fkUsuario.toString().includes(this.inspectorFilter)
+        inspector.id.toString().includes(this.inspectorFilter)
       );
     },
     inspectorTotalPages() {
@@ -217,7 +217,7 @@ export default {
 
     filteredDocentes() {
       return this.docentes.filter(docente =>
-        docente.fkUsuario.toString().includes(this.docenteFilter)
+        docente.id.toString().includes(this.docenteFilter)
       );
     },
     docenteTotalPages() {
@@ -237,7 +237,7 @@ export default {
     },
     async fetchCertificadores() {
       try {
-        const response = await axios.get('https://localhost:7006/api/CertificadoresDisponibles');
+        const response = await axios.get('https://localhost:7006/api/GestionarCertificadosDePersonal/CertificadoresDisponiblesHoy');
         this.certificadores = response.data;
       } catch (error) {
         console.error('Error fetching certificadores:', error);
@@ -260,7 +260,7 @@ export default {
 
     async fetchInspectores() {
       try {
-        const response = await axios.get('https://localhost:7006/api/InspectoresDisponibles');
+        const response = await axios.get('https://localhost:7006/api/GestionarCertificadosDePersonal/InspectoresDisponiblesHoy');
         this.inspectores = response.data;
       } catch (error) {
         console.error('Error fetching inspectores:', error);
@@ -283,7 +283,7 @@ export default {
 
     async fetchDocentes() {
       try {
-        const response = await axios.get('https://localhost:7006/api/DocenteDisponibles');
+        const response = await axios.get('https://localhost:7006/api/GestionarCertificadosDePersonal/DocentesDisponiblesHoy');
         this.docentes = response.data;
       } catch (error) {
         console.error('Error fetching docentes:', error);

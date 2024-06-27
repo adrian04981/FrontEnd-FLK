@@ -51,6 +51,7 @@ import GestionarAsistentesDeOperacionesDisponibles from '../views/GestionarDispo
 import GestionarInspeccionesYAsignaturas from '../views/GestionarInspeccionesYAsignaturas/Lista.vue';
 import Agendar from '../views/GestionarServiciosAgendados/Agendar.vue'
 import EvaluarInspeccion from '../views/EvaluaciondeInspeccion/EvaluarInspeccion.vue'
+import apu from '../views/AgendaPorUsuario/Calendario.vue'
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
   return routes.map(route => {
@@ -64,7 +65,12 @@ const adminChildren = addRequiresRole([
     path: 'ListarCertificadosDisponibles',
     name: 'ListarCertificadosDisponibles',
     component: ListarCertificadosDisponibles
-  },    
+  },  
+  {
+    path: 'apu',
+    name: 'apu',
+    component: apu
+  },
   {
     path: 'GestionarInspeccionesYAsignaturas',
     name: 'GestionarInspeccionesYAsignaturas',
@@ -148,7 +154,7 @@ const adminChildren = addRequiresRole([
     path: 'ListaInspectoresDisponibles',
     name: 'ListaInspectoresDisponibles',
     component: ListaInspectoresDisponibles
-  },
+  }
   
 ], 'Administrador');
 
@@ -157,6 +163,11 @@ const operationsChildren = addRequiresRole([
     path: 'pokemon',
     name: 'Pokemon',
     component: Pokemon
+  },
+  {
+    path: 'apu',
+    name: 'apu',
+    component: apu
   }
 ], 'Asistente de Operaciones');
 

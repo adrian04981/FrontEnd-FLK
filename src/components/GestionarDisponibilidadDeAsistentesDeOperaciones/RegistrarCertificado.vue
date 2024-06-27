@@ -19,13 +19,13 @@
             <div class="mb-3" v-if="tipoCertificado">
               <label for="usuario" class="form-label">Usuario</label>
               <select id="usuario" class="form-select" v-model="certificado.fkUsuario" required>
-                <option v-for="usuario in usuarios" :key="usuario.pkPersonal" :value="usuario.fkUsuario">{{ usuario.nombre }}</option>
+                <option v-for="usuario in usuarios" :key="usuario.idUsuario" :value="usuario.idUsuario">{{ usuario.nombrePersonal }}</option>
               </select>
             </div>
             <div class="mb-3" v-if="tipoCertificado !== 'docente'">
               <label for="tipoInspeccion" class="form-label">Tipo de Inspección</label>
               <select id="tipoInspeccion" class="form-select" v-model="certificado.fkTipoInspeccion" required>
-                <option v-for="tipo in tiposInspeccion" :key="tipo.pkTipoInspeccion" :value="tipo.pkTipoInspeccion">{{ tipo.titulo }}</option>
+                <option v-for="tipo in tiposInspeccion" :key="tipo.id" :value="tipo.id">{{ tipo.titulo }}</option>
               </select>
             </div>
             <div class="mb-3">
@@ -38,7 +38,7 @@
             </div>
             <div class="mb-3">
               <label for="certificadoPdf" class="form-label">Certificado PDF</label>
-              <input type="text" id="certificadoPdf" class="form-control" v-model="certificado.certificadoPdf" required>
+              <input type="text" id="certificadoPdf" class="form-control" v-model="certificado.certificadoPdf">
             </div>
             <div class="mb-3" v-if="tipoCertificado === 'certificador'">
               <label for="firmaYselloDigital" class="form-label">Firma y Sello Digital</label>
@@ -60,8 +60,10 @@ export default {
     return {
       tipoCertificado: '',
       certificado: {
+        pkCertificadoresDisponibles: 0,
         fkUsuario: 0,
         fkTipoInspeccion: 0,
+        fkAsinaturaCertificada: 0,
         fechaEmisionCertificado: '',
         fechaVencimientoCertificado: '',
         certificadoPdf: '',
@@ -78,7 +80,7 @@ export default {
   methods: {
     async fetchUsuarios() {
       try {
-        const response = await axios.get('https://localhost:7006/api/Personals');
+        const response = await axios.get('https://localhost:7006/api/GestionarCertificadosDePersonal/UsuariosConRol2');
         this.usuarios = response.data;
       } catch (error) {
         console.error('Error fetching usuarios:', error);
@@ -86,24 +88,34 @@ export default {
     },
     async fetchTiposInspeccion() {
       try {
-        const response = await axios.get('https://localhost:7006/api/TipoInspeccions');
+        const response = await axios.get('https://localhost:7006/api/GestionarCertificadosDePersonal/TiposDeInspeccion');
         this.tiposInspeccion = response.data;
       } catch (error) {
         console.error('Error fetching tipos de inspección:', error);
       }
+    },
+    generarIdAleatoria() {
+      return Math.floor(100000 + Math.random() * 900000);
     },
     async registrarCertificado() {
       try {
         let apiUrl = '';
         if (this.tipoCertificado === 'certificador') {
           apiUrl = 'https://localhost:7006/api/CertificadoresDisponibles';
+          this.certificado.pkCertificadoresDisponibles = this.generarIdAleatoria();
         } else if (this.tipoCertificado === 'inspector') {
           apiUrl = 'https://localhost:7006/api/InspectoresDisponibles';
         } else if (this.tipoCertificado === 'docente') {
           apiUrl = 'https://localhost:7006/api/DocenteDisponibles';
         }
 
-        await axios.post(apiUrl, this.certificado);
+        const data = {
+          ...this.certificado,
+          certificadoPdf: this.certificado.certificadoPdf || null,
+          firmaYselloDigital: this.certificado.firmaYselloDigital || null
+        };
+
+        await axios.post(apiUrl, data);
         this.$emit('certificado-registered');
         this.$emit('close');
       } catch (error) {

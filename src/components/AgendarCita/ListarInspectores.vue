@@ -10,10 +10,10 @@
           <div class="row">
             <div class="col-md-4">
               <h6>Seleccione Inspector:</h6>
-              <div v-for="inspector in inspectores" :key="inspector.pkInpectoresDisponibles" class="mb-2">
+              <div v-for="inspector in inspectores" :key="inspector.pkInspectoresDisponibles" class="mb-2">
                 <button 
                   class="btn w-100" 
-                  :class="{'btn-primary': selectedInspectorId === inspector.pkInpectoresDisponibles, 'btn-outline-primary': selectedInspectorId !== inspector.pkInpectoresDisponibles}" 
+                  :class="{'btn-primary': selectedInspectorId === inspector.pkInspectoresDisponibles, 'btn-outline-primary': selectedInspectorId !== inspector.pkInspectoresDisponibles}" 
                   @click="selectInspector(inspector)">
                   {{ inspector.nombreInspector }}
                 </button>
@@ -61,18 +61,18 @@ export default {
     const inspectores = ref([]);
     const selectedInspector = ref(null);
     const selectedTurno = ref(null);
-    const inspecciones = ref([]);
     const calendar = ref(null);
     const selectedDate = ref(null);
 
     onMounted(async () => {
       const response = await axios.get(`/AgendarCita/InspectoresDisponiblesPorTipoInspeccion/${props.tipoInspeccionId}`);
       inspectores.value = response.data;
+      initializeCalendar();
     });
 
     watch(() => selectedInspector.value, (newVal) => {
       if (newVal) {
-        updateCalendar();
+        updateCalendarEvents();
       }
     });
 
@@ -85,17 +85,7 @@ export default {
       }));
     };
 
-    const updateCalendar = async () => {
-      if (calendar.value) {
-        calendar.value.destroy();
-      }
-
-      const events = [];
-      if (selectedInspector.value) {
-        const inspectorEvents = await fetchInspecciones(selectedInspector.value.pkInpectoresDisponibles);
-        events.push(...inspectorEvents);
-      }
-
+    const initializeCalendar = () => {
       const calendarEl = document.getElementById('calendar');
       calendar.value = new Calendar(calendarEl, {
         plugins: [dayGridPlugin, interactionPlugin],
@@ -104,9 +94,20 @@ export default {
         select: info => {
           selectedDate.value = info.startStr;
         },
-        events: events,
+        events: [],
       });
       calendar.value.render();
+    };
+
+    const updateCalendarEvents = async () => {
+      const events = [];
+      if (selectedInspector.value) {
+        const inspectorEvents = await fetchInspecciones(selectedInspector.value.pkInspectoresDisponibles);
+        events.push(...inspectorEvents);
+      }
+
+      calendar.value.removeAllEvents();
+      calendar.value.addEventSource(events);
     };
 
     const selectInspector = (inspector) => {
@@ -120,7 +121,6 @@ export default {
     const registrarAsignacionInspector = async () => {
       if (selectedInspector.value && selectedTurno.value && selectedDate.value) {
         try {
-          // Construir fecha y hora correcta según el turno
           const fechaYHora = new Date(selectedDate.value);
           if (selectedTurno.value === 'Mañana') {
             fechaYHora.setHours(8, 0, 0, 0);
@@ -131,9 +131,9 @@ export default {
           const formattedFechaYHora = fechaYHora.toISOString();
 
           const response = await axios.post('/AgendarCita/RegistrarAsignacionInspectores', {
-            fkInspector: selectedInspector.value.pkInpectoresDisponibles,
+            fkInspector: selectedInspector.value.pkInspectoresDisponibles,
+            fechaYHora: formattedFechaYHora
           });
-          console.log('Asignación registrada:', response.data);
           emit('turnSelected', { fechaYHora: formattedFechaYHora, turno: selectedTurno.value, idInspectoresAsignados: response.data.pkAsignacionId });
           emit('close');
         } catch (error) {
@@ -149,7 +149,6 @@ export default {
       selectedInspector,
       selectedDate,
       selectedTurno,
-      updateCalendar,
       selectInspector,
       selectTurno,
       registrarAsignacionInspector,

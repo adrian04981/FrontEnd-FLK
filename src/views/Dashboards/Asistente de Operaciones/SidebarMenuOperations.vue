@@ -12,9 +12,15 @@
   
 	  <h3>Menu</h3>
 	  <div class="menu">
-		<router-link to="/dashboard-admin" class="button">
+		<router-link to="/dashboard-operations" class="button">
 		  <span class="material-icons">home</span>
 		  <span class="text">Menu Principal</span>
+		</router-link>
+	  </div>	  
+	  <div class="menu">
+		<router-link to="/dashboard-operations/AgendaPorUsuario" class="button">
+		  <span class="material-icons">home</span>
+		  <span class="text">Tareas</span>
 		</router-link>
 	  </div>
 	  <div class="flex"></div>
