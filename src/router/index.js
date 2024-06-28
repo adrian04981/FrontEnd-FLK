@@ -51,7 +51,10 @@ import GestionarAsistentesDeOperacionesDisponibles from '../views/GestionarDispo
 import GestionarInspeccionesYAsignaturas from '../views/GestionarInspeccionesYAsignaturas/Lista.vue';
 import Agendar from '../views/GestionarServiciosAgendados/Agendar.vue'
 import EvaluarInspeccion from '../views/EvaluaciondeInspeccion/EvaluarInspeccion.vue'
-import apu from '../views/AgendaPorUsuario/Calendario.vue'
+import apu from '../views/AgendaPorUsuario/Agenda.vue'
+
+//GENERAR CERTIFICADO PDF
+import GenerarCertificado from '../views/GenerateCertificate.vue'
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
   return routes.map(route => {
@@ -70,6 +73,11 @@ const adminChildren = addRequiresRole([
     path: 'apu',
     name: 'apu',
     component: apu
+  },
+    {
+    path: 'GCPDF',
+    name: 'GenerateCertificate',
+    component: GenerarCertificado
   },
   {
     path: 'GestionarInspeccionesYAsignaturas',

@@ -48,20 +48,22 @@
 	  <div class="flex"></div>
   
 	  <div class="menu">
-		<router-link to="/settings" class="button">
-		  <span class="material-icons">settings</span>
-		  <span class="text">Settings</span>
-		</router-link>
+		<button class="button" @click="logout">
+		  <span class="material-icons">logout</span>
+		  <span class="text">Logout</span>
+		</button>
 	  </div>
 	</aside>
   </template>
   
   <script setup>
   import { ref, onMounted, onBeforeUnmount } from 'vue'
+  import { useRouter } from 'vue-router'
   import logoURL from '/src/assets/SELLO_FLK.png'
   
   const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
   const is_open = ref(false)
+  const router = useRouter()
   
   const ToggleMenu = () => {
 	is_expanded.value = !is_expanded.value
@@ -79,6 +81,13 @@
 	if (!event.target.closest('aside')) {
 	  closeMenu()
 	}
+  }
+  
+  const logout = () => {
+	localStorage.removeItem('loggedIn')
+	localStorage.removeItem('role')
+	localStorage.removeItem('id_usuario')
+	router.push('/')
   }
   
   onMounted(() => {

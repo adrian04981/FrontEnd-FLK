@@ -3,6 +3,9 @@
     <h1>Agendar Cita</h1>
     <button class="btn btn-primary" @click="showModal = true">Agendar Servicio</button>
 
+    <!-- Aquí se incluye el componente de calendario -->
+    <Calendar />
+
     <SeleccionarServicio
       v-if="showModal"
       @close="showModal = false"
@@ -69,6 +72,8 @@
 
 <script>
 import { ref } from 'vue';
+import axios from 'axios';
+import Calendar from '../../components/AgendarCita/Calendar.vue';
 import SeleccionarServicio from '../../components/AgendarCita/SeleccionarServicio.vue';
 import SeleccionarTipoInspeccion from '../../components/AgendarCita/SeleccionarTipoInspeccion.vue';
 import VerificarEmpresa from '../../components/AgendarCita/VerificarEmpresa.vue';
@@ -78,10 +83,10 @@ import AgregarVehiculo from '../../components/AgendarCita/AgregarVehiculo.vue';
 import ListarInspectores from '../../components/AgendarCita/ListarInspectores.vue';
 import SeleccionarCertificador from '../../components/AgendarCita/SeleccionarCertificador.vue';
 import IngresarDireccion from '../../components/AgendarCita/IngresarDireccion.vue';
-import axios from 'axios';
 
 export default {
   components: {
+    Calendar,
     SeleccionarServicio,
     SeleccionarTipoInspeccion,
     VerificarEmpresa,
