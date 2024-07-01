@@ -26,10 +26,10 @@
 	  <div class="flex"></div>
   
 	  <div class="menu">
-		<router-link to="/settings" class="button">
-		  <span class="material-icons">settings</span>
-		  <span class="text">Settings</span>
-		</router-link>
+		<button class="button" @click="logout">
+		  <span class="material-icons">logout</span>
+		  <span class="text">Logout</span>
+		</button>
 	  </div>
 	</aside>
   </template>
@@ -52,7 +52,12 @@
 	  is_open.value = false
 	}
   }
-  
+  const logout = () => {
+	localStorage.removeItem('loggedIn')
+	localStorage.removeItem('role')
+	localStorage.removeItem('id_usuario')
+	router.push('/')
+  }
   const handleClickOutside = (event) => {
 	if (!event.target.closest('aside')) {
 	  closeMenu()

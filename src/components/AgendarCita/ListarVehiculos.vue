@@ -23,7 +23,7 @@
                   <td>{{ vehiculo.modelo }}</td>
                   <td>{{ vehiculo.numeroSerie }}</td>
                   <td>{{ vehiculo.marca }}</td>
-                  <td><button class="btn btn-primary" @click="seleccionarVehiculo(vehiculo)">Seleccionar</button></td>
+                  <td><button class="btn btn-primary" @click="seleccionarVehiculo(vehiculo.pkVehiculo)">Seleccionar</button></td>
                 </tr>
               </tbody>
             </table>
@@ -47,7 +47,7 @@
       const vehiculos = ref([]);
   
       onMounted(async () => {
-        const response = await axios.get(`/AgendarCita/VehiculosPorRuc/${props.ruc}`);
+        const response = await axios.get(`AgendarCita/VehiculosPorRuc/${props.ruc}`);
         vehiculos.value = response.data;
       });
   

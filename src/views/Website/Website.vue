@@ -4,12 +4,12 @@
       <img :src="logoURL" alt="Vue" />
       <div id="LinkL" class="navbar-links">
         <a href="#">Inicio</a>
-        <button class="btn btn-outline-light ms-2" @click="showModal = true">Verifica Aquí tu Certificado</button>
+        <button class="btn btn-outline-light ms-2" @click="redirectToGCPDF">Verifica Aquí tu Certificado</button>
       </div>
       <div id="LinkR" class="navbar-links">
         <a href="#foot">Nosotros</a>
         <a href="Verificacion">Verificacion</a>
-        <a href="/">Iniciar Sesion</a>
+        <a href="/Login">Iniciar Sesion</a>
       </div>
     </div>
 
@@ -89,27 +89,11 @@
         <img :src="Foot3" alt="Imagen 1" class="image-right" />
       </div>
     </div>
-
-    <!-- Modal -->
-    <div v-if="showModal" class="modal" tabindex="-1" style="display:block;">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Verifica tu Certificado</h5>
-            <button type="button" class="btn-close" @click="showModal = false" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <GenerateCertificate />
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import GenerateCertificate from '@/views/GenerateCertificate.vue';
 import logoURL from '/src/assets/FLK_Sin_Fondo.png';
 import port1 from '/src/assets/WebsiteAssets/portada-1.png';
 import port2 from '/src/assets/WebsiteAssets/portada-2.png';
@@ -127,6 +111,10 @@ import Foot3 from '/src/assets/WebsiteAssets/Departamentos_Peru.png';
 import ImgMid from '/src/assets/WebsiteAssets/Acreditacion.png';
 
 const showModal = ref(false);
+
+const redirectToGCPDF = () => {
+  window.location.href = 'http://localhost:5173/GCPDF';
+};
 </script>
 
 <style lang="scss" scoped>
@@ -272,56 +260,5 @@ const showModal = ref(false);
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-/* Estilos para el modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1050;
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  outline: 0;
-}
-
-.modal-dialog {
-  max-width: 800px;
-  margin: 30px auto;
-}
-
-.modal-content {
-  position: relative;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 0.3rem;
-  outline: 0;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  border-bottom: 1px solid #dee2e6;
-  border-top-left-radius: 0.3rem;
-  border-top-right-radius: 0.3rem;
-}
-
-.modal-body {
-  position: relative;
-  flex: 1 1 auto;
-  padding: 1rem;
-}
-
-.btn-close {
-  padding: 0.75rem 1.25rem;
-  color: #000;
-  cursor: pointer;
-  background: transparent;
-  border: 0;
 }
 </style>

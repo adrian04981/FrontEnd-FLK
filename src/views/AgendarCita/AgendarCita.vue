@@ -120,7 +120,7 @@ export default {
 
     const handleServiceSelected = async (service) => {
       try {
-        const response = await axios.post('/AgendarCita/RegistrarServicio', {
+        const response = await axios.post('AgendarCita/RegistrarServicio', {
           fkTipoServicio: service.pkTiposServicio,
           fechaAgendada: new Date().toISOString().split('T')[0], // Fecha de hoy en formato YYYY-MM-DD
         });

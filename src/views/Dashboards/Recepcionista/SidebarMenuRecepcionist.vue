@@ -12,11 +12,11 @@
   
 	  <h3>Menu</h3>
 	  <div class="menu">
-		<router-link to="/dashboard-admin" class="button">
+		<router-link to="/dashboard-receptionist" class="button">
 		  <span class="material-icons">home</span>
 		  <span class="text">Menu Principal</span>
 		</router-link>		
-		<router-link to="/dashboard-admin/AgendarCita" class="button">
+		<router-link to="/dashboard-receptionist/AgendarCita" class="button">
 		  <span class="material-icons">home</span>
 		  <span class="text">Agendar Cita</span>
 		</router-link>
@@ -24,10 +24,10 @@
 	  <div class="flex"></div>
   
 	  <div class="menu">
-		<router-link to="/settings" class="button">
-		  <span class="material-icons">settings</span>
-		  <span class="text">Settings</span>
-		</router-link>
+		<button class="button" @click="logout">
+		  <span class="material-icons">logout</span>
+		  <span class="text">Logout</span>
+		</button>
 	  </div>
 	</aside>
   </template>
@@ -43,6 +43,12 @@
 	is_expanded.value = !is_expanded.value
 	localStorage.setItem("is_expanded", is_expanded.value)
 	is_open.value = !is_open.value
+  }
+  const logout = () => {
+	localStorage.removeItem('loggedIn')
+	localStorage.removeItem('role')
+	localStorage.removeItem('id_usuario')
+	router.push('/')
   }
   
   const closeMenu = () => {

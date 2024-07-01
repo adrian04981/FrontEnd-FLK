@@ -194,7 +194,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/',
+    path: '/Login',
     name: 'Login',
     component: Login
   },
@@ -247,9 +247,14 @@ const routes = [
     component: EvaluarInspeccion,
   },
   {
-    path: '/Website',
+    path: '/',
     name: 'Website',
     component: Website,
+  },
+  {
+    path: '/GCPDF',
+    name: 'GenerateCertificate',
+    component: GenerarCertificado
   }
 
 ];
