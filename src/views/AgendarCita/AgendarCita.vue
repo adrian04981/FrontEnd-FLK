@@ -172,7 +172,8 @@ export default {
       showListarInspectoresModal.value = true;
     };
 
-    const handleTurnSelected = ({ fechaYHora, turno, idInspectoresAsignados: asignacionId }) => {
+    const handleTurnSelected = ({ fechaYHora, turno, idInspectoresAsignados: asignacionId , inspectorId}) => {
+      console.log('Inspector seleccionado:', inspectorId);
       selectedDate.value = fechaYHora;
       selectedTurno.value = turno;
       idInspectoresAsignados.value = asignacionId;
@@ -205,7 +206,7 @@ export default {
           fechaHoraFinalizacion = new Date(date.setHours(18, 0, 0, 0)).toISOString();
         }
 
-        const inspeccionData = {
+         inspeccionData = {
           pkInspeccion: 0,
           fkServicio: fkServicio.value,
           fkEmpresas: fkEmpresas.value,

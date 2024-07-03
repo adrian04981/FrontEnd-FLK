@@ -10,10 +10,10 @@
           <div class="row">
             <div class="col-md-4">
               <h6>Seleccione Inspector:</h6>
-              <div v-for="inspector in inspectores" :key="inspector.pkInspectoresDisponibles" class="mb-2">
+              <div v-for="inspector in inspectores" :key="inspector.pkInpectoresDisponibles" class="mb-2">
                 <button 
                   class="btn w-100" 
-                  :class="{'btn-primary': selectedInspectorId === inspector.pkInspectoresDisponibles, 'btn-outline-primary': selectedInspectorId !== inspector.pkInspectoresDisponibles}" 
+                  :class="{'btn-primary': selectedInspector !== inspector, 'btn-light': selectedInspector === inspector}" 
                   @click="selectInspector(inspector)">
                   {{ inspector.nombreInspector }}
                 </button>
@@ -25,13 +25,13 @@
                 <h6>Seleccione Turno:</h6>
                 <button 
                   class="btn w-100 mb-2" 
-                  :class="{'btn-primary': selectedTurno === 'Mañana', 'btn-outline-secondary': selectedTurno !== 'Mañana'}" 
+                  :class="{'btn-primary': selectedTurno !== 'Mañana', 'btn-light': selectedTurno === 'Mañana'}" 
                   @click="selectTurno('Mañana')">
                   Turno Mañana 8:00 - 12:00
                 </button>
                 <button 
                   class="btn w-100" 
-                  :class="{'btn-primary': selectedTurno === 'Tarde', 'btn-outline-secondary': selectedTurno !== 'Tarde'}" 
+                  :class="{'btn-primary': selectedTurno !== 'Tarde', 'btn-light': selectedTurno === 'Tarde'}" 
                   @click="selectTurno('Tarde')">
                   Turno Tarde 13:00 - 18:00
                 </button>
@@ -41,7 +41,14 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="$emit('close')">Cerrar</button>
-          <button type="button" class="btn btn-primary" @click="registrarAsignacionInspector">Seleccionar Inspector</button>
+          <button 
+            type="button" 
+            class="btn btn-primary" 
+            :disabled="!selectedInspector || !selectedDate || !selectedTurno || isLoading" 
+            @click="registrarAsignacionInspector"
+          >
+            Seleccionar Inspector
+          </button>
         </div>
       </div>
     </div>
@@ -63,6 +70,7 @@ export default {
     const selectedTurno = ref(null);
     const calendar = ref(null);
     const selectedDate = ref(null);
+    const isLoading = ref(false);
 
     onMounted(async () => {
       const response = await axios.get(`/AgendarCita/InspectoresDisponiblesPorTipoInspeccion/${props.tipoInspeccionId}`);
@@ -102,7 +110,7 @@ export default {
     const updateCalendarEvents = async () => {
       const events = [];
       if (selectedInspector.value) {
-        const inspectorEvents = await fetchInspecciones(selectedInspector.value.pkInspectoresDisponibles);
+        const inspectorEvents = await fetchInspecciones(selectedInspector.value.pkInpectoresDisponibles);
         events.push(...inspectorEvents);
       }
 
@@ -121,6 +129,7 @@ export default {
     const registrarAsignacionInspector = async () => {
       if (selectedInspector.value && selectedTurno.value && selectedDate.value) {
         try {
+          isLoading.value = true;
           const fechaYHora = new Date(selectedDate.value);
           if (selectedTurno.value === 'Mañana') {
             fechaYHora.setHours(8, 0, 0, 0);
@@ -129,15 +138,20 @@ export default {
           }
 
           const formattedFechaYHora = fechaYHora.toISOString();
+          const inspectorId = selectedInspector.value.pkInpectoresDisponibles;
+          const registrodeInspectores = {
+            pkAsignacionId: 0,
+            fkInpectoresDisponibles: inspectorId
+          };
 
-          const response = await axios.post('/AgendarCita/RegistrarAsignacionInspectores', {
-            fkInspector: selectedInspector.value.pkInspectoresDisponibles,
-            fechaYHora: formattedFechaYHora
-          });
-          emit('turnSelected', { fechaYHora: formattedFechaYHora, turno: selectedTurno.value, idInspectoresAsignados: response.data.pkAsignacionId });
+          const response = await axios.post('/AgendarCita/RegistrarAsignacionInspectores', registrodeInspectores);
+
+          emit('turnSelected', { fechaYHora: formattedFechaYHora, turno: selectedTurno.value, idInspectoresAsignados: response.data.pkAsignacionId, inspectorId});
           emit('close');
         } catch (error) {
           console.error('Error al registrar la asignación:', error);
+        } finally {
+          isLoading.value = false;
         }
       } else {
         alert('Seleccione un inspector, una fecha y un turno.');
@@ -152,6 +166,7 @@ export default {
       selectInspector,
       selectTurno,
       registrarAsignacionInspector,
+      isLoading
     };
   },
 };
