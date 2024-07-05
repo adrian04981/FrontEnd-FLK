@@ -206,7 +206,7 @@ export default {
           fechaHoraFinalizacion = new Date(date.setHours(18, 0, 0, 0)).toISOString();
         }
 
-         inspeccionData = {
+        const inspeccionData = {
           pkInspeccion: 0,
           fkServicio: fkServicio.value,
           fkEmpresas: fkEmpresas.value,

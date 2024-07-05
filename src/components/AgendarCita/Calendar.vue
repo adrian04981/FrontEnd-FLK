@@ -38,13 +38,46 @@
           <div class="card-body">
             <p><strong>Fecha de inicio:</strong> {{ inspeccion.fechaHoraInicio }}</p>
             <p><strong>Fecha de finalización:</strong> {{ inspeccion.fechaHoraFinalizacion }}</p>
+            <p><strong>Certificador:</strong> {{ inspeccion.certificadorNombre }}</p>
+            <p><strong>Título:</strong> {{ inspeccion.titulo }}</p>
+            <p><strong>Ubicación:</strong> {{ inspeccion.ubicacion }}</p>
+            <p><strong>Empresa:</strong> {{ inspeccion.empresaRazonSocial }}</p>
+            <button class="btn btn-info" @click="consultarInspeccion(inspeccion)">Consultar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para mostrar detalles de la inspección -->
+    <div v-if="selectedInspeccion" class="modal" tabindex="-1" style="display: block;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Detalles de la Inspección</h5>
+            <button type="button" class="btn-close" @click="selectedInspeccion = null"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Fecha de inicio:</strong> {{ selectedInspeccion.fechaHoraInicio }}</p>
+            <p><strong>Fecha de finalización:</strong> {{ selectedInspeccion.fechaHoraFinalizacion }}</p>
+            <p><strong>Certificador:</strong> {{ selectedInspeccion.certificadorNombre }}</p>
+            <p><strong>Título:</strong> {{ selectedInspeccion.titulo }}</p>
+            <p><strong>Ubicación:</strong> {{ selectedInspeccion.ubicacion }}</p>
+            <p><strong>Empresa:</strong> {{ selectedInspeccion.empresaRazonSocial }}</p>
+            <p><strong>Inspectores:</strong></p>
+            <ul>
+              <li v-for="inspector in selectedInspeccion.inspectoresList" :key="inspector.inspectorNombre">
+                {{ inspector.inspectorNombre }}
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="selectedInspeccion = null">Cerrar</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import axios from 'axios';
 
@@ -55,13 +88,14 @@ export default {
       filteredInspecciones: [],
       searchQuery: '',
       startDate: '',
-      endDate: ''
+      endDate: '',
+      selectedInspeccion: null,
     };
   },
   methods: {
     async fetchInspecciones() {
       try {
-        const response = await axios.get('https://localhost:7006/api/Inspecciones');
+        const response = await axios.get('https://localhost:7006/api/AgendaGeneral/InspeccionesConNombres');
         this.inspecciones = response.data;
         this.filteredInspecciones = this.inspecciones;
       } catch (error) {
@@ -71,7 +105,7 @@ export default {
     filterInspecciones() {
       this.filteredInspecciones = this.inspecciones.filter(inspeccion => {
         const matchesSearchQuery = this.searchQuery
-          ? inspeccion.fechaHoraInicio.includes(this.searchQuery) || inspeccion.fechaHoraFinalizacion.includes(this.searchQuery)
+          ? inspeccion.titulo.toLowerCase().includes(this.searchQuery.toLowerCase())
           : true;
 
         const matchesStartDate = this.startDate
@@ -90,6 +124,9 @@ export default {
       this.startDate = '';
       this.endDate = '';
       this.filteredInspecciones = this.inspecciones;
+    },
+    consultarInspeccion(inspeccion) {
+      this.selectedInspeccion = inspeccion;
     }
   },
   mounted() {
@@ -97,7 +134,25 @@ export default {
   }
 };
 </script>
-
-<style>
+<style scoped>
 /* Estilos opcionales para el componente */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-dialog {
+  max-width: 500px;
+}
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
 </style>

@@ -13,7 +13,7 @@
               <p class="card-text"><strong>Razon Social:</strong> {{ servicio.razonSocial }}</p>
               <p class="card-text"><strong>Fecha y Hora de Inicio:</strong> {{ new Date(servicio.fechaHoraInicio).toLocaleString() }}</p>
               <p class="card-text"><strong>Fecha y Hora de Finalización:</strong> {{ new Date(servicio.fechaHoraFinalizacion).toLocaleString() }}</p>
-              <p class="card-text"><strong>Ubicacion:</strong> {{ new Date(servicio.Ubicacion).toLocaleString() }}</p>
+              <p class="card-text"><strong>Ubicacion:</strong> {{ servicio.ubicacion }}</p>
               <button class="btn btn-primary" @click="openModal(servicio)">Registrar Documentación</button>
             </div>
           </div>
@@ -27,9 +27,8 @@
     </b-modal>
   </div>
 </template>
-
 <script>
-import EditarDocumentacion from './RegistrarDocumentacion.vue';
+import EditarDocumentacion from './RegistrarInformeInspeccion.vue';
 import { BModal } from 'bootstrap-vue-next';
 
 export default {
@@ -59,7 +58,7 @@ export default {
     async fetchServiciosPendientes() {
       try {
         const usuarioId = localStorage.getItem('id_usuario');
-        const response = await this.$axios.get(`/AgendaDeUsuario/TareasComoInspector-Fechas/${usuarioId}`);
+        const response = await this.$axios.get(`https://localhost:7006/api/AgendaDeUsuario/ByUser/${usuarioId}`);
         this.servicios = response.data;
       } catch (error) {
         this.error = 'Error al cargar los servicios pendientes.';
@@ -78,7 +77,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .inspeccion-pendiente {
   margin-top: 20px;

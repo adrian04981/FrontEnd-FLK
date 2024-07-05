@@ -57,7 +57,7 @@ export default {
     async fetchCertificacionesPendientes() {
       try {
         const usuarioId = localStorage.getItem('id_usuario');
-        const response = await this.$axios.get(`/AgendaDeUsuario/TareasComoCertificador-fecha/${usuarioId}`);
+        const response = await this.$axios.get(`https://localhost:7006/api/AgendaDeUsuario/ByUserAndCertificador/${usuarioId}`);
         this.certificaciones = response.data.map(inspeccion => ({
           fkServicio: inspeccion.fkServicio,
           nombre: inspeccion.nombre,
@@ -66,7 +66,10 @@ export default {
           fkCertificadorAsignado: inspeccion.fkCertificadorAsignado,
           razonSocial: inspeccion.razonSocial,
           observacionesYRecomendaciones: inspeccion.observacionesYRecomendaciones,
-          estado: inspeccion.estado
+          estado: inspeccion.estado,
+          fechaHoraInicio: inspeccion.fechaHoraInicio,
+          fechaHoraFinalizacion: inspeccion.fechaHoraFinalizacion,
+          ubicacion: inspeccion.ubicacion
         }));
       } catch (error) {
         this.error = 'Error al cargar las certificaciones pendientes.';

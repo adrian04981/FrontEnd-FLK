@@ -55,6 +55,7 @@ import apu from '../views/AgendaPorUsuario/Agenda.vue'
 
 //GENERAR CERTIFICADO PDF
 import GenerarCertificado from '../views/GenerateCertificate.vue'
+import BuscarCertificadosPorPlaca from '../views/BuscarCertificadosPorPlaca.vue'
 // Función para agregar meta.requiresRole a las rutas seleccionadas
 const addRequiresRole = (routes, role) => {
   return routes.map(route => {
@@ -255,6 +256,11 @@ const routes = [
     path: '/GCPDF',
     name: 'GenerateCertificate',
     component: GenerarCertificado
+  },
+  {
+    path: '/BuscarCertificadosPorPlaca',
+    name: 'BuscarCertificadosPorPlaca',
+    component: BuscarCertificadosPorPlaca
   }
 
 ];

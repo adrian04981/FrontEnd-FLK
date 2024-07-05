@@ -87,7 +87,7 @@
 	localStorage.removeItem('loggedIn')
 	localStorage.removeItem('role')
 	localStorage.removeItem('id_usuario')
-	router.push('/')
+	router.push('/login')
   }
   
   onMounted(() => {
