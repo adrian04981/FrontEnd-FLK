@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Ingrese la marca" v-model="marca" />
+      <input type="text" class="form-control" placeholder="Ingrese la Placa de vehiculo" v-model="marca" />
       <button @click="fetchData" class="btn btn-outline-secondary">Cargar Inspecciones</button>
     </div>
     <div class="row">
